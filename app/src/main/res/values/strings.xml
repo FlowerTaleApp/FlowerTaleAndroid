@@ -1,3 +1,14 @@
 <resources>
-    <string name="app_name">FlowerTaleAndroid</string>
+
+    <string name="app_name">FlowerTale</string>
+
+    <string name="camera">拍照</string>
+    <string name="photos">相册</string>
+    <string name="history">历史</string>
+    <string name="recognition_result">识别结果</string>
+    <string name="plant_name_chinese">中文植物名</string>
+    <string name="plant_name_english">Plant Name</string>
+    <string name="classification_info">类别信息</string>
+    <string name="credibility">可信度</string>
+
 </resources>

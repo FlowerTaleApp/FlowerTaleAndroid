@@ -63,7 +63,7 @@
     <!--深粉红色 -->
     <color name="deeppink">#FF1493</color>
     <!--紫红色 -->
-    <color name="fuchsia">#FF00FF</color>
+    <color name="fuia">#FF00FF</color>
     <!--红色 -->
     <color name="red">#FF0000</color>
     <!--老花色 -->
@@ -288,5 +288,10 @@
     <color name="gray_cc">#cccccc</color>
     <!--灰色8f -->
     <color name="gray_8f">#8f8f8f</color>
+
+    <color name="google_green">#3cba54</color>
+    <color name="google_yellow">#f4c20d</color>
+    <color name="google_blue">#4885ed</color>
+    <color name="google_red">#db3236</color>
 
 </resources>
