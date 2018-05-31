@@ -7,8 +7,10 @@
     <string name="history">历史</string>
     <string name="recognition_result">识别结果</string>
     <string name="plant_name_chinese">中文植物名</string>
-    <string name="plant_name_english">Plant Name</string>
-    <string name="classification_info">类别信息</string>
+    <string name="plant_name_latin">Latin Name</string>
+    <string name="family_info">所属科名</string>
+    <string name="genus_info">所属种名</string>
     <string name="credibility">可信度</string>
+    <string name="alias_name">别名</string>
 
 </resources>
