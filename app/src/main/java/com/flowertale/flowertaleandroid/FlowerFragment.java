@@ -7,9 +7,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +24,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static android.app.Activity.RESULT_OK;
+
 public class FlowerFragment extends Fragment {
 
+    private SwipeRefreshLayout swipeRefresh;
+    private static final int ADD = 1;
     private FlowerInfoItem[] infoItems = { new FlowerInfoItem("桃花养成计划", R.drawable.flower, "FlowerTale"),  //测试数据
                                       new FlowerInfoItem("月季生长日记", R.drawable.flower2,"FlowerTale")};
     private List<FlowerInfoItem> infoItemList = new ArrayList<>();
@@ -39,7 +45,7 @@ public class FlowerFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(),FlowerAddActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent,ADD);
             }
         });
 
@@ -50,7 +56,52 @@ public class FlowerFragment extends Fragment {
         adapter = new InfoAdapter(infoItemList);
         recyclerView.setAdapter(adapter);
 
+        swipeRefresh = (SwipeRefreshLayout)view.findViewById(R.id.fragment_flower_refresh);
+        swipeRefresh.setColorSchemeResources(R.color.mistyrose);
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh();
+            }
+        });
+
         return view;
+    }
+
+    private void refresh(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    Thread.sleep(2000);
+                }catch (InterruptedException e){
+                    e.printStackTrace();
+                }
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        initInfoItems();
+                        adapter.notifyDataSetChanged();
+                        swipeRefresh.setRefreshing(false);
+                    }
+                });
+            }
+        }).start();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode){
+            case ADD:
+                if (resultCode == RESULT_OK){
+                    String flowerType = data.getStringExtra("flowerType");
+                    String flowerTitle = data.getStringExtra("flowerTitle");
+                    String flowerMember = data.getStringExtra("flowerMember");
+                    Log.d("FlowerFragment", flowerType+" "+flowerTitle+" "+flowerMember);
+                }
+                break;
+            default:
+        }
     }
 
     private void initInfoItems(){

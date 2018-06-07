@@ -23,6 +23,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -37,6 +39,7 @@ import java.util.List;
 
 public class RecordAddActivity extends AppCompatActivity {
 
+    private Intent intent = new Intent();
     public static final int TAKE_PHOTO = 0;
     public static final int CHOOSE_PHOTO = 1;
     private ImageView flowerRecordImage;
@@ -53,13 +56,6 @@ public class RecordAddActivity extends AppCompatActivity {
     }
 
     private void initView(){
-        Button button = (Button)findViewById(R.id.record_publish);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
 
         flowerRecordImage = (ImageView)findViewById(R.id.flower_image);
 
@@ -94,6 +90,26 @@ public class RecordAddActivity extends AppCompatActivity {
                 Intent intent=new Intent("android.intent.action.GET_CONTENT");
                 intent.setType("image/*");
                 startActivityForResult(intent,CHOOSE_PHOTO);
+            }
+        });
+
+        Button button = (Button)findViewById(R.id.record_publish);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CheckBox water = (CheckBox)findViewById(R.id.water);
+                CheckBox fertilize = (CheckBox)findViewById(R.id.fertilize);
+                CheckBox prune = (CheckBox)findViewById(R.id.prune);
+                CheckBox sunshine = (CheckBox)findViewById(R.id.sunshine);
+                EditText description = (EditText)findViewById(R.id.description);
+                intent.putExtra("water", water.isChecked());
+                intent.putExtra("fertilize", fertilize.isChecked());
+                intent.putExtra("prune",prune.isChecked());
+                intent.putExtra("sunshine", sunshine.isChecked());
+                intent.putExtra("description", description.getText().toString());
+
+                setResult(RESULT_OK, intent);
+                finish();
             }
         });
     }

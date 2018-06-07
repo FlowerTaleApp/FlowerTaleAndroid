@@ -6,12 +6,14 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,6 +32,7 @@ import java.util.Random;
 
 public class FlowerDetailsActivity extends AppCompatActivity {
 
+    private static final int ADD = 1;
     public static final String INFO_TITLE = "info_title";
     public static final String INFO_IMAGE_ID = "info_image_id";
 
@@ -39,6 +42,7 @@ public class FlowerDetailsActivity extends AppCompatActivity {
     private FlowerRecord[] flowerRecords = {new FlowerRecord(R.drawable.flower, "FlowerTale", "浇水：给花儿浇了些水，显得更精神了", sdf.format(new Date())),
                                             new FlowerRecord(R.drawable.flower2,"FlowerTale1", "施肥：给花儿施了点肥，希望它能快些长大", sdf.format(new Date()))};
     private List<FlowerRecord> recordList = new ArrayList<>();
+    private RecordAdapter recordAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +71,7 @@ public class FlowerDetailsActivity extends AppCompatActivity {
         RecyclerView recyclerView = (RecyclerView)findViewById(R.id.raising_details_view);              //养护记录展示
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        RecordAdapter recordAdapter = new RecordAdapter(recordList);
+        recordAdapter = new RecordAdapter(recordList);
         recyclerView.setAdapter(recordAdapter);
 
         FloatingActionButton fab = (FloatingActionButton)findViewById(R.id.record_add_fab);             //添加养护记录按钮
@@ -75,9 +79,27 @@ public class FlowerDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent1 = new Intent(FlowerDetailsActivity.this, RecordAddActivity.class);
-                startActivity(intent1);
+                startActivityForResult(intent1, ADD);
             }
         });
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode){
+            case ADD:
+                if (resultCode == RESULT_OK){
+                    Boolean water = data.getBooleanExtra("water", false);
+                    Boolean fertilize = data.getBooleanExtra("fertilize",false);
+                    Boolean prune = data.getBooleanExtra("prune", false);
+                    Boolean sunshine = data.getBooleanExtra("sunshine", false);
+                    String description = data.getStringExtra("description");
+                    Log.d("FlowerDetailActivity", water+" "+fertilize+" "+prune+" "+sunshine+" "+description);
+                }
+                break;
+            default:
+        }
     }
 
     @Override

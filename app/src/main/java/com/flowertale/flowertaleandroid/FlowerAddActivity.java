@@ -1,10 +1,13 @@
 package com.flowertale.flowertaleandroid;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,6 +15,7 @@ import android.widget.LinearLayout;
 
 public class FlowerAddActivity extends AppCompatActivity {
 
+    private Intent intent = new Intent();
     public static final int FLOWER_TITLE = 1;
     public static final int FLOWER_MEMBER = 2;
     public int count;
@@ -88,6 +92,9 @@ public class FlowerAddActivity extends AppCompatActivity {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
+                            TextInputEditText textInputEditText = (TextInputEditText)findViewById(R.id.flower_type);
+                            intent.putExtra("flowerType", textInputEditText.getText().toString());
+                            Log.d("FlowerAddActivity", textInputEditText.getText().toString());
                             Message message = new Message();
                             message.what = FLOWER_TITLE;
                             handler.sendMessage(message);
@@ -98,12 +105,19 @@ public class FlowerAddActivity extends AppCompatActivity {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
+                            TextInputEditText textInputEditText = (TextInputEditText)findViewById(R.id.flower_title);
+                            intent.putExtra("flowerTitle", textInputEditText.getText().toString());
+                            Log.d("FlowerAddActivity", textInputEditText.getText().toString());
                             Message message = new Message();
                             message.what = FLOWER_MEMBER;
                             handler.sendMessage(message);
                         }
                     }).start();
                 }else if(count==2){
+                    TextInputEditText textInputEditText = (TextInputEditText)findViewById(R.id.flower_member);
+                    intent.putExtra("flowerMember", textInputEditText.getText().toString());
+                    Log.d("FlowerAddActivity", textInputEditText.getText().toString());
+                    setResult(RESULT_OK, intent);
                     finish();
                 }
                 break;
