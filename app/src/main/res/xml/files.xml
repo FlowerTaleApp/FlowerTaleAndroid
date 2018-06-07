@@ -2,5 +2,5 @@
 <paths>
     <files-path
         name="captured_photos"
-        path="."/>
+        path="." />
 </paths>
