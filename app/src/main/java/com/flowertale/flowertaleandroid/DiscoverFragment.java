@@ -27,7 +27,7 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 
-public class DiscoverFragment extends Fragment implements MaterialSearchBar.OnSearchActionListener{
+public class DiscoverFragment extends Fragment implements MaterialSearchBar.OnSearchActionListener {
     protected RecyclerView mRecyclerView;
     private List<Integer> bannerImages;
     private List<String> bannerTitles;
@@ -60,7 +60,7 @@ public class DiscoverFragment extends Fragment implements MaterialSearchBar.OnSe
         banner.setDelayTime(6000);
         banner.setIndicatorGravity(BannerConfig.CENTER);
         banner.start();
-        searchBar = (MaterialSearchBar)view.findViewById(R.id.searchBar);
+        searchBar = (MaterialSearchBar) view.findViewById(R.id.searchBar);
         searchBar.setOnSearchActionListener(this);
         searchBar.setHint("输入关键字搜索");
         ButterKnife.bind(mainActivity);
@@ -92,7 +92,7 @@ public class DiscoverFragment extends Fragment implements MaterialSearchBar.OnSe
 
     @Override
     public void onButtonClicked(int buttonCode) {
-        switch (buttonCode){
+        switch (buttonCode) {
             case MaterialSearchBar.BUTTON_BACK:
                 searchBar.disableSearch();
                 break;
@@ -107,7 +107,7 @@ public class DiscoverFragment extends Fragment implements MaterialSearchBar.OnSe
 
     @Override
     public void onSearchConfirmed(CharSequence text) {
-        Toast.makeText(getActivity(),"searchComfirm"+text,Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "searchComfirm" + text, Toast.LENGTH_SHORT).show();
 //        startSearch(text.toString(), true, null, true);
     }
 
@@ -117,24 +117,23 @@ public class DiscoverFragment extends Fragment implements MaterialSearchBar.OnSe
         Toast.makeText(getActivity(), "Search " + s, Toast.LENGTH_SHORT).show();
     }
 
-}
-
-
-class GlideImageLoader extends ImageLoader {
-    @Override
-    public void displayImage(Context context, Object path, ImageView imageView) {
-        /**
-         注意：
-         1.图片加载器由自己选择，这里不限制，只是提供几种使用方法
-         2.返回的图片路径为Object类型，由于不能确定你到底使用的那种图片加载器，
-         传输的到的是什么格式，那么这种就使用Object接收和返回，你只需要强转成你传输的类型就行，
-         切记不要胡乱强转！
-         */
-        //Glide 加载图片简单用法
-        Glide.with(context).load(path).into(imageView);
-        //Picasso 加载图片简单用法
-        //Picasso.with(context).load(path).into(imageView);
+    class GlideImageLoader extends ImageLoader {
+        @Override
+        public void displayImage(Context context, Object path, ImageView imageView) {
+            /**
+             注意：
+             1.图片加载器由自己选择，这里不限制，只是提供几种使用方法
+             2.返回的图片路径为Object类型，由于不能确定你到底使用的那种图片加载器，
+             传输的到的是什么格式，那么这种就使用Object接收和返回，你只需要强转成你传输的类型就行，
+             切记不要胡乱强转！
+             */
+            //Glide 加载图片简单用法
+            Glide.with(context).load(path).into(imageView);
+            //Picasso 加载图片简单用法
+            //Picasso.with(context).load(path).into(imageView);
+        }
     }
+
 }
 
 
