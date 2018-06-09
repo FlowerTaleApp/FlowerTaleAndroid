@@ -35,7 +35,23 @@
         </provider>
 
         <activity android:name=".RecognitionResultActivity" />
+<<<<<<< HEAD
         <activity android:name=".PlantInfoActivity"></activity>
+=======
+        <activity
+            android:name=".FlowerDetailsActivity"
+            android:theme="@style/FlowerDetailsActivityTheme" />
+        <activity android:name=".FlowerAddActivity" />
+        <activity
+            android:name=".RecordAddActivity"
+            android:theme="@style/DialogActivityTheme" />
+        <activity android:name=".FlowerMembersActivity" />
+        <activity android:name=".GroupCreateActivity" />
+        <activity
+            android:name=".GroupSwitchActivity"
+            android:theme="@style/GroupSwitchActivityTheme" />
+        <activity android:name=".MemberInviteActivity"></activity>
+>>>>>>> flower
     </application>
 
 </manifest>
