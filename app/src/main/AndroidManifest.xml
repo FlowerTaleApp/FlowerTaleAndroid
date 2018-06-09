@@ -48,6 +48,8 @@
             android:name=".GroupSwitchActivity"
             android:theme="@style/GroupSwitchActivityTheme" />
         <activity android:name=".MemberInviteActivity"></activity>
+        <activity android:name=".RecognitionResultActivity" />
+        <activity android:name=".PlantInfoActivity"></activity>
     </application>
 
 </manifest>

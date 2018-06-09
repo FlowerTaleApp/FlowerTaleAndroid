@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         mToolbarNavImage = findViewById(R.id.toolbar_nav_image);
         mToolbarTitle = findViewById(R.id.toolbar_title_text);
         mBottomNavigationBar = findViewById(R.id.bottom_navigation_bar);
+        mBottomNavigationBar.setAutoHideEnabled(true);
         mBottomNavigationBar.setMode(BottomNavigationBar.MODE_FIXED);
         mBottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_RIPPLE);
         mBottomNavigationBar
