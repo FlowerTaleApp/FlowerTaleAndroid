@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         mBottomNavigationBar.setTabSelectedListener(this);
         setBottomNavigationItem(mBottomNavigationBar, 6, 24, 18);
         mFragments = getFragments();
+        mBottomNavigationBar.selectTab(0);
         setToolbarTitle("发现");
         mToolbarNavImage.setOnClickListener(new View.OnClickListener() {
             @Override
