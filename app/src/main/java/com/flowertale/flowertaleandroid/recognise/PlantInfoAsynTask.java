@@ -9,11 +9,10 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-import java.util.List;
 
 public class PlantInfoAsynTask extends AsyncTask<String, Void, ResponseData> {
 
-    OnRecogniseListener<List<PlantInfoResult>> mOnRecogniseListener;
+    OnRecogniseListener<PlantInfoResult> mOnRecogniseListener;
 
     @Override
     protected ResponseData doInBackground(String... strings) {
@@ -23,13 +22,13 @@ public class PlantInfoAsynTask extends AsyncTask<String, Void, ResponseData> {
     @Override
     protected void onPostExecute(ResponseData responseData) {
         if (responseData != null && responseData.getStatusCode() == 200) {
-            Type type = new TypeToken<Response<List<PlantInfoResult>>>() {
+            Type type = new TypeToken<Response<PlantInfoResult>>() {
             }.getType();
-            Response<List<PlantInfoResult>> response = new Gson().fromJson(responseData.getBody(), type);
+            Response<PlantInfoResult> response = new Gson().fromJson(responseData.getBody(), type);
             if (response != null && response.getStatus() == 0) {
-                List<PlantInfoResult> plantInfoResultList = response.getResult();
-                if (plantInfoResultList != null && plantInfoResultList.size() > 0) {
-                    mOnRecogniseListener.onSuccess(plantInfoResultList);
+                PlantInfoResult plantInfoResult = response.getResult();
+                if (plantInfoResult != null) {
+                    mOnRecogniseListener.onSuccess(plantInfoResult);
                     return;
                 }
             }
@@ -37,7 +36,7 @@ public class PlantInfoAsynTask extends AsyncTask<String, Void, ResponseData> {
         }
     }
 
-    public void setOnRecogniseListener(OnRecogniseListener<List<PlantInfoResult>> onRecogniseListener) {
+    public void setOnRecogniseListener(OnRecogniseListener<PlantInfoResult> onRecogniseListener) {
         mOnRecogniseListener = onRecogniseListener;
     }
 }

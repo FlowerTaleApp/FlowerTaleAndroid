@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         mToolbarNavImage = findViewById(R.id.toolbar_nav_image);
         mToolbarTitle = findViewById(R.id.toolbar_title_text);
         mBottomNavigationBar = findViewById(R.id.bottom_navigation_bar);
+        mBottomNavigationBar.setAutoHideEnabled(true);
         mBottomNavigationBar.setMode(BottomNavigationBar.MODE_FIXED);
         mBottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_RIPPLE);
         mBottomNavigationBar
@@ -67,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         mBottomNavigationBar.setTabSelectedListener(this);
         setBottomNavigationItem(mBottomNavigationBar, 6, 24, 18);
         mFragments = getFragments();
+        mBottomNavigationBar.selectTab(0);
         setToolbarTitle("发现");
         mToolbarNavImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,7 +76,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
                 mDrawerLayout.openDrawer(GravityCompat.START);
             }
         });
-
     }
 
     @Override
@@ -185,28 +186,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         final float scale = getApplication().getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.navigation_menu, menu);
-        return true;
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Toast.makeText(MainActivity.this, "I have itemSelected", Toast.LENGTH_SHORT);
-        return super.onOptionsItemSelected(item);
-    }
-
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        Toast.makeText(MainActivity.this, "itemSelected", Toast.LENGTH_SHORT);
-        return true;
-    }
-
 }
 
 

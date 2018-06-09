@@ -1,32 +1,36 @@
 package com.flowertale.flowertaleandroid;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.flowertale.flowertaleandroid.bean.PlantInfoResult;
 import com.flowertale.flowertaleandroid.bean.RecognitionResult;
+import com.flowertale.flowertaleandroid.recognise.OnRecogniseListener;
+import com.flowertale.flowertaleandroid.recognise.PlantInfoAsynTask;
 
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RecognitionResultActivity extends AppCompatActivity {
+
     private static final String TAG = "RecognitionResultActivity";
 
     private RecyclerView mRecyclerView;
     private List<RecognitionResult> mItemList = new ArrayList<>();
     private ImageView backImage;
+    private ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,12 +51,12 @@ public class RecognitionResultActivity extends AppCompatActivity {
                 finish();
             }
         });
+        mProgressBar = findViewById(R.id.progress_bar);
     }
 
     private void fetchResults() {
         mItemList = (List<RecognitionResult>) getIntent()
                 .getSerializableExtra(RecogniseFragment.API_RECOGNITION_RESULT);
-        //Log.i(TAG, mItemList.toString());
     }
 
     private class ViewHolder extends RecyclerView.ViewHolder {
@@ -87,7 +91,34 @@ public class RecognitionResultActivity extends AppCompatActivity {
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recognition_result_item, parent, false);
-            return new ViewHolder(view);
+            final ViewHolder viewHolder = new ViewHolder(view);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+//                    Toast.makeText(v.getContext(), "Yes!", Toast.LENGTH_SHORT).show();
+                    mProgressBar.setVisibility(View.INVISIBLE);
+                    int position = viewHolder.getAdapterPosition();
+                    String infoCode = itemList.get(position).getInfoCode();
+                    PlantInfoAsynTask plantInfoAsynTask = new PlantInfoAsynTask();
+                    plantInfoAsynTask.setOnRecogniseListener(new OnRecogniseListener<PlantInfoResult>() {
+                        @Override
+                        public void onSuccess(PlantInfoResult result) {
+                            Intent intent = new Intent(RecognitionResultActivity.this, PlantInfoActivity.class);
+                            intent.putExtra(PlantInfoActivity.PLANT_INFO, result);
+                            startActivity(intent);
+                            mProgressBar.setVisibility(View.INVISIBLE);
+                        }
+
+                        @Override
+                        public void onFailure() {
+                            Toast.makeText(getApplicationContext(), "获取详情失败", Toast.LENGTH_SHORT).show();
+                            mProgressBar.setVisibility(View.INVISIBLE);
+                        }
+                    });
+                    plantInfoAsynTask.execute(infoCode);
+                }
+            });
+            return viewHolder;
         }
 
         @Override

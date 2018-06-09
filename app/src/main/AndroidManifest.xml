@@ -19,7 +19,13 @@
         android:supportsRtl="true"
 
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -32,19 +38,20 @@
         </provider>
 
         <activity android:name=".RecognitionResultActivity" />
-        <activity android:name=".LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".RegisterActivity"></activity>
-        <provider
-            android:name="com.flowertale.flowertaleandroid.AssetProvider"
-            android:authorities="com.flowertale.flowertaleandroid"
-            android:grantUriPermissions="true"
-            android:exported="true" />
+        <activity android:name=".PlantInfoActivity"></activity>
+        <activity
+            android:name=".FlowerDetailsActivity"
+            android:theme="@style/FlowerDetailsActivityTheme" />
+        <activity android:name=".FlowerAddActivity" />
+        <activity
+            android:name=".RecordAddActivity"
+            android:theme="@style/DialogActivityTheme" />
+        <activity android:name=".FlowerMembersActivity" />
+        <activity android:name=".GroupCreateActivity" />
+        <activity
+            android:name=".GroupSwitchActivity"
+            android:theme="@style/GroupSwitchActivityTheme" />
+        <activity android:name=".MemberInviteActivity"></activity>
     </application>
 
 </manifest>
