@@ -17,32 +17,19 @@ import java.util.List;
 
 import static com.flowertale.flowertaleandroid.GroupCreateActivity.INVITE;
 
-public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder>{
+public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder> {
 
     private Context mContext;
     private List<MemberItem> mMemberList;
 
-    class ViewHolder extends RecyclerView.ViewHolder{
-
-        private ImageView selfImage;
-        private TextView memberName;
-
-        public ViewHolder(View view){
-            super(view);
-
-            selfImage = (ImageView)view.findViewById(R.id.self_image);
-            memberName = (TextView)view.findViewById(R.id.member_name);
-        }
-    }
-
-    public MemberAdapter(List<MemberItem> memberItemList){
+    public MemberAdapter(List<MemberItem> memberItemList) {
         mMemberList = memberItemList;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (mContext == null){
+        if (mContext == null) {
             mContext = parent.getContext();
         }
 
@@ -57,12 +44,12 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
         holder.memberName.setText(memberItem.getName());
         Glide.with(mContext).load(memberItem.getSelfImage()).into(holder.selfImage);
 
-        if (position == 0){
+        if (position == 0) {
             holder.selfImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(mContext, MemberInviteActivity.class);
-                    ((Activity)mContext).startActivityForResult(intent, INVITE);
+                    ((Activity) mContext).startActivityForResult(intent, INVITE);
                 }
             });
         }
@@ -71,6 +58,19 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
     @Override
     public int getItemCount() {
         return mMemberList.size();
+    }
+
+    class ViewHolder extends RecyclerView.ViewHolder {
+
+        private ImageView selfImage;
+        private TextView memberName;
+
+        public ViewHolder(View view) {
+            super(view);
+
+            selfImage = (ImageView) view.findViewById(R.id.self_image);
+            memberName = (TextView) view.findViewById(R.id.member_name);
+        }
     }
 
 

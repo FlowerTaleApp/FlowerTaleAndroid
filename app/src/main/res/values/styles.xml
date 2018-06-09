@@ -8,8 +8,7 @@
         <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
-    <style name="FlowerDetailsActivityTheme" parent="AppTheme">
-    </style>
+    <style name="FlowerDetailsActivityTheme" parent="AppTheme"></style>
 
     <style name="DialogActivityTheme" parent="Theme.AppCompat.Light.Dialog">
         <item name="android:windowFrame">@null</item><!--边框-->

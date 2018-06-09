@@ -2,9 +2,9 @@ package com.flowertale.flowertaleandroid;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,8 +14,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -23,7 +21,7 @@ import java.util.Random;
 public class GroupSwitchActivity extends AppCompatActivity {
 
     private String currentGroup;
-    private String[] groupItems = {"group1","group2","group3"};
+    private String[] groupItems = {"group1", "group2", "group3"};
     private List<String> groupItemList = new ArrayList<>();
     private GroupAdapter groupAdapter;
 
@@ -38,10 +36,10 @@ public class GroupSwitchActivity extends AppCompatActivity {
         initView();
     }
 
-    private void initView(){
+    private void initView() {
 
         initGroup();
-        RecyclerView recyclerView = (RecyclerView)findViewById(R.id.group_view);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.group_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         groupAdapter = new GroupAdapter(groupItemList);
@@ -49,46 +47,46 @@ public class GroupSwitchActivity extends AppCompatActivity {
     }
 
 
-    private void initGroup(){
+    private void initGroup() {
         groupItemList.clear();
-        for (int i=0;i<5;i++){
+        for (int i = 0; i < 5; i++) {
             Random random = new Random();
             int index = random.nextInt(groupItems.length);
             groupItemList.add(groupItems[index]);
         }
     }
 
-    private class ViewHolder extends RecyclerView.ViewHolder{
+    private class ViewHolder extends RecyclerView.ViewHolder {
 
         private LinearLayout groupItem;
         private TextView groupName;
         private ImageView selectIcon;
 
-        public ViewHolder(View view){
+        public ViewHolder(View view) {
             super(view);
-            groupItem = (LinearLayout)view;
-            groupName = (TextView)view.findViewById(R.id.group_name);
-            selectIcon = (ImageView)view.findViewById(R.id.select_icon);
+            groupItem = (LinearLayout) view;
+            groupName = (TextView) view.findViewById(R.id.group_name);
+            selectIcon = (ImageView) view.findViewById(R.id.select_icon);
         }
     }
 
-    private class GroupAdapter extends RecyclerView.Adapter<ViewHolder>{
+    private class GroupAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         private Context mContext;
         private List<String> mGroupItemList;
 
-        public GroupAdapter(List<String> groupItemList){
+        public GroupAdapter(List<String> groupItemList) {
             mGroupItemList = groupItemList;
         }
 
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            if (mContext == null){
+            if (mContext == null) {
                 mContext = parent.getContext();
             }
 
-            View view  = LayoutInflater.from(mContext).inflate(R.layout.group_item,parent,false);
+            View view = LayoutInflater.from(mContext).inflate(R.layout.group_item, parent, false);
             return new ViewHolder(view);
         }
 

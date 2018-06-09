@@ -15,17 +15,17 @@ import android.widget.LinearLayout;
 
 public class FlowerAddActivity extends AppCompatActivity {
 
-    private Intent intent = new Intent();
     public static final int FLOWER_TITLE = 1;
     public static final int FLOWER_MEMBER = 2;
     public int count;
+    private Intent intent = new Intent();
     private LinearLayout flowerTypeLayout;
     private LinearLayout flowerTitleLayout;
     private LinearLayout flowerMemberLayout;
 
-    private Handler handler = new Handler(){
-        public void handleMessage(Message msg){
-            switch (msg.what){
+    private Handler handler = new Handler() {
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
                 case FLOWER_TITLE:
                     flowerTypeLayout.setVisibility(View.GONE);
                     flowerTitleLayout.setVisibility(View.VISIBLE);
@@ -50,18 +50,18 @@ public class FlowerAddActivity extends AppCompatActivity {
         initView();
     }
 
-    private void initView(){
-        android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar)findViewById(R.id.toolbar);
+    private void initView() {
+        android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
-        if (actionBar!=null){
+        if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        flowerTypeLayout = (LinearLayout)findViewById(R.id.flower_type_layout);
-        flowerTitleLayout = (LinearLayout)findViewById(R.id.flower_title_layout);
-        flowerMemberLayout = (LinearLayout)findViewById(R.id.flower_member_layout);
+        flowerTypeLayout = (LinearLayout) findViewById(R.id.flower_type_layout);
+        flowerTitleLayout = (LinearLayout) findViewById(R.id.flower_title_layout);
+        flowerMemberLayout = (LinearLayout) findViewById(R.id.flower_member_layout);
         flowerTypeLayout.setVisibility(View.VISIBLE);
         flowerTitleLayout.setVisibility(View.GONE);
         flowerMemberLayout.setVisibility(View.GONE);
@@ -77,22 +77,22 @@ public class FlowerAddActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.flower_add_menu,menu);
+        getMenuInflater().inflate(R.menu.flower_add_menu, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
                 return true;
             case R.id.next:
-                if (count==0){
+                if (count == 0) {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            TextInputEditText textInputEditText = (TextInputEditText)findViewById(R.id.flower_type);
+                            TextInputEditText textInputEditText = (TextInputEditText) findViewById(R.id.flower_type);
                             intent.putExtra("flowerType", textInputEditText.getText().toString());
                             Log.d("FlowerAddActivity", textInputEditText.getText().toString());
                             Message message = new Message();
@@ -100,12 +100,12 @@ public class FlowerAddActivity extends AppCompatActivity {
                             handler.sendMessage(message);
                         }
                     }).start();
-                }else if (count==1){
+                } else if (count == 1) {
                     item.setIcon(R.drawable.ic_done);
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            TextInputEditText textInputEditText = (TextInputEditText)findViewById(R.id.flower_title);
+                            TextInputEditText textInputEditText = (TextInputEditText) findViewById(R.id.flower_title);
                             intent.putExtra("flowerTitle", textInputEditText.getText().toString());
                             Log.d("FlowerAddActivity", textInputEditText.getText().toString());
                             Message message = new Message();
@@ -113,8 +113,8 @@ public class FlowerAddActivity extends AppCompatActivity {
                             handler.sendMessage(message);
                         }
                     }).start();
-                }else if(count==2){
-                    TextInputEditText textInputEditText = (TextInputEditText)findViewById(R.id.flower_member);
+                } else if (count == 2) {
+                    TextInputEditText textInputEditText = (TextInputEditText) findViewById(R.id.flower_member);
                     intent.putExtra("flowerMember", textInputEditText.getText().toString());
                     Log.d("FlowerAddActivity", textInputEditText.getText().toString());
                     setResult(RESULT_OK, intent);

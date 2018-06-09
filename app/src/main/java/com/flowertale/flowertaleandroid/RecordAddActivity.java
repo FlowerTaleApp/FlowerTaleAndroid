@@ -39,13 +39,54 @@ import java.util.List;
 
 public class RecordAddActivity extends AppCompatActivity {
 
-    private Intent intent = new Intent();
     public static final int TAKE_PHOTO = 0;
     public static final int CHOOSE_PHOTO = 1;
+    private Intent intent = new Intent();
     private ImageView flowerRecordImage;
     private File mPhotoFile;
     private String filePath;
     private String fileName;
+
+    //获取图片的旋转角度
+    public static int readPictureDegree(String path) {
+        int degree = 0;
+        try {
+            ExifInterface exifInterface = new ExifInterface(path);
+            int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+            switch (orientation) {
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    degree = 90;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    degree = 180;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    degree = 270;
+                    break;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return degree;
+    }
+
+    /**
+     * 旋转图片
+     *
+     * @param angle
+     * @param bitmap
+     * @return Bitmap
+     */
+    public static Bitmap rotaingImageView(int angle, Bitmap bitmap) {
+        //旋转图片 动作
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        System.out.println("angle2=" + angle);
+        // 创建新的图片
+        Bitmap resizedBitmap = Bitmap.createBitmap(bitmap, 0, 0,
+                bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+        return resizedBitmap;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +96,9 @@ public class RecordAddActivity extends AppCompatActivity {
         initView();
     }
 
-    private void initView(){
+    private void initView() {
 
-        flowerRecordImage = (ImageView)findViewById(R.id.flower_image);
+        flowerRecordImage = (ImageView) findViewById(R.id.flower_image);
 
         LinearLayout mCameraImage = (LinearLayout) findViewById(R.id.camera);
         LinearLayout mPhotosImage = (LinearLayout) findViewById(R.id.photos);
@@ -87,24 +128,24 @@ public class RecordAddActivity extends AppCompatActivity {
         mPhotosImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent("android.intent.action.GET_CONTENT");
+                Intent intent = new Intent("android.intent.action.GET_CONTENT");
                 intent.setType("image/*");
-                startActivityForResult(intent,CHOOSE_PHOTO);
+                startActivityForResult(intent, CHOOSE_PHOTO);
             }
         });
 
-        Button button = (Button)findViewById(R.id.record_publish);
+        Button button = (Button) findViewById(R.id.record_publish);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CheckBox water = (CheckBox)findViewById(R.id.water);
-                CheckBox fertilize = (CheckBox)findViewById(R.id.fertilize);
-                CheckBox prune = (CheckBox)findViewById(R.id.prune);
-                CheckBox sunshine = (CheckBox)findViewById(R.id.sunshine);
-                EditText description = (EditText)findViewById(R.id.description);
+                CheckBox water = (CheckBox) findViewById(R.id.water);
+                CheckBox fertilize = (CheckBox) findViewById(R.id.fertilize);
+                CheckBox prune = (CheckBox) findViewById(R.id.prune);
+                CheckBox sunshine = (CheckBox) findViewById(R.id.sunshine);
+                EditText description = (EditText) findViewById(R.id.description);
                 intent.putExtra("water", water.isChecked());
                 intent.putExtra("fertilize", fertilize.isChecked());
-                intent.putExtra("prune",prune.isChecked());
+                intent.putExtra("prune", prune.isChecked());
                 intent.putExtra("sunshine", sunshine.isChecked());
                 intent.putExtra("description", description.getText().toString());
 
@@ -113,7 +154,6 @@ public class RecordAddActivity extends AppCompatActivity {
             }
         });
     }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -131,37 +171,37 @@ public class RecordAddActivity extends AppCompatActivity {
                     Bitmap bitmap = BitmapFactory.decodeFile(filePath);
                     //解决三星手机获取系统照片自动横屏显示的问题
                     int degree = readPictureDegree(filePath);
-                    bitmap = rotaingImageView(degree,bitmap);
+                    bitmap = rotaingImageView(degree, bitmap);
                     Glide.with(this).load(bitmap).into(flowerRecordImage);
                 }
                 break;
             case CHOOSE_PHOTO:
                 if (resultCode == RESULT_OK) {
-                    String imagePath=null;
-                    Uri uri=data.getData();
+                    String imagePath = null;
+                    Uri uri = data.getData();
                     if (DocumentsContract.isDocumentUri(RecordAddActivity.this, uri)) {
                         String docId = DocumentsContract.getDocumentId(uri);
                         if ("com.android.providers.media.documents".equals(uri.getAuthority())) {
-                            String id=docId.split(":")[1];
-                            String selection=MediaStore.Images.Media._ID+"="+id;
+                            String id = docId.split(":")[1];
+                            String selection = MediaStore.Images.Media._ID + "=" + id;
                             imagePath = getImagePath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, selection);
                         } else if ("com.android.providers.downloads.documents".equals(uri.getAuthority())) {
                             Uri contentUri = ContentUris.withAppendedId(Uri.parse("content://download/public_downloads"),
                                     Long.valueOf(docId));
-                            imagePath=getImagePath(contentUri,null);
+                            imagePath = getImagePath(contentUri, null);
                         } else if ("content".equalsIgnoreCase(uri.getScheme())) {
                             imagePath = getImagePath(uri, null);
                         } else if ("file".equalsIgnoreCase(uri.getScheme())) {
-                            imagePath=uri.getPath();
+                            imagePath = uri.getPath();
                         }
                     } else {
-                        imagePath=getImagePath(uri,null);
+                        imagePath = getImagePath(uri, null);
                     }
                     if (imagePath == null) {
-                        Toast.makeText(RecordAddActivity.this,"选择图片失败",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RecordAddActivity.this, "选择图片失败", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    mPhotoFile=new File(imagePath);
+                    mPhotoFile = new File(imagePath);
                     Glide.with(this).load(mPhotoFile).into(flowerRecordImage);
                 }
                 break;
@@ -203,8 +243,8 @@ public class RecordAddActivity extends AppCompatActivity {
         }
     }
 
-    private String getImagePath(Uri uri,String selection) {
-        String path=null;
+    private String getImagePath(Uri uri, String selection) {
+        String path = null;
         Cursor cursor = getContentResolver().query(uri, null, selection, null, null);
         if (cursor != null) {
             if (cursor.moveToFirst()) {
@@ -218,11 +258,11 @@ public class RecordAddActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {                       //避免在返回mPhotoFile被置为空字符串
         super.onSaveInstanceState(outState);
-        if (mPhotoFile!=null) {
+        if (mPhotoFile != null) {
             outState.putString("filePath", mPhotoFile.getPath());
         }
 
-        if (mPhotoFile!=null) {
+        if (mPhotoFile != null) {
             outState.putString("fileName", mPhotoFile.getName());
         }
     }
@@ -236,46 +276,6 @@ public class RecordAddActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(fileName)) {
             fileName = savedInstanceState.getString("fileName");
         }
-    }
-
-    //获取图片的旋转角度
-    public static int readPictureDegree(String path) {
-        int degree  = 0;
-        try {
-            ExifInterface exifInterface = new ExifInterface(path);
-            int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
-            switch (orientation) {
-                case ExifInterface.ORIENTATION_ROTATE_90:
-                    degree = 90;
-                    break;
-                case ExifInterface.ORIENTATION_ROTATE_180:
-                    degree = 180;
-                    break;
-                case ExifInterface.ORIENTATION_ROTATE_270:
-                    degree = 270;
-                    break;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return degree;
-    }
-
-    /**
-     * 旋转图片
-     * @param angle
-     * @param bitmap
-     * @return Bitmap
-     */
-    public static Bitmap rotaingImageView(int angle , Bitmap bitmap) {
-        //旋转图片 动作
-        Matrix matrix = new Matrix();
-        matrix.postRotate(angle);
-        System.out.println("angle2=" + angle);
-        // 创建新的图片
-        Bitmap resizedBitmap = Bitmap.createBitmap(bitmap, 0, 0,
-                bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-        return resizedBitmap;
     }
 
 }

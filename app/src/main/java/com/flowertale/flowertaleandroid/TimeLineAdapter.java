@@ -12,54 +12,32 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.flowertale.flowertaleandroid.util.VectorDrawableUtils;
-import com.github.chrisbanes.photoview.PhotoView;
 import com.github.vipulasri.timelineview.TimelineView;
 
 import java.util.List;
 
-public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHolder>{
+public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHolder> {
 
     private Context mContext;
     private List<FlowerRecord> mRecordList;
 
-    class ViewHolder extends RecyclerView.ViewHolder{
-
-        private TimelineView mTimelineView;
-        private TextView recordContent;
-        private TextView recordName;
-        private TextView recordDateTime;
-        private TextView recordType;
-        private ImageView recordImage;
-
-        public ViewHolder(View view, int viewType){
-            super(view);
-            recordContent = (TextView)view.findViewById(R.id.record_content);
-            recordName = (TextView)view.findViewById(R.id.record_name);
-            recordDateTime = (TextView)view.findViewById(R.id.record_date_time);
-            recordType = (TextView)view.findViewById(R.id.record_type);
-            recordImage = (ImageView) view.findViewById(R.id.record_image);
-            mTimelineView = (TimelineView)view.findViewById(R.id.time_marker);
-            mTimelineView.initLine(viewType);
-        }
-    }
-
-    public TimeLineAdapter(List<FlowerRecord> recordList){
+    public TimeLineAdapter(List<FlowerRecord> recordList) {
         mRecordList = recordList;
     }
 
     @Override
     public int getItemViewType(int position) {
-        return TimelineView.getTimeLineViewType(position,getItemCount());
+        return TimelineView.getTimeLineViewType(position, getItemCount());
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (mContext == null){
+        if (mContext == null) {
             mContext = parent.getContext();
         }
 
-        View view = LayoutInflater.from(mContext).inflate(R.layout.flower_time_record, parent,false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.flower_time_record, parent, false);
         return new ViewHolder(view, viewType);
     }
 
@@ -79,7 +57,7 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHo
                 LayoutInflater inflater = LayoutInflater.from(mContext);
                 View imgEntryView = inflater.inflate(R.layout.dialog_photo_entry, null); // 加载自定义的布局文件
                 final AlertDialog dialog = new AlertDialog.Builder(mContext, R.style.NoBackGroundDialog).create();
-                ImageView img = (ImageView)imgEntryView.findViewById(R.id.large_image);
+                ImageView img = (ImageView) imgEntryView.findViewById(R.id.large_image);
                 Glide.with(mContext).load(flowerRecord.getRecordImage()).into(img);
                 dialog.setView(imgEntryView); // 自定义dialog
                 dialog.show();
@@ -96,6 +74,27 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHo
     @Override
     public int getItemCount() {
         return mRecordList.size();
+    }
+
+    class ViewHolder extends RecyclerView.ViewHolder {
+
+        private TimelineView mTimelineView;
+        private TextView recordContent;
+        private TextView recordName;
+        private TextView recordDateTime;
+        private TextView recordType;
+        private ImageView recordImage;
+
+        public ViewHolder(View view, int viewType) {
+            super(view);
+            recordContent = (TextView) view.findViewById(R.id.record_content);
+            recordName = (TextView) view.findViewById(R.id.record_name);
+            recordDateTime = (TextView) view.findViewById(R.id.record_date_time);
+            recordType = (TextView) view.findViewById(R.id.record_type);
+            recordImage = (ImageView) view.findViewById(R.id.record_image);
+            mTimelineView = (TimelineView) view.findViewById(R.id.time_marker);
+            mTimelineView.initLine(viewType);
+        }
     }
 
 

@@ -32,11 +32,11 @@ import static android.app.Activity.RESULT_OK;
 
 public class FlowerFragment extends Fragment {
 
-    private SwipeRefreshLayout swipeRefresh;
     private static final int ADD = 1;
     private static final int SWITCH = 2;
-    private FlowerInfoItem[] infoItems = { new FlowerInfoItem("桃花养成计划", R.drawable.flower, "FlowerTale"),  //测试数据
-                                      new FlowerInfoItem("月季生长日记", R.drawable.flower2,"FlowerTale")};
+    private SwipeRefreshLayout swipeRefresh;
+    private FlowerInfoItem[] infoItems = {new FlowerInfoItem("桃花养成计划", R.drawable.flower, "FlowerTale"),  //测试数据
+            new FlowerInfoItem("月季生长日记", R.drawable.flower2, "FlowerTale")};
     private List<FlowerInfoItem> infoItemList = new ArrayList<>();
     private InfoAdapter adapter;
     private String currentGroup;
@@ -47,23 +47,23 @@ public class FlowerFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_flower, container, false);
         setHasOptionsMenu(true);
 
-        FloatingActionButton addFab = (FloatingActionButton)view.findViewById(R.id.add_fab);        //添加养护信息按钮
+        FloatingActionButton addFab = (FloatingActionButton) view.findViewById(R.id.add_fab);        //添加养护信息按钮
         addFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(),FlowerAddActivity.class);
-                startActivityForResult(intent,ADD);
+                Intent intent = new Intent(getActivity(), FlowerAddActivity.class);
+                startActivityForResult(intent, ADD);
             }
         });
 
         initInfoItems();
-        RecyclerView recyclerView = (RecyclerView)view.findViewById(R.id.raising_info_view);        //各养护信息展示
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.raising_info_view);        //各养护信息展示
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         adapter = new InfoAdapter(infoItemList);
         recyclerView.setAdapter(adapter);
 
-        swipeRefresh = (SwipeRefreshLayout)view.findViewById(R.id.fragment_flower_refresh);         //刷新养护信息
+        swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.fragment_flower_refresh);         //刷新养护信息
         swipeRefresh.setColorSchemeResources(R.color.mistyrose);
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -75,13 +75,13 @@ public class FlowerFragment extends Fragment {
         return view;
     }
 
-    private void refresh(){
+    private void refresh() {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                try{
+                try {
                     Thread.sleep(2000);
-                }catch (InterruptedException e){
+                } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
                 getActivity().runOnUiThread(new Runnable() {
@@ -98,17 +98,17 @@ public class FlowerFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode){
+        switch (requestCode) {
             case ADD:                                                                                  //新增养护信息结果
-                if (resultCode == RESULT_OK){
+                if (resultCode == RESULT_OK) {
                     String flowerType = data.getStringExtra("flowerType");
                     String flowerTitle = data.getStringExtra("flowerTitle");
                     String flowerMember = data.getStringExtra("flowerMember");
-                    Log.d("FlowerFragment", flowerType+" "+flowerTitle+" "+flowerMember);
+                    Log.d("FlowerFragment", flowerType + " " + flowerTitle + " " + flowerMember);
                 }
                 break;
             case SWITCH:                                                                                //切换群组
-                if (resultCode == RESULT_OK){
+                if (resultCode == RESULT_OK) {
                     String groupName = data.getStringExtra("groupName");
                     Toast.makeText(getActivity(), groupName, Toast.LENGTH_SHORT).show();
                 }
@@ -117,42 +117,66 @@ public class FlowerFragment extends Fragment {
         }
     }
 
-    private void initInfoItems(){                                                                       //初始化养护信息
+    private void initInfoItems() {                                                                       //初始化养护信息
         infoItemList.clear();
-        for (int i = 0; i<15;i++){
+        for (int i = 0; i < 15; i++) {
             Random random = new Random();
             int index = random.nextInt(infoItems.length);
             infoItemList.add(infoItems[index]);
         }
     }
 
-    private class ViewHolder extends RecyclerView.ViewHolder{
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        getActivity().getMenuInflater().inflate(R.menu.group_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.group_add:
+                Intent createIntent = new Intent(getActivity(), GroupCreateActivity.class);
+                startActivity(createIntent);
+                break;
+            case R.id.group_change:
+                Intent switchIntent = new Intent(getActivity(), GroupSwitchActivity.class);
+                currentGroup = "group1";
+                switchIntent.putExtra("currentGroup", currentGroup);
+                startActivityForResult(switchIntent, SWITCH);
+                break;
+            default:
+        }
+        return super.onOptionsItemSelected(item);
+
+    }
+
+    private class ViewHolder extends RecyclerView.ViewHolder {
         CardView cardView;
         ImageView infoImage;
         TextView infoTitle;
         TextView infoName;
 
-        public ViewHolder(View view){
+        public ViewHolder(View view) {
             super(view);
-            cardView = (CardView)view;
-            infoImage = (ImageView)view.findViewById(R.id.info_item_image);
-            infoTitle = (TextView)view.findViewById(R.id.info_item_title);
-            infoName = (TextView)view.findViewById(R.id.info_item_name);
+            cardView = (CardView) view;
+            infoImage = (ImageView) view.findViewById(R.id.info_item_image);
+            infoTitle = (TextView) view.findViewById(R.id.info_item_title);
+            infoName = (TextView) view.findViewById(R.id.info_item_name);
         }
     }
 
-    private class InfoAdapter extends RecyclerView.Adapter<ViewHolder>{
+    private class InfoAdapter extends RecyclerView.Adapter<ViewHolder> {
         private Context mContext;
         private List<FlowerInfoItem> mInfoList;
 
-        public InfoAdapter(List<FlowerInfoItem> infoList){
+        public InfoAdapter(List<FlowerInfoItem> infoList) {
             mInfoList = infoList;
         }
 
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            if (mContext == null){
+            if (mContext == null) {
                 mContext = parent.getContext();
             }
             View view = LayoutInflater.from(mContext).inflate(R.layout.flower_info_item, parent, false);
@@ -170,9 +194,9 @@ public class FlowerFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     FlowerInfoItem flowerInfoItem = mInfoList.get(index);
-                    Intent intent = new Intent(mContext,FlowerDetailsActivity.class);
+                    Intent intent = new Intent(mContext, FlowerDetailsActivity.class);
                     intent.putExtra(FlowerDetailsActivity.INFO_TITLE, flowerInfoItem.getTitle());
-                    intent.putExtra(FlowerDetailsActivity.INFO_IMAGE_ID,flowerInfoItem.getImageId());
+                    intent.putExtra(FlowerDetailsActivity.INFO_IMAGE_ID, flowerInfoItem.getImageId());
                     mContext.startActivity(intent);
                 }
             });
@@ -182,29 +206,5 @@ public class FlowerFragment extends Fragment {
         public int getItemCount() {
             return mInfoList.size();
         }
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        getActivity().getMenuInflater().inflate(R.menu.group_menu, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.group_add:
-                Intent createIntent = new Intent(getActivity(), GroupCreateActivity.class);
-                startActivity(createIntent);
-                break;
-            case R.id.group_change:
-                Intent switchIntent = new Intent(getActivity(), GroupSwitchActivity.class);
-                currentGroup = "group1";
-                switchIntent.putExtra("currentGroup", currentGroup);
-                startActivityForResult(switchIntent, SWITCH);
-                break;
-            default:
-        }
-        return super.onOptionsItemSelected(item);
-
     }
 }

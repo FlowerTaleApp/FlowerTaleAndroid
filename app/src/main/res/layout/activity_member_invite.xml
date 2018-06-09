@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:scrollbars="none">
 
     <android.support.design.widget.AppBarLayout
@@ -15,7 +14,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
-            android:background="#FFE4E1"/>
+            android:background="#FFE4E1" />
 
     </android.support.design.widget.AppBarLayout>
 
@@ -25,25 +24,25 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <com.mancj.materialsearchbar.MaterialSearchBar
+                android:id="@+id/searchBar"
                 style="@style/MaterialSearchBarLight"
-                app:mt_speechMode="false"
-                app:mt_hint="Custom hint"
-                app:mt_maxSuggestionsCount="10"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/searchBar"
-                android:elevation="3dp"/>
+                android:elevation="3dp"
+                app:mt_hint="Custom hint"
+                app:mt_maxSuggestionsCount="10"
+                app:mt_speechMode="false" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/member_search_view"
-                android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp">
 
             </android.support.v7.widget.RecyclerView>
 
