@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2015 Worldline.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,9 +19,9 @@
     android:layout_height="200dp">
 
     <RelativeLayout
-        android:background="@color/PrimaryBlue"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/PrimaryBlue">
 
         <ImageView
             android:id="@+id/imageview_detail"

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="100dp">
 
@@ -9,29 +8,29 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:textStyle="bold"
-            android:textColor="@color/colorPrimary"
-            android:gravity="center"
             android:id="@+id/textview_cover"
             android:layout_width="100dp"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold" />
 
         <ImageView
-            android:layout_toRightOf="@+id/textview_cover"
-            android:scaleType="centerCrop"
             android:id="@+id/imageview_cover"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/textview_cover"
+            android:scaleType="centerCrop" />
 
         <Button
             android:id="@+id/share_button"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:text="Share"
-            android:textColor="@android:color/white"
-            android:backgroundTint="@color/PrimaryBlue"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:backgroundTint="@color/PrimaryBlue"
+            android:text="Share"
+            android:textColor="@android:color/white" />
 
     </RelativeLayout>
 

@@ -3,76 +3,70 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/login_bg"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
     <TextView
+        android:id="@+id/reg_goBack"
         android:layout_width="40dp"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:layout_gravity="left"
+        android:layout_marginTop="2dp"
+        android:gravity="center"
         android:text="@string/goBack"
         android:textColor="@color/PrimaryBlue"
-        android:textSize="16sp"
-        android:layout_marginTop="2dp"
-        android:id="@+id/reg_goBack"
-        />
+        android:textSize="16sp" />
 
     <EditText
         android:id="@+id/username"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="150dp"
+        android:backgroundTint="@color/PrimaryBlue"
         android:hint="@string/username"
         android:inputType="text"
-        android:layout_marginTop="150dp"
-        android:layout_gravity="center"
-        android:backgroundTint="@color/PrimaryBlue"
-        android:textCursorDrawable="@color/PrimaryBlue"
-        />
+        android:textCursorDrawable="@color/PrimaryBlue" />
+
     <EditText
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:hint="@string/password"
         android:id="@+id/password"
-        android:inputType="textPassword"
-        android:layout_gravity="center"
-        android:backgroundTint="@color/PrimaryBlue"
-        android:textCursorDrawable="@color/PrimaryBlue"
-        />
-
-    <EditText
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:hint="确认密码"
+        android:layout_gravity="center"
+        android:backgroundTint="@color/PrimaryBlue"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:textCursorDrawable="@color/PrimaryBlue" />
+
+    <EditText
         android:id="@+id/confirm_pass"
-        android:inputType="textPassword"
-        android:layout_gravity="center"
-        android:backgroundTint="@color/PrimaryBlue"
-        android:textCursorDrawable="@color/PrimaryBlue"
-        />
-
-    <EditText
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:hint="邮箱"
-        android:id="@+id/email"
-        android:inputType="textPassword"
         android:layout_gravity="center"
         android:backgroundTint="@color/PrimaryBlue"
-        android:textCursorDrawable="@color/PrimaryBlue"
-        />
+        android:hint="确认密码"
+        android:inputType="textPassword"
+        android:textCursorDrawable="@color/PrimaryBlue" />
+
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:backgroundTint="@color/PrimaryBlue"
+        android:hint="邮箱"
+        android:inputType="textPassword"
+        android:textCursorDrawable="@color/PrimaryBlue" />
 
 
     <Button
+        android:id="@+id/register_btn"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:text="@string/register"
-        android:id="@+id/register_btn"
         android:layout_gravity="center"
-        android:background="@drawable/shape_btn"
-        android:textColor="@color/PrimaryBlue"
-        android:textSize="18sp"
         android:layout_marginTop="30dp"
-        />
+        android:background="@drawable/shape_btn"
+        android:text="@string/register"
+        android:textColor="@color/PrimaryBlue"
+        android:textSize="18sp" />
 
 </LinearLayout>

@@ -1,19 +1,3 @@
-/*
- * Copyright 2015 Worldline.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.flowertale.flowertaleandroid;
 
 import android.content.Context;
@@ -157,7 +141,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
         public PhotoViewHolder(FoldableLayout foldableLayout) {
             super(foldableLayout);
             mFoldableLayout = foldableLayout;
-            foldableLayout.setupViews(R.layout.list_item_cover, R.layout.list_item_detail,R.dimen.card_cover_height, itemView.getContext());
+            foldableLayout.setupViews(R.layout.list_item_cover, R.layout.list_item_detail, R.dimen.card_cover_height, itemView.getContext());
             ButterKnife.bind(this, foldableLayout);
         }
     }

@@ -1,26 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <com.mancj.materialsearchbar.MaterialSearchBar
+        android:id="@+id/searchBar"
         style="@style/MaterialSearchBarLight"
-        app:mt_hint="Plant Search"
-        app:mt_speechMode="false"
-        app:mt_navIconEnabled="true"
-        app:mt_maxSuggestionsCount="10"
-        app:mt_searchBarColor="@color/LucenWhite"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/searchBar" />
+        app:mt_hint="Plant Search"
+        app:mt_maxSuggestionsCount="10"
+        app:mt_navIconEnabled="true"
+        app:mt_searchBarColor="@color/LucenWhite"
+        app:mt_speechMode="false" />
 
-    <com.youth.banner.Banner
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <com.youth.banner.Banner xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/banner"
         android:layout_width="match_parent"
-        android:layout_height="200dp" >
+        android:layout_height="200dp">
 
     </com.youth.banner.Banner>
 
@@ -33,15 +32,15 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_below="@+id/appbar"
-        android:paddingTop="@dimen/activity_vertical_margin"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
-        android:id="@+id/recycler_view"
-        android:clipToPadding="false"
-        android:clipChildren="false"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:paddingTop="@dimen/activity_vertical_margin" />
 
 </LinearLayout>
 

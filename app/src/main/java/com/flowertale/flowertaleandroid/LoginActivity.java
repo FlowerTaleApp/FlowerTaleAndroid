@@ -48,11 +48,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             default:
                 break;
             case R.id.login_btn:
-                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
                 break;
             case R.id.register_btn:
-                Intent intent_reg = new Intent(LoginActivity.this,RegisterActivity.class);
+                Intent intent_reg = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(intent_reg);
                 break;
         }
