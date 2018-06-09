@@ -31,6 +31,6 @@ public class PlantInfoResult implements Serializable {
     @SerializedName("info")
     private PlantOtherInfoResult info;
 
-   @SerializedName("images")
+    @SerializedName("images")
     private List<String> images;
 }

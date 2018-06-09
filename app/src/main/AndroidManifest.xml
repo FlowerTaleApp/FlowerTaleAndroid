@@ -34,7 +34,8 @@
                 android:resource="@xml/files" />
         </provider>
 
-        <activity android:name=".RecognitionResultActivity"></activity>
+        <activity android:name=".RecognitionResultActivity" />
+        <activity android:name=".PlantInfoActivity"></activity>
     </application>
 
 </manifest>
