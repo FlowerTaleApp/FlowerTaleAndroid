@@ -13,10 +13,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -30,15 +34,18 @@ public class FlowerFragment extends Fragment {
 
     private SwipeRefreshLayout swipeRefresh;
     private static final int ADD = 1;
+    private static final int SWITCH = 2;
     private FlowerInfoItem[] infoItems = { new FlowerInfoItem("桃花养成计划", R.drawable.flower, "FlowerTale"),  //测试数据
                                       new FlowerInfoItem("月季生长日记", R.drawable.flower2,"FlowerTale")};
     private List<FlowerInfoItem> infoItemList = new ArrayList<>();
     private InfoAdapter adapter;
+    private String currentGroup;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_flower, container, false);
+        setHasOptionsMenu(true);
 
         FloatingActionButton addFab = (FloatingActionButton)view.findViewById(R.id.add_fab);        //添加养护信息按钮
         addFab.setOnClickListener(new View.OnClickListener() {
@@ -56,7 +63,7 @@ public class FlowerFragment extends Fragment {
         adapter = new InfoAdapter(infoItemList);
         recyclerView.setAdapter(adapter);
 
-        swipeRefresh = (SwipeRefreshLayout)view.findViewById(R.id.fragment_flower_refresh);
+        swipeRefresh = (SwipeRefreshLayout)view.findViewById(R.id.fragment_flower_refresh);         //刷新养护信息
         swipeRefresh.setColorSchemeResources(R.color.mistyrose);
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -92,7 +99,7 @@ public class FlowerFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode){
-            case ADD:
+            case ADD:                                                                                  //新增养护信息结果
                 if (resultCode == RESULT_OK){
                     String flowerType = data.getStringExtra("flowerType");
                     String flowerTitle = data.getStringExtra("flowerTitle");
@@ -100,11 +107,17 @@ public class FlowerFragment extends Fragment {
                     Log.d("FlowerFragment", flowerType+" "+flowerTitle+" "+flowerMember);
                 }
                 break;
+            case SWITCH:                                                                                //切换群组
+                if (resultCode == RESULT_OK){
+                    String groupName = data.getStringExtra("groupName");
+                    Toast.makeText(getActivity(), groupName, Toast.LENGTH_SHORT).show();
+                }
+                break;
             default:
         }
     }
 
-    private void initInfoItems(){
+    private void initInfoItems(){                                                                       //初始化养护信息
         infoItemList.clear();
         for (int i = 0; i<15;i++){
             Random random = new Random();
@@ -169,5 +182,29 @@ public class FlowerFragment extends Fragment {
         public int getItemCount() {
             return mInfoList.size();
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        getActivity().getMenuInflater().inflate(R.menu.group_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.group_add:
+                Intent createIntent = new Intent(getActivity(), GroupCreateActivity.class);
+                startActivity(createIntent);
+                break;
+            case R.id.group_change:
+                Intent switchIntent = new Intent(getActivity(), GroupSwitchActivity.class);
+                currentGroup = "group1";
+                switchIntent.putExtra("currentGroup", currentGroup);
+                startActivityForResult(switchIntent, SWITCH);
+                break;
+            default:
+        }
+        return super.onOptionsItemSelected(item);
+
     }
 }

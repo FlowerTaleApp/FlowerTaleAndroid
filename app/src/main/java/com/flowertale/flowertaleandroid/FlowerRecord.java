@@ -7,6 +7,7 @@ public class FlowerRecord {
     private String fertilize;
     private String prune;
     private String sunshine;*/
+    private int type;
     private String desc;
     private String date;
 
@@ -74,9 +75,19 @@ public class FlowerRecord {
         this.date = date;
     }
 
-    public FlowerRecord(int recordImage, String name, String desc, String date) {
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+
+    public FlowerRecord(int recordImage, String name, int type, String desc, String date) {
         this.recordImage = recordImage;
         this.name = name;
+        this.type = type;
         this.desc = desc;
         this.date = date;
     }

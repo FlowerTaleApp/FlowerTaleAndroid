@@ -42,7 +42,12 @@
         <activity
             android:name=".RecordAddActivity"
             android:theme="@style/DialogActivityTheme" />
-        <activity android:name=".FlowerMembersActivity"></activity>
+        <activity android:name=".FlowerMembersActivity" />
+        <activity android:name=".GroupCreateActivity" />
+        <activity
+            android:name=".GroupSwitchActivity"
+            android:theme="@style/GroupSwitchActivityTheme" />
+        <activity android:name=".MemberInviteActivity"></activity>
     </application>
 
 </manifest>

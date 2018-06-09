@@ -2,11 +2,11 @@ package com.flowertale.flowertaleandroid;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -37,12 +37,16 @@ public class FlowerDetailsActivity extends AppCompatActivity {
     public static final String INFO_IMAGE_ID = "info_image_id";
 
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+    private SimpleDateFormat dateSdf = new SimpleDateFormat("yyyy-MM-dd");
+    private SimpleDateFormat minSdf = new SimpleDateFormat("hh:mm");
 
     //测试数据
-    private FlowerRecord[] flowerRecords = {new FlowerRecord(R.drawable.flower, "FlowerTale", "浇水：给花儿浇了些水，显得更精神了", sdf.format(new Date())),
-                                            new FlowerRecord(R.drawable.flower2,"FlowerTale1", "施肥：给花儿施了点肥，希望它能快些长大", sdf.format(new Date()))};
+    /*private FlowerRecord[] flowerRecords = {new FlowerRecord(R.drawable.flower, "FlowerTale", "浇水：给花儿浇了些水，显得更精神了", sdf.format(new Date())),
+                                            new FlowerRecord(R.drawable.flower2,"FlowerTale1", "施肥：给花儿施了点肥，希望它能快些长大", sdf.format(new Date()))};*/
+    private FlowerRecord[] timeLineRecords = {new FlowerRecord(R.drawable.flower,"FlowerTale1", 0, "给花儿浇了些水，显得更精神了", sdf.format(new Date())),
+                                              new FlowerRecord(R.drawable.flower2,"FlowerTale2", 1, "给花儿施了点肥，希望它能快些长大", sdf.format(new Date()))};
     private List<FlowerRecord> recordList = new ArrayList<>();
-    private RecordAdapter recordAdapter;
+    private TimeLineAdapter recordAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,11 +71,13 @@ public class FlowerDetailsActivity extends AppCompatActivity {
         collapsingToolbar.setTitle(infoTitle);
         Glide.with(this).load(infoImageId).into(flowerImageView);
 
+
         initRecords();
         RecyclerView recyclerView = (RecyclerView)findViewById(R.id.raising_details_view);              //养护记录展示
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        recordAdapter = new RecordAdapter(recordList);
+        recordAdapter = new TimeLineAdapter(recordList);
+        recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(recordAdapter);
 
         FloatingActionButton fab = (FloatingActionButton)findViewById(R.id.record_add_fab);             //添加养护记录按钮
@@ -127,8 +133,8 @@ public class FlowerDetailsActivity extends AppCompatActivity {
         recordList.clear();
         for (int i = 0; i<15;i++){
             Random random = new Random();
-            int index = random.nextInt(flowerRecords.length);
-            recordList.add(flowerRecords[index]);
+            int index = random.nextInt(timeLineRecords.length);
+            recordList.add(timeLineRecords[index]);
         }
     }
 
