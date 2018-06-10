@@ -59,9 +59,9 @@ public class FlowerDetailsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String infoTitle = intent.getStringExtra(INFO_TITLE);
         int infoImageId = intent.getIntExtra(INFO_IMAGE_ID,0);
-        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
-        CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout)findViewById(R.id.collapsing_toolbar);
-        ImageView flowerImageView = (ImageView)findViewById(R.id.flower_image_view);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        CollapsingToolbarLayout collapsingToolbar = findViewById(R.id.collapsing_toolbar);
+        ImageView flowerImageView = findViewById(R.id.flower_image_view);
 
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -73,14 +73,14 @@ public class FlowerDetailsActivity extends AppCompatActivity {
 
 
         initRecords();
-        RecyclerView recyclerView = (RecyclerView)findViewById(R.id.raising_details_view);              //养护记录展示
+        RecyclerView recyclerView = findViewById(R.id.raising_details_view);              //养护记录展示
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recordAdapter = new TimeLineAdapter(recordList);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(recordAdapter);
 
-        FloatingActionButton fab = (FloatingActionButton)findViewById(R.id.record_add_fab);             //添加养护记录按钮
+        FloatingActionButton fab = findViewById(R.id.record_add_fab);             //添加养护记录按钮
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,14 +148,14 @@ public class FlowerDetailsActivity extends AppCompatActivity {
         public ViewHolder(View view){
             super(view);
             cardView = (CardView)view;
-            recordImage = (ImageView)view.findViewById(R.id.flower_record_image);
-            recordDesc = (TextView)view.findViewById(R.id.flower_record_desc);
-            recordName = (TextView)view.findViewById(R.id.flower_record_name);
-            recordTime = (TextView)view.findViewById(R.id.flower_record_time);
+            recordImage = view.findViewById(R.id.flower_record_image);
+            recordDesc = view.findViewById(R.id.flower_record_desc);
+            recordName = view.findViewById(R.id.flower_record_name);
+            recordTime = view.findViewById(R.id.flower_record_time);
         }
     }
 
-    private class RecordAdapter extends RecyclerView.Adapter<ViewHolder>{
+    private class RecordAdapter extends RecyclerView.Adapter<ViewHolder>{                           //旧的显示版本
         private Context mContext;
         private List<FlowerRecord> mRecordList;
 

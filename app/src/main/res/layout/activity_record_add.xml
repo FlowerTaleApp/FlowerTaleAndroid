@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="FlowerTale"
-            android:textColor="#ff000000"
+            android:textColor="@color/black"
             android:textSize="18sp" />
 
         <LinearLayout
@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginRight="15dp"
-                android:text="发布"/>
+                android:text="@string/publish"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -56,7 +56,7 @@
             android:layout_margin="5dp"
             android:theme="@style/MyCheckBox"
             android:textSize="15sp"
-            android:text="浇水"/>
+            android:text="@string/water"/>
 
         <CheckBox
             android:id="@+id/fertilize"
@@ -65,7 +65,7 @@
             android:layout_margin="5dp"
             android:theme="@style/MyCheckBox"
             android:textSize="15sp"
-            android:text="施肥"/>
+            android:text="@string/fertilize"/>
 
         <CheckBox
             android:id="@+id/prune"
@@ -74,7 +74,7 @@
             android:layout_margin="5dp"
             android:theme="@style/MyCheckBox"
             android:textSize="15sp"
-            android:text="剪枝"/>
+            android:text="@string/prune"/>
 
         <CheckBox
             android:id="@+id/sunshine"
@@ -83,7 +83,7 @@
             android:layout_margin="5dp"
             android:theme="@style/MyCheckBox"
             android:textSize="15sp"
-            android:text="光照"/>
+            android:text="@string/sunshine"/>
 
     </LinearLayout>
 
@@ -98,7 +98,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null"
-            android:hint="说点什么吧..."
+            android:hint="@string/say_something"
             android:textSize="18sp"
             android:inputType="textMultiLine"
             android:gravity="left|top"
@@ -137,9 +137,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="拍照上传图片"
+                android:text="@string/take_photo"
                 android:layout_margin="5dp"
-                android:textColor="#ff000000"/>
+                android:textColor="@color/black"/>
 
         </LinearLayout>
 
@@ -165,9 +165,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="从相册选取"
+                android:text="@string/select_from_album"
                 android:layout_margin="5dp"
-                android:textColor="#ff000000"/>
+                android:textColor="@color/black"/>
 
         </LinearLayout>
 

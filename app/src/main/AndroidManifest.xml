@@ -47,9 +47,11 @@
         <activity
             android:name=".GroupSwitchActivity"
             android:theme="@style/GroupSwitchActivityTheme" />
-        <activity android:name=".MemberInviteActivity"></activity>
+        <activity android:name=".MemberInviteActivity" />
         <activity android:name=".RecognitionResultActivity" />
-        <activity android:name=".PlantInfoActivity"></activity>
+        <activity android:name=".PlantInfoActivity" />
+        <activity android:name=".RaisingSchemeActivity" />
+        <activity android:name=".SchemeAddActivity"></activity>
     </application>
 
 </manifest>

@@ -27,6 +27,6 @@
         android:elevation="8dp"
         android:src="@drawable/ic_add"
         app:borderWidth="0dp"
-        android:backgroundTint="#FFE4E1"/>
+        android:backgroundTint="@color/mistyrose"/>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -30,8 +30,8 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
         public ViewHolder(View view){
             super(view);
 
-            selfImage = (ImageView)view.findViewById(R.id.self_image);
-            memberName = (TextView)view.findViewById(R.id.member_name);
+            selfImage = view.findViewById(R.id.self_image);
+            memberName = view.findViewById(R.id.member_name);
         }
     }
 
@@ -57,7 +57,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
         holder.memberName.setText(memberItem.getName());
         Glide.with(mContext).load(memberItem.getSelfImage()).into(holder.selfImage);
 
-        if (position == 0){
+        if (position == 0 && holder.memberName.getText().toString().equals("新增")){
             holder.selfImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

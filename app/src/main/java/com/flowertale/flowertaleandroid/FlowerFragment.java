@@ -47,7 +47,7 @@ public class FlowerFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_flower, container, false);
         setHasOptionsMenu(true);
 
-        FloatingActionButton addFab = (FloatingActionButton)view.findViewById(R.id.add_fab);        //添加养护信息按钮
+        FloatingActionButton addFab = view.findViewById(R.id.add_fab);        //添加养护信息按钮
         addFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,13 +57,13 @@ public class FlowerFragment extends Fragment {
         });
 
         initInfoItems();
-        RecyclerView recyclerView = (RecyclerView)view.findViewById(R.id.raising_info_view);        //各养护信息展示
+        RecyclerView recyclerView = view.findViewById(R.id.raising_info_view);        //各养护信息展示
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         adapter = new InfoAdapter(infoItemList);
         recyclerView.setAdapter(adapter);
 
-        swipeRefresh = (SwipeRefreshLayout)view.findViewById(R.id.fragment_flower_refresh);         //刷新养护信息
+        swipeRefresh = view.findViewById(R.id.fragment_flower_refresh);         //刷新养护信息
         swipeRefresh.setColorSchemeResources(R.color.mistyrose);
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -135,9 +135,9 @@ public class FlowerFragment extends Fragment {
         public ViewHolder(View view){
             super(view);
             cardView = (CardView)view;
-            infoImage = (ImageView)view.findViewById(R.id.info_item_image);
-            infoTitle = (TextView)view.findViewById(R.id.info_item_title);
-            infoName = (TextView)view.findViewById(R.id.info_item_name);
+            infoImage = view.findViewById(R.id.info_item_image);
+            infoTitle = view.findViewById(R.id.info_item_title);
+            infoName = view.findViewById(R.id.info_item_name);
         }
     }
 

@@ -51,7 +51,7 @@ public class FlowerAddActivity extends AppCompatActivity {
     }
 
     private void initView(){
-        android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar)findViewById(R.id.toolbar);
+        android.support.v7.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -59,9 +59,9 @@ public class FlowerAddActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        flowerTypeLayout = (LinearLayout)findViewById(R.id.flower_type_layout);
-        flowerTitleLayout = (LinearLayout)findViewById(R.id.flower_title_layout);
-        flowerMemberLayout = (LinearLayout)findViewById(R.id.flower_member_layout);
+        flowerTypeLayout = findViewById(R.id.flower_type_layout);
+        flowerTitleLayout = findViewById(R.id.flower_title_layout);
+        flowerMemberLayout = findViewById(R.id.flower_member_layout);
         flowerTypeLayout.setVisibility(View.VISIBLE);
         flowerTitleLayout.setVisibility(View.GONE);
         flowerMemberLayout.setVisibility(View.GONE);
@@ -89,10 +89,11 @@ public class FlowerAddActivity extends AppCompatActivity {
                 return true;
             case R.id.next:
                 if (count==0){
+                    item.setIcon(R.drawable.ic_done);
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            TextInputEditText textInputEditText = (TextInputEditText)findViewById(R.id.flower_type);
+                            TextInputEditText textInputEditText = findViewById(R.id.flower_type);
                             intent.putExtra("flowerType", textInputEditText.getText().toString());
                             Log.d("FlowerAddActivity", textInputEditText.getText().toString());
                             Message message = new Message();
@@ -105,16 +106,18 @@ public class FlowerAddActivity extends AppCompatActivity {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            TextInputEditText textInputEditText = (TextInputEditText)findViewById(R.id.flower_title);
+                            TextInputEditText textInputEditText = findViewById(R.id.flower_title);
                             intent.putExtra("flowerTitle", textInputEditText.getText().toString());
                             Log.d("FlowerAddActivity", textInputEditText.getText().toString());
-                            Message message = new Message();
+                            setResult(RESULT_OK, intent);
+                            finish();
+                            /*Message message = new Message();
                             message.what = FLOWER_MEMBER;
-                            handler.sendMessage(message);
+                            handler.sendMessage(message);*/
                         }
                     }).start();
                 }else if(count==2){
-                    TextInputEditText textInputEditText = (TextInputEditText)findViewById(R.id.flower_member);
+                    TextInputEditText textInputEditText = findViewById(R.id.flower_member);
                     intent.putExtra("flowerMember", textInputEditText.getText().toString());
                     Log.d("FlowerAddActivity", textInputEditText.getText().toString());
                     setResult(RESULT_OK, intent);

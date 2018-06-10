@@ -13,7 +13,7 @@ import java.util.List;
 public class MemberInviteActivity extends AppCompatActivity {
 
     private MaterialSearchBar searchBar;
-    private List<String> lastSearches;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +25,7 @@ public class MemberInviteActivity extends AppCompatActivity {
 
     private void initView(){
 
-        android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar)findViewById(R.id.toolbar);
+        android.support.v7.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.member_invite_title);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -33,8 +33,8 @@ public class MemberInviteActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        searchBar = (MaterialSearchBar) findViewById(R.id.searchBar);
-        searchBar.setHint("Custom hint");
+        searchBar = findViewById(R.id.searchBar);
+        searchBar.setHint(getString(R.string.member_search_hint));
         searchBar.setOnSearchActionListener(new MaterialSearchBar.OnSearchActionListener() {
             @Override
             public void onSearchStateChanged(boolean enabled) {
@@ -44,6 +44,7 @@ public class MemberInviteActivity extends AppCompatActivity {
             @Override
             public void onSearchConfirmed(CharSequence text) {
                 Toast.makeText(MemberInviteActivity.this, searchBar.getText().toString(), Toast.LENGTH_SHORT).show();
+                //显示搜索结果
             }
 
             @Override

@@ -17,7 +17,7 @@
             android:layout_height="match_parent"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             android:fitsSystemWindows="true"
-            app:contentScrim="#FFE4E1"
+            app:contentScrim="@color/mistyrose"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView
@@ -58,7 +58,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:src="@drawable/ic_add"
-        android:backgroundTint="#FFE4E1"
+        android:backgroundTint="@color/mistyrose"
         app:borderWidth="0dp"
         app:layout_anchor="@id/appBar"
         app:layout_anchorGravity="bottom|end"/>

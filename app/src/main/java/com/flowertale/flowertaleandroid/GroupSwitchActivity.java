@@ -41,7 +41,7 @@ public class GroupSwitchActivity extends AppCompatActivity {
     private void initView(){
 
         initGroup();
-        RecyclerView recyclerView = (RecyclerView)findViewById(R.id.group_view);
+        RecyclerView recyclerView = findViewById(R.id.group_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         groupAdapter = new GroupAdapter(groupItemList);
@@ -67,8 +67,8 @@ public class GroupSwitchActivity extends AppCompatActivity {
         public ViewHolder(View view){
             super(view);
             groupItem = (LinearLayout)view;
-            groupName = (TextView)view.findViewById(R.id.group_name);
-            selectIcon = (ImageView)view.findViewById(R.id.select_icon);
+            groupName = view.findViewById(R.id.group_name);
+            selectIcon = view.findViewById(R.id.select_icon);
         }
     }
 

@@ -33,12 +33,12 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHo
 
         public ViewHolder(View view, int viewType){
             super(view);
-            recordContent = (TextView)view.findViewById(R.id.record_content);
-            recordName = (TextView)view.findViewById(R.id.record_name);
-            recordDateTime = (TextView)view.findViewById(R.id.record_date_time);
-            recordType = (TextView)view.findViewById(R.id.record_type);
-            recordImage = (ImageView) view.findViewById(R.id.record_image);
-            mTimelineView = (TimelineView)view.findViewById(R.id.time_marker);
+            recordContent = view.findViewById(R.id.record_content);
+            recordName = view.findViewById(R.id.record_name);
+            recordDateTime = view.findViewById(R.id.record_date_time);
+            recordType = view.findViewById(R.id.record_type);
+            recordImage = view.findViewById(R.id.record_image);
+            mTimelineView = view.findViewById(R.id.time_marker);
             mTimelineView.initLine(viewType);
         }
     }
@@ -79,7 +79,7 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHo
                 LayoutInflater inflater = LayoutInflater.from(mContext);
                 View imgEntryView = inflater.inflate(R.layout.dialog_photo_entry, null); // 加载自定义的布局文件
                 final AlertDialog dialog = new AlertDialog.Builder(mContext, R.style.NoBackGroundDialog).create();
-                ImageView img = (ImageView)imgEntryView.findViewById(R.id.large_image);
+                ImageView img = imgEntryView.findViewById(R.id.large_image);
                 Glide.with(mContext).load(flowerRecord.getRecordImage()).into(img);
                 dialog.setView(imgEntryView); // 自定义dialog
                 dialog.show();

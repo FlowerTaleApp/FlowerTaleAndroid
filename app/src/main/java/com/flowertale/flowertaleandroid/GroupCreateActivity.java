@@ -86,7 +86,7 @@ public class GroupCreateActivity extends AppCompatActivity {
         switch (requestCode){
             case INVITE:
                 if (resultCode == RESULT_OK){
-
+                    //增加群成员
                 }
                 break;
             default:

@@ -57,10 +57,10 @@ public class RecordAddActivity extends AppCompatActivity {
 
     private void initView(){
 
-        flowerRecordImage = (ImageView)findViewById(R.id.flower_image);
+        flowerRecordImage = findViewById(R.id.flower_image);
 
-        LinearLayout mCameraImage = (LinearLayout) findViewById(R.id.camera);
-        LinearLayout mPhotosImage = (LinearLayout) findViewById(R.id.photos);
+        LinearLayout mCameraImage =  findViewById(R.id.camera);
+        LinearLayout mPhotosImage =  findViewById(R.id.photos);
         requestPermissions();
         final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         PackageManager packageManager = getPackageManager();
@@ -93,15 +93,15 @@ public class RecordAddActivity extends AppCompatActivity {
             }
         });
 
-        Button button = (Button)findViewById(R.id.record_publish);
+        Button button = findViewById(R.id.record_publish);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CheckBox water = (CheckBox)findViewById(R.id.water);
-                CheckBox fertilize = (CheckBox)findViewById(R.id.fertilize);
-                CheckBox prune = (CheckBox)findViewById(R.id.prune);
-                CheckBox sunshine = (CheckBox)findViewById(R.id.sunshine);
-                EditText description = (EditText)findViewById(R.id.description);
+                CheckBox water = findViewById(R.id.water);
+                CheckBox fertilize = findViewById(R.id.fertilize);
+                CheckBox prune = findViewById(R.id.prune);
+                CheckBox sunshine = findViewById(R.id.sunshine);
+                EditText description = findViewById(R.id.description);
                 intent.putExtra("water", water.isChecked());
                 intent.putExtra("fertilize", fertilize.isChecked());
                 intent.putExtra("prune",prune.isChecked());
