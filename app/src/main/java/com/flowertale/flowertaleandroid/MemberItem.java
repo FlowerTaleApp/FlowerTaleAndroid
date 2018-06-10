@@ -5,6 +5,11 @@ public class MemberItem {
     private int selfImage;
     private String name;
 
+    public MemberItem(int selfImage, String name) {
+        this.selfImage = selfImage;
+        this.name = name;
+    }
+
     public int getSelfImage() {
         return selfImage;
     }
@@ -18,11 +23,6 @@ public class MemberItem {
     }
 
     public void setName(String name) {
-        this.name = name;
-    }
-
-    public MemberItem(int selfImage, String name) {
-        this.selfImage = selfImage;
         this.name = name;
     }
 }

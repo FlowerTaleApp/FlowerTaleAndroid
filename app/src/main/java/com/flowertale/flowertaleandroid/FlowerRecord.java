@@ -11,6 +11,14 @@ public class FlowerRecord {
     private String desc;
     private String date;
 
+    public FlowerRecord(int recordImage, String name, int type, String desc, String date) {
+        this.recordImage = recordImage;
+        this.name = name;
+        this.type = type;
+        this.desc = desc;
+        this.date = date;
+    }
+
     public int getRecordImage() {
         return recordImage;
     }
@@ -29,10 +37,6 @@ public class FlowerRecord {
 
     public String getDesc() {
         return desc;
-    }
-
-    public void setDesc(String desc) {
-        this.desc = desc;
     }
 
     /*public String getWater() {
@@ -67,6 +71,10 @@ public class FlowerRecord {
         this.sunshine = sunshine;
     }*/
 
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
     public String getDate() {
         return date;
     }
@@ -81,14 +89,5 @@ public class FlowerRecord {
 
     public void setType(int type) {
         this.type = type;
-    }
-
-
-    public FlowerRecord(int recordImage, String name, int type, String desc, String date) {
-        this.recordImage = recordImage;
-        this.name = name;
-        this.type = type;
-        this.desc = desc;
-        this.date = date;
     }
 }

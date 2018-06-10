@@ -5,6 +5,12 @@ public class FlowerInfoItem {
     private int imageId;
     private String name;
 
+    public FlowerInfoItem(String title, int imageId, String name) {
+        this.title = title;
+        this.imageId = imageId;
+        this.name = name;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -26,12 +32,6 @@ public class FlowerInfoItem {
     }
 
     public void setName(String name) {
-        this.name = name;
-    }
-
-    public FlowerInfoItem(String title, int imageId, String name) {
-        this.title = title;
-        this.imageId = imageId;
         this.name = name;
     }
 }
