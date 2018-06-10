@@ -17,15 +17,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-
-        tools:replace="android:icon">
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        tools:replace="android:icon"
+        android:name=".application.MainApplication">
+        <activity android:name=".MainActivity"></activity>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -57,6 +51,19 @@
         <activity android:name=".RaisingSchemeActivity" />
         <activity android:name=".SchemeAddActivity"></activity>
         <activity android:name=".MemberInviteActivity"></activity>
+        <activity android:name=".LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".RegisterActivity"></activity>
+        <provider
+            android:name="com.flowertale.flowertaleandroid.AssetProvider"
+            android:authorities="com.flowertale.flowertaleandroid"
+            android:grantUriPermissions="true"
+            android:exported="true" />
     </application>
 
 </manifest>
