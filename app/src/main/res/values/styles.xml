@@ -40,4 +40,9 @@
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
+    <style name="AppTheme.Button" parent="Base.Widget.AppCompat.Button.Colored">
+        <item name="colorButtonNormal">@color/lightseagreen</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
 </resources>

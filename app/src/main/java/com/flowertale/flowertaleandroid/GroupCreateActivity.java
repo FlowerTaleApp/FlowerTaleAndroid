@@ -32,7 +32,7 @@ public class GroupCreateActivity extends AppCompatActivity {
     }
 
     private void initView(){
-        android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar)findViewById(R.id.toolbar);
+        android.support.v7.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.group_create_title);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -42,9 +42,9 @@ public class GroupCreateActivity extends AppCompatActivity {
 
         initMem();
         mem_num = memberItemList.size()-1;
-        TextView currentMemNum = (TextView)findViewById(R.id.current_mem_num);
+        TextView currentMemNum = findViewById(R.id.current_mem_num);
         currentMemNum.setText(mem_num+"/10");
-        RecyclerView recyclerView = (RecyclerView)findViewById(R.id.group_create_view);
+        RecyclerView recyclerView = findViewById(R.id.group_create_view);
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
         memberAdapter = new MemberAdapter(memberItemList);

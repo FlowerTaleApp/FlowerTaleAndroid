@@ -44,6 +44,7 @@
     <string name="scheme_add">添加方案</string>
     <string name="scheme_name">方案名称</string>
     <string name="add_time">添加时间</string>
+    <string name="already_full">数量已满</string>
     <string name="introduction">介绍</string>
     <string name="value">价值</string>
     <string name="distribution">分布</string>
