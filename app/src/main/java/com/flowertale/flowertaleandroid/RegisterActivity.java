@@ -73,6 +73,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 finish();
                 break;
             case R.id.register_btn:
+                doSignUp(mUsername.getText().toString(), mPassword.getText().toString(), mEmail.getText().toString());
                 break;
         }
     }

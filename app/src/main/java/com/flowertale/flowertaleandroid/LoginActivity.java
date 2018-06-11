@@ -42,6 +42,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        initView();
     }
 
     private void initView() {
@@ -59,7 +61,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             default:
                 break;
             case R.id.login_btn:
-                //TODO
+                doSignIn(mUsername.getText().toString(), mPassword.getText().toString());
                 break;
             case R.id.register_btn:
                 Intent intent_reg = new Intent(LoginActivity.this, RegisterActivity.class);

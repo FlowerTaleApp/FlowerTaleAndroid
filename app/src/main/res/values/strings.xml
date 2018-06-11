@@ -25,6 +25,7 @@
     <string name="take_photo">拍照上传图片</string>
     <string name="select_from_album">从相册选取</string>
     <string name="group_create_title">创建群组</string>
+    <string name="group_switch">切换群组</string>
     <string name="group_create_finish">完成</string>
     <string name="group_name">群组名称</string>
     <string name="member">成员</string>
@@ -45,6 +46,9 @@
     <string name="scheme_name">方案名称</string>
     <string name="add_time">添加时间</string>
     <string name="already_full">数量已满</string>
+    <string name="publish_record">发布动态</string>
+    <string name="view_accomplishment">完成情况</string>
+    <string name="today_progress">今日进度</string>
     <string name="introduction">介绍</string>
     <string name="value">价值</string>
     <string name="distribution">分布</string>

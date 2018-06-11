@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true">
 
     <android.support.design.widget.AppBarLayout
@@ -39,6 +40,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <RelativeLayout
+        android:id="@+id/rela_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -52,7 +54,7 @@
     </RelativeLayout>
 
 
-    <android.support.design.widget.FloatingActionButton
+    <!--<android.support.design.widget.FloatingActionButton
         android:id="@+id/record_add_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -61,6 +63,39 @@
         android:backgroundTint="@color/mistyrose"
         app:borderWidth="0dp"
         app:layout_anchor="@id/appBar"
-        app:layout_anchorGravity="bottom|end"/>
+        app:layout_anchorGravity="bottom|end"/>-->
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/floating_action_menu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_add"
+        app:menu_colorNormal="@color/darkcyan"
+        app:menu_colorPressed="@color/powderblue"
+        android:layout_margin="16dp"
+        android:layout_gravity="bottom|end"
+        fab:menu_openDirection="up">
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/record_add_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/darkcyan"
+            fab:fab_colorPressed="@color/powderblue"
+            android:src="@drawable/ic_write"
+            fab:fab_size="mini"
+            fab:fab_label="@string/publish_record"/>
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/accomplishment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/darkcyan"
+            fab:fab_colorPressed="@color/powderblue"
+            android:src="@drawable/ic_schedule"
+            fab:fab_size="mini"
+            fab:fab_label="@string/view_accomplishment"/>
+
+    </com.github.clans.fab.FloatingActionMenu>
 
 </android.support.design.widget.CoordinatorLayout>

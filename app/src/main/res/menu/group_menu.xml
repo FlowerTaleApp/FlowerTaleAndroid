@@ -13,13 +13,13 @@
             <item
                 android:id="@+id/group_add"
                 android:icon="@drawable/ic_group_add"
-                android:title="Create Group"
+                android:title="@string/group_create_title"
                 app:showAsAction="withText"></item>
 
             <item
                 android:id="@+id/group_change"
                 android:icon="@drawable/ic_group_change"
-                android:title="Switch Current Group"
+                android:title="@string/group_switch"
                 app:showAsAction="withText"></item>
 
         </menu>

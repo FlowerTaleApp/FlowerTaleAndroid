@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.github.clans.fab.FloatingActionMenu;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -80,15 +81,36 @@ public class FlowerDetailsActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(recordAdapter);
 
-        FloatingActionButton fab = findViewById(R.id.record_add_fab);             //添加养护记录按钮
+        /*FloatingActionButton fab = findViewById(R.id.record_add_fab);             //添加养护记录按钮
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent1 = new Intent(FlowerDetailsActivity.this, RecordAddActivity.class);
                 startActivityForResult(intent1, ADD);
             }
+        });*/
+
+        FloatingActionMenu floatingActionMenu = findViewById(R.id.floating_action_menu);
+        floatingActionMenu.setClosedOnTouchOutside(true);
+
+
+        com.github.clans.fab.FloatingActionButton publishRecord = findViewById(R.id.record_add_fab);
+        publishRecord.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent publishIntent = new Intent(FlowerDetailsActivity.this, RecordAddActivity.class);
+                startActivityForResult(publishIntent, ADD);
+            }
         });
 
+        com.github.clans.fab.FloatingActionButton viewAccomplishment = findViewById(R.id.accomplishment);
+        viewAccomplishment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent viewIntent = new Intent(FlowerDetailsActivity.this, AccomplishmentActivity.class);
+                startActivity(viewIntent);
+            }
+        });
     }
 
     @Override

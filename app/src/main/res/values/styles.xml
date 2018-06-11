@@ -5,7 +5,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="colorAccent">@color/darkcyan</item>
     </style>
 
     <style name="FlowerDetailsActivityTheme" parent="AppTheme"></style>
@@ -14,7 +14,7 @@
         <item name="android:windowFrame">@null</item><!--边框-->
         <item name="android:windowIsFloating">true</item><!--是否浮现在activity之上-->
         <item name="android:windowIsTranslucent">true</item><!--半透明-->
-        <item name="android:windowNoTitle">true</item><!--无标题-->
+        <item name="windowNoTitle">true</item><!--无标题-->
         <!--<item name="android:windowBackground">@android:color/transparent</item>-->
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:windowContentOverlay">@null</item>
@@ -24,7 +24,7 @@
         <item name="android:windowFrame">@null</item><!--边框-->
         <item name="android:windowIsFloating">true</item><!--是否浮现在activity之上-->
         <item name="android:windowIsTranslucent">true</item><!--半透明-->
-        <item name="android:windowNoTitle">true</item><!--无标题-->
+        <item name="windowNoTitle">true</item><!--无标题-->
         <!--<item name="android:windowBackground">@android:color/transparent</item>-->
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:windowContentOverlay">@null</item>
@@ -41,8 +41,12 @@
     </style>
 
     <style name="AppTheme.Button" parent="Base.Widget.AppCompat.Button.Colored">
-        <item name="colorButtonNormal">@color/lightseagreen</item>
+        <item name="background">@color/lightseagreen</item>
+        <item name="android:colorAccent">@color/lightseagreen</item>
+        <item name="android:colorButtonNormal">@color/lightseagreen</item>
         <item name="android:textColor">@color/white</item>
     </style>
+
+
 
 </resources>
