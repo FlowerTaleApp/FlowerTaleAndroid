@@ -13,7 +13,6 @@ import com.flowertale.flowertaleandroid.DTO.SimpleUserDTO;
 import com.flowertale.flowertaleandroid.DTO.UserDTO;
 import com.flowertale.flowertaleandroid.DTO.form.DetailedFlowerForm;
 import com.flowertale.flowertaleandroid.DTO.form.DiaryForm;
-import com.flowertale.flowertaleandroid.DTO.form.ItemForm;
 import com.flowertale.flowertaleandroid.DTO.form.PlantForm;
 import com.flowertale.flowertaleandroid.DTO.form.SchemeForm;
 import com.flowertale.flowertaleandroid.DTO.form.SimpleFlowerForm;
