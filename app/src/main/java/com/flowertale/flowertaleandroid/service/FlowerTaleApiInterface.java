@@ -1,16 +1,23 @@
 package com.flowertale.flowertaleandroid.service;
 
+import com.flowertale.flowertaleandroid.DTO.DailyPushFlowerDTO;
+import com.flowertale.flowertaleandroid.DTO.DetailedFlowerDTO;
 import com.flowertale.flowertaleandroid.DTO.DiaryDTO;
 import com.flowertale.flowertaleandroid.DTO.InvitationDTO;
 import com.flowertale.flowertaleandroid.DTO.NurtureCompletionDTO;
 import com.flowertale.flowertaleandroid.DTO.PlantDTO;
 import com.flowertale.flowertaleandroid.DTO.SchemeDTO;
+import com.flowertale.flowertaleandroid.DTO.SimpleFlowerDTO;
 import com.flowertale.flowertaleandroid.DTO.SimpleTeamDTO;
 import com.flowertale.flowertaleandroid.DTO.SimpleUserDTO;
 import com.flowertale.flowertaleandroid.DTO.UserDTO;
+import com.flowertale.flowertaleandroid.DTO.form.DetailedFlowerForm;
 import com.flowertale.flowertaleandroid.DTO.form.DiaryForm;
+import com.flowertale.flowertaleandroid.DTO.form.ItemForm;
 import com.flowertale.flowertaleandroid.DTO.form.PlantForm;
 import com.flowertale.flowertaleandroid.DTO.form.SchemeForm;
+import com.flowertale.flowertaleandroid.DTO.form.SimpleFlowerForm;
+import com.flowertale.flowertaleandroid.DTO.response.BaseResponse;
 import com.flowertale.flowertaleandroid.DTO.response.BaseResponse;
 
 import java.util.List;
@@ -117,4 +124,21 @@ public interface FlowerTaleApiInterface {
 
     @GET("users/actions/verify")
     Call<BaseResponse> doVerifyToken();
+
+    @POST("flowers/search")
+    @FormUrlEncoded
+    Call<BaseResponse<List<SimpleFlowerDTO>>> doSearchFlowersByName(@Field("name") String name);
+
+    @GET("flowers/today")
+    Call<BaseResponse<List<DailyPushFlowerDTO>>> doGetDailyPushFlowers();
+
+    @POST("flowers")
+    @FormUrlEncoded
+    Call<BaseResponse<DetailedFlowerDTO>> doGetDetailedFlower(@Field("code") String code);
+
+    @POST("flowers/simple")
+    Call<BaseResponse> doCreateSimpleFlower(@Body List<SimpleFlowerForm> simpleFlowerFormList);
+
+    @POST("flowers/details")
+    Call<BaseResponse> doCreateFlowerDetails(@Body DetailedFlowerForm detailedFlowerForm);
 }
