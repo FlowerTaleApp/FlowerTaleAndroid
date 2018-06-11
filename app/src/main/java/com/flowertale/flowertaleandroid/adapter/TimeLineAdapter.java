@@ -11,8 +11,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.flowertale.flowertaleandroid.Enum.NurtureType;
 import com.flowertale.flowertaleandroid.entity.FlowerRecord;
 import com.flowertale.flowertaleandroid.R;
+import com.flowertale.flowertaleandroid.util.EnumUtil;
 import com.flowertale.flowertaleandroid.util.VectorDrawableUtils;
 import com.github.vipulasri.timelineview.TimelineView;
 
@@ -71,7 +73,7 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHo
         holder.recordContent.setText(flowerRecord.getDesc());
         holder.recordName.setText(flowerRecord.getName());
         holder.recordDateTime.setText(flowerRecord.getDate());
-        //holder.recordType.setText(flowerRecord.getType());
+        holder.recordType.setText(EnumUtil.getByCode(flowerRecord.getType(), NurtureType.class).getMessage());
         Glide.with(mContext).load(flowerRecord.getRecordImage()).into(holder.recordImage);
 
         holder.recordImage.setOnClickListener(new View.OnClickListener() {

@@ -30,12 +30,22 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.flowertale.flowertaleandroid.DTO.DiaryDTO;
+import com.flowertale.flowertaleandroid.DTO.form.DiaryForm;
+import com.flowertale.flowertaleandroid.DTO.response.BaseResponse;
+import com.flowertale.flowertaleandroid.entity.FlowerRecord;
+import com.flowertale.flowertaleandroid.service.FlowerTaleApiService;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RecordAddActivity extends AppCompatActivity {
 
@@ -46,6 +56,7 @@ public class RecordAddActivity extends AppCompatActivity {
     private File mPhotoFile;
     private String filePath;
     private String fileName;
+    private int plantId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +67,8 @@ public class RecordAddActivity extends AppCompatActivity {
     }
 
     private void initView(){
+
+        plantId = getIntent().getIntExtra("plantId", -1);
 
         flowerRecordImage = findViewById(R.id.flower_image);
 
@@ -102,14 +115,27 @@ public class RecordAddActivity extends AppCompatActivity {
                 CheckBox prune = findViewById(R.id.prune);
                 CheckBox sunshine = findViewById(R.id.sunshine);
                 EditText description = findViewById(R.id.description);
-                intent.putExtra("water", water.isChecked());
+                /*intent.putExtra("water", water.isChecked());
                 intent.putExtra("fertilize", fertilize.isChecked());
                 intent.putExtra("prune",prune.isChecked());
                 intent.putExtra("sunshine", sunshine.isChecked());
-                intent.putExtra("description", description.getText().toString());
+                intent.putExtra("description", description.getText().toString());*/
+                DiaryForm diaryForm = new DiaryForm();
+                if (water.isChecked()){
+                    diaryForm.setType(0);
+                }else if (fertilize.isChecked()){
+                    diaryForm.setType(1);
+                }else if (prune.isChecked()){
+                    diaryForm.setType(2);
+                }else{
+                    diaryForm.setType(3);
+                }
 
-                setResult(RESULT_OK, intent);
-                finish();
+                diaryForm.setContent(description.getText().toString());
+                diaryForm.setPlantId(plantId);
+                diaryForm.setImageUrl("");
+
+                doCreate(diaryForm);
             }
         });
     }
@@ -278,4 +304,29 @@ public class RecordAddActivity extends AppCompatActivity {
         return resizedBitmap;
     }
 
+
+    private void doCreate(final DiaryForm diaryForm){                           //发布动态
+        FlowerTaleApiService.getInstance().doCreateDiary(diaryForm).enqueue(new Callback<BaseResponse>() {
+            @Override
+            public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    if (response.body().getStatus() == 0) {
+                        Intent intent = new Intent();
+                        intent.putExtra("plantId", diaryForm.getPlantId());
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    } else {
+                        Toast.makeText(RecordAddActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BaseResponse> call, Throwable t) {
+                Toast.makeText(RecordAddActivity.this, "未知错误", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
+    }
 }

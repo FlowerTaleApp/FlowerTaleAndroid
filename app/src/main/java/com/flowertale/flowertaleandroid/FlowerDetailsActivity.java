@@ -21,10 +21,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.flowertale.flowertaleandroid.DTO.DiaryDTO;
+import com.flowertale.flowertaleandroid.DTO.PlantDTO;
+import com.flowertale.flowertaleandroid.DTO.response.BaseResponse;
+import com.flowertale.flowertaleandroid.Enum.NurtureType;
 import com.flowertale.flowertaleandroid.adapter.TimeLineAdapter;
+import com.flowertale.flowertaleandroid.entity.FlowerInfoItem;
 import com.flowertale.flowertaleandroid.entity.FlowerRecord;
+import com.flowertale.flowertaleandroid.service.FlowerTaleApiService;
+import com.flowertale.flowertaleandroid.util.EnumUtil;
 import com.github.clans.fab.FloatingActionMenu;
 
 import java.text.SimpleDateFormat;
@@ -32,6 +40,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class FlowerDetailsActivity extends AppCompatActivity {
 
@@ -43,25 +55,30 @@ public class FlowerDetailsActivity extends AppCompatActivity {
     private SimpleDateFormat dateSdf = new SimpleDateFormat("yyyy-MM-dd");
     private SimpleDateFormat minSdf = new SimpleDateFormat("hh:mm");
 
+    private int[] flowerImages = {R.drawable.flower, R.drawable.flower2};
+
     //测试数据
-    /*private FlowerRecord[] flowerRecords = {new FlowerRecord(R.drawable.flower, "FlowerTale", "浇水：给花儿浇了些水，显得更精神了", sdf.format(new Date())),
-                                            new FlowerRecord(R.drawable.flower2,"FlowerTale1", "施肥：给花儿施了点肥，希望它能快些长大", sdf.format(new Date()))};*/
-    private FlowerRecord[] timeLineRecords = {new FlowerRecord(R.drawable.flower,"FlowerTale1", 0, "给花儿浇了些水，显得更精神了", sdf.format(new Date())),
-                                              new FlowerRecord(R.drawable.flower2,"FlowerTale2", 1, "给花儿施了点肥，希望它能快些长大", sdf.format(new Date()))};
+    /*private FlowerRecord[] timeLineRecords = {new FlowerRecord(R.drawable.flower,"FlowerTale1", 0, "给花儿浇了些水，显得更精神了", sdf.format(new Date())),
+                                              new FlowerRecord(R.drawable.flower2,"FlowerTale2", 1, "给花儿施了点肥，希望它能快些长大", sdf.format(new Date()))};*/
     private List<FlowerRecord> recordList = new ArrayList<>();
     private TimeLineAdapter recordAdapter;
+    private int teamId;
+    private int plantId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flower_details);
         initView();
+
     }
 
     private void initView(){
         Intent intent = getIntent();
         String infoTitle = intent.getStringExtra(INFO_TITLE);
         int infoImageId = intent.getIntExtra(INFO_IMAGE_ID,0);
+        teamId = intent.getIntExtra("teamId", -1);
+        plantId = intent.getIntExtra("plantId", -1);
         Toolbar toolbar = findViewById(R.id.toolbar);
         CollapsingToolbarLayout collapsingToolbar = findViewById(R.id.collapsing_toolbar);
         ImageView flowerImageView = findViewById(R.id.flower_image_view);
@@ -82,24 +99,7 @@ public class FlowerDetailsActivity extends AppCompatActivity {
             }
         });
 
-        initRecords();
-        RecyclerView recyclerView = findViewById(R.id.raising_details_view);              //养护记录展示
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        recordAdapter = new TimeLineAdapter(recordList);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(recordAdapter);
-
-        /*FloatingActionButton fab = findViewById(R.id.record_add_fab);             //添加养护记录按钮
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent1 = new Intent(FlowerDetailsActivity.this, RecordAddActivity.class);
-                startActivityForResult(intent1, ADD);
-            }
-        });*/
-
-        FloatingActionMenu floatingActionMenu = findViewById(R.id.floating_action_menu);
+        FloatingActionMenu floatingActionMenu = findViewById(R.id.floating_action_menu);        //浮动菜单
         floatingActionMenu.setClosedOnTouchOutside(true);
 
 
@@ -108,6 +108,7 @@ public class FlowerDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent publishIntent = new Intent(FlowerDetailsActivity.this, RecordAddActivity.class);
+                publishIntent.putExtra("plantId", plantId);
                 startActivityForResult(publishIntent, ADD);
             }
         });
@@ -117,9 +118,22 @@ public class FlowerDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent viewIntent = new Intent(FlowerDetailsActivity.this, AccomplishmentActivity.class);
+                viewIntent.putExtra("plantId", plantId);
                 startActivity(viewIntent);
             }
         });
+
+        /*initRecords();*/
+        RecyclerView recyclerView = findViewById(R.id.raising_details_view);              //养护记录展示
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        recordAdapter = new TimeLineAdapter(recordList);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(recordAdapter);
+        doGetDiaries(plantId);
+
+
+
     }
 
     @Override
@@ -153,6 +167,8 @@ public class FlowerDetailsActivity extends AppCompatActivity {
                 return true;
             case R.id.member:                                                                   //查看群组信息
                 Intent intent = new Intent(FlowerDetailsActivity.this,FlowerMembersActivity.class);
+                intent.putExtra("teamId", teamId);
+                intent.putExtra("plantId", plantId);
                 startActivity(intent);
                 break;
             default:
@@ -160,63 +176,44 @@ public class FlowerDetailsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void initRecords(){
+    /*private void initRecords(){
         recordList.clear();
         for (int i = 0; i<15;i++){
             Random random = new Random();
             int index = random.nextInt(timeLineRecords.length);
             recordList.add(timeLineRecords[index]);
         }
-    }
+    }*/
 
-    private class ViewHolder extends RecyclerView.ViewHolder{
-        CardView cardView;
-        ImageView recordImage;
-        TextView recordDesc;
-        TextView recordName;
-        TextView recordTime;
-
-        public ViewHolder(View view){
-            super(view);
-            cardView = (CardView)view;
-            recordImage = view.findViewById(R.id.flower_record_image);
-            recordDesc = view.findViewById(R.id.flower_record_desc);
-            recordName = view.findViewById(R.id.flower_record_name);
-            recordTime = view.findViewById(R.id.flower_record_time);
-        }
-    }
-
-    private class RecordAdapter extends RecyclerView.Adapter<ViewHolder>{                           //旧的显示版本
-        private Context mContext;
-        private List<FlowerRecord> mRecordList;
-
-        public RecordAdapter(List<FlowerRecord> recordList){
-            mRecordList = recordList;
-        }
-
-        @NonNull
-        @Override
-        public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            if (mContext == null){
-                mContext = parent.getContext();
+    private void doGetDiaries(int plantId){                                                 //获取当前植物动态
+        FlowerTaleApiService.getInstance().doGetDiariesByPlantId(plantId).enqueue(new Callback<BaseResponse<List<DiaryDTO>>>() {
+            @Override
+            public void onResponse(Call<BaseResponse<List<DiaryDTO>>> call, Response<BaseResponse<List<DiaryDTO>>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    if (response.body().getStatus() == 0) {
+                        List<DiaryDTO> diaryDTOS = response.body().getObject();
+                        for (int i=0;i<diaryDTOS.size();i++){
+                            Random random = new Random();
+                            int index = random.nextInt(flowerImages.length);
+                            recordList.add(new FlowerRecord(flowerImages[index], diaryDTOS.get(i).getUsername(), diaryDTOS.get(i).getType(),
+                                                            diaryDTOS.get(i).getContent(), sdf.format(diaryDTOS.get(i).getDate())));
+                        }
+                        recordAdapter.notifyDataSetChanged();
+                    } else {
+                        Toast.makeText(FlowerDetailsActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                } else {
+                    Toast.makeText(FlowerDetailsActivity.this, "未知错误", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
             }
 
-            View view = LayoutInflater.from(mContext).inflate(R.layout.flower_record,parent,false);
-            return new ViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            FlowerRecord flowerRecord = mRecordList.get(position);
-            holder.recordDesc.setText(flowerRecord.getDesc());
-            holder.recordName.setText(flowerRecord.getName());
-            holder.recordTime.setText(flowerRecord.getDate());
-            Glide.with(mContext).load(flowerRecord.getRecordImage()).into(holder.recordImage);
-        }
-
-        @Override
-        public int getItemCount() {
-            return mRecordList.size();
-        }
+            @Override
+            public void onFailure(Call<BaseResponse<List<DiaryDTO>>> call, Throwable t) {
+                Toast.makeText(FlowerDetailsActivity.this, "未知错误", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
     }
 }

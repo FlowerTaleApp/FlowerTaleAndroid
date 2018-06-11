@@ -63,7 +63,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.login_btn:
                 doSignIn(mUsername.getText().toString(), mPassword.getText().toString());
                 //TODO
-                doSignIn(null, null);
                 break;
             case R.id.register_btn:
                 Intent intent_reg = new Intent(LoginActivity.this, RegisterActivity.class);

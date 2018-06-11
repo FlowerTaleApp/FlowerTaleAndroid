@@ -160,7 +160,7 @@ public class MemberInviteActivity extends AppCompatActivity {
             holder.sendInvitation.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = getIntent();
+                    Intent intent = new Intent();
                     intent.putExtra("memInvited", memberItem);
                     setResult(RESULT_OK, intent);
                     finish();

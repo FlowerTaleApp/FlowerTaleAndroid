@@ -14,18 +14,27 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.flowertale.flowertaleandroid.DTO.SimpleTeamDTO;
+import com.flowertale.flowertaleandroid.DTO.response.BaseResponse;
+import com.flowertale.flowertaleandroid.service.FlowerTaleApiService;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class GroupSwitchActivity extends AppCompatActivity {
 
     private String currentGroup;
-    private String[] groupItems = {"group1","group2","group3"};
+    /*private String[] groupItems = {"group1","group2","group3"};*/
     private List<String> groupItemList = new ArrayList<>();
+    private List<Integer> teamIdList  = new ArrayList<>();
     private GroupAdapter groupAdapter;
 
     @Override
@@ -34,32 +43,28 @@ public class GroupSwitchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_group_switch);
         setFinishOnTouchOutside(true);
         Intent intent = getIntent();
-        currentGroup = intent.getStringExtra("currentGroup");
+        currentGroup = intent.getStringExtra("teamName");
 
         initView();
     }
 
     private void initView(){
 
-        initGroup();
-        RecyclerView recyclerView = findViewById(R.id.group_view);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        groupAdapter = new GroupAdapter(groupItemList);
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        recyclerView.setAdapter(groupAdapter);
+        /*initGroup();*/
+        getGroups();
+
 
     }
 
 
-    private void initGroup(){
+    /*private void initGroup(){
         groupItemList.clear();
         for (int i=0;i<5;i++){
             Random random = new Random();
             int index = random.nextInt(groupItems.length);
             groupItemList.add(groupItems[index]);
         }
-    }
+    }*/
 
     private class ViewHolder extends RecyclerView.ViewHolder{
 
@@ -79,9 +84,11 @@ public class GroupSwitchActivity extends AppCompatActivity {
 
         private Context mContext;
         private List<String> mGroupItemList;
+        private List<Integer> mTeamIdList;                                                          //重写以传递id信息
 
-        public GroupAdapter(List<String> groupItemList){
+        public GroupAdapter(List<String> groupItemList, List<Integer> teamIdList){
             mGroupItemList = groupItemList;
+            mTeamIdList = teamIdList;
         }
 
         @NonNull
@@ -108,7 +115,7 @@ public class GroupSwitchActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
-                    intent.putExtra("groupName", mGroupItemList.get(index));
+                    intent.putExtra("teamId", mTeamIdList.get(index));
                     setResult(RESULT_OK, intent);
                     finish();
                 }
@@ -119,5 +126,40 @@ public class GroupSwitchActivity extends AppCompatActivity {
         public int getItemCount() {
             return mGroupItemList.size();
         }
+    }
+
+    private void getGroups(){                                                 //得到所有群组
+        FlowerTaleApiService.getInstance().doGetUserTeams().enqueue(new Callback<BaseResponse<List<SimpleTeamDTO>>>() {
+            @Override
+            public void onResponse(Call<BaseResponse<List<SimpleTeamDTO>>> call, Response<BaseResponse<List<SimpleTeamDTO>>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    if (response.body().getStatus() == 0) {
+                        List<SimpleTeamDTO> teams = response.body().getObject();
+                        for (int i=0; i<teams.size();i++){
+                            groupItemList.add(teams.get(i).getName());
+                            teamIdList.add(teams.get(i).getId());
+                        }
+                        RecyclerView recyclerView = findViewById(R.id.group_view);
+                        LinearLayoutManager layoutManager = new LinearLayoutManager(GroupSwitchActivity.this);
+                        recyclerView.setLayoutManager(layoutManager);
+                        groupAdapter = new GroupAdapter(groupItemList, teamIdList);
+                        recyclerView.addItemDecoration(new DividerItemDecoration(GroupSwitchActivity.this, DividerItemDecoration.VERTICAL));
+                        recyclerView.setAdapter(groupAdapter);
+                    } else {
+                        Toast.makeText(GroupSwitchActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                } else {
+                    Toast.makeText(GroupSwitchActivity.this, "未知错误", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BaseResponse<List<SimpleTeamDTO>>> call, Throwable t) {
+                Toast.makeText(GroupSwitchActivity.this, "未知错误", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
     }
 }

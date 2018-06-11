@@ -48,7 +48,7 @@ public class GroupCreateActivity extends AppCompatActivity {
     private List<MemberItem> memberItemList = new ArrayList<>();
     private MemberInvitedAdapter memberAdapter;
     private EditText groupName;
-    private int mem_num = 0;
+    private int mem_num;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,15 +71,6 @@ public class GroupCreateActivity extends AppCompatActivity {
         memberItemList.add(0,memberAdd);*/
         setSelf();
 
-        /*initMem();*/
-        /*mem_num = memberItemList.size()-1;*/
-        TextView currentMemNum = findViewById(R.id.current_mem_num);
-        currentMemNum.setText(mem_num+"/10");
-        RecyclerView recyclerView = findViewById(R.id.group_create_view);
-        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(layoutManager);
-        memberAdapter = new MemberInvitedAdapter(memberItemList);
-        recyclerView.setAdapter(memberAdapter);
     }
 
     /*private void initMem(){
@@ -117,7 +108,7 @@ public class GroupCreateActivity extends AppCompatActivity {
                     Toast.makeText(this, "请输入群组名", Toast.LENGTH_SHORT).show();
                 }else{
                     String teamName = groupName.getText().toString();
-                    String description = "";
+                    String description = "this is a description";
                     doCreate(teamName, description);
                     finish();
                 }
@@ -216,6 +207,15 @@ public class GroupCreateActivity extends AppCompatActivity {
                         MemberItem memberItem = new MemberItem(selfImages[index], user.getUsername());
                         memberItemList.add(memberItem);
                         mem_num++;
+                        /*initMem();*/
+                        /*mem_num = memberItemList.size()-1;*/
+                        TextView currentMemNum = findViewById(R.id.current_mem_num);
+                        currentMemNum.setText(mem_num+"/10");
+                        RecyclerView recyclerView = findViewById(R.id.group_create_view);
+                        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL);
+                        recyclerView.setLayoutManager(layoutManager);
+                        memberAdapter = new MemberInvitedAdapter(memberItemList);
+                        recyclerView.setAdapter(memberAdapter);
                     } else {
                         Toast.makeText(getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                         finish();
@@ -240,7 +240,7 @@ public class GroupCreateActivity extends AppCompatActivity {
             public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     if (response.body().getStatus() == 0) {
-
+                        Toast.makeText(GroupCreateActivity.this, "创建成功", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                     }

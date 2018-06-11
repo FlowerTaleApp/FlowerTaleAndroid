@@ -1,6 +1,7 @@
 package com.flowertale.flowertaleandroid;
 
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,23 +14,39 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.flowertale.flowertaleandroid.DTO.SchemeDTO;
+import com.flowertale.flowertaleandroid.DTO.form.ItemForm;
+import com.flowertale.flowertaleandroid.DTO.form.SchemeForm;
+import com.flowertale.flowertaleandroid.DTO.response.BaseResponse;
 import com.flowertale.flowertaleandroid.adapter.TimeAdapter;
+import com.flowertale.flowertaleandroid.service.FlowerTaleApiService;
 
 import org.angmarch.views.NiceSpinner;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SchemeAddActivity extends AppCompatActivity {
 
     //private List<String> frequencySet = new LinkedList<>(Arrays.asList("日", "月"));
-    private List<Integer> rateSet = new LinkedList<>(Arrays.asList(0,1,2,3,4,5,6,7,8,9,10));
+    private SimpleDateFormat minSdf = new SimpleDateFormat("hh:mm");
+    private List<Integer> rateSet = new LinkedList<>(Arrays.asList(0,1,2,3,4,5));
+    private int plantId;
+    private List<ItemForm> itemFormList = new ArrayList<>();
+    private String schemeName;
     private TimeAdapter waterAdapter;
     private TimeAdapter fertilizeAdapter;
     private TimeAdapter pruneAdapter;
@@ -44,6 +61,8 @@ public class SchemeAddActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scheme_add);
 
+        plantId = getIntent().getIntExtra("plantId", -1);
+
         initView();
     }
 
@@ -56,6 +75,8 @@ public class SchemeAddActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
+        EditText scheme_name = findViewById(R.id.scheme_name);
+        schemeName = scheme_name.getText().toString();
 
         RecyclerView waterTimeView = findViewById(R.id.water_time_view);
         LinearLayoutManager waterLayoutManager = new LinearLayoutManager(this);
@@ -98,6 +119,15 @@ public class SchemeAddActivity extends AppCompatActivity {
                                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                                     //Toast.makeText(SchemeAddActivity.this, hourOfDay+"-"+minute, Toast.LENGTH_SHORT).show();
                                     waterAdapter.update(hourOfDay+"时"+minute+"分");
+                                    Date date = new Date();
+                                    Calendar calendar = Calendar.getInstance();
+                                    calendar.setTime(date);
+                                    calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                                    calendar.set(Calendar.MINUTE, minute);
+                                    ItemForm itemForm = new ItemForm();
+                                    itemForm.setType(0);
+                                    itemForm.setTime(minSdf.format(calendar));
+
                                 }
                             },
                             now.get(Calendar.HOUR_OF_DAY),
@@ -151,6 +181,14 @@ public class SchemeAddActivity extends AppCompatActivity {
                                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                                     //Toast.makeText(SchemeAddActivity.this, hourOfDay+"-"+minute, Toast.LENGTH_SHORT).show();
                                     fertilizeAdapter.update(hourOfDay+"时"+minute+"分");
+                                    Date date = new Date();
+                                    Calendar calendar = Calendar.getInstance();
+                                    calendar.setTime(date);
+                                    calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                                    calendar.set(Calendar.MINUTE, minute);
+                                    ItemForm itemForm = new ItemForm();
+                                    itemForm.setType(1);
+                                    itemForm.setTime(minSdf.format(calendar));
                                 }
                             },
                             now.get(Calendar.HOUR_OF_DAY),
@@ -204,6 +242,14 @@ public class SchemeAddActivity extends AppCompatActivity {
                                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                                     //Toast.makeText(SchemeAddActivity.this, hourOfDay+"-"+minute, Toast.LENGTH_SHORT).show();
                                     pruneAdapter.update(hourOfDay+"时"+minute+"分");
+                                    Date date = new Date();
+                                    Calendar calendar = Calendar.getInstance();
+                                    calendar.setTime(date);
+                                    calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                                    calendar.set(Calendar.MINUTE, minute);
+                                    ItemForm itemForm = new ItemForm();
+                                    itemForm.setType(2);
+                                    itemForm.setTime(minSdf.format(calendar));
                                 }
                             },
                             now.get(Calendar.HOUR_OF_DAY),
@@ -257,6 +303,14 @@ public class SchemeAddActivity extends AppCompatActivity {
                                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                                     //Toast.makeText(SchemeAddActivity.this, hourOfDay+"-"+minute, Toast.LENGTH_SHORT).show();
                                     sunshineAdapter.update(hourOfDay+"时"+minute+"分");
+                                    Date date = new Date();
+                                    Calendar calendar = Calendar.getInstance();
+                                    calendar.setTime(date);
+                                    calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                                    calendar.set(Calendar.MINUTE, minute);
+                                    ItemForm itemForm = new ItemForm();
+                                    itemForm.setType(3);
+                                    itemForm.setTime(minSdf.format(calendar));
                                 }
                             },
                             now.get(Calendar.HOUR_OF_DAY),
@@ -297,4 +351,30 @@ public class SchemeAddActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void addScheme(SchemeForm schemeForm){
+        FlowerTaleApiService.getInstance().doCreateScheme(schemeForm).enqueue(new Callback<BaseResponse>() {
+            @Override
+            public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    if (response.body().getStatus() == 0) {
+                        Intent intent = new Intent();
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    } else {
+                        Toast.makeText(SchemeAddActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                } else {
+                    Toast.makeText(SchemeAddActivity.this, "未知错误", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BaseResponse> call, Throwable t) {
+                Toast.makeText(SchemeAddActivity.this, "未知错误", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
+    }
 }

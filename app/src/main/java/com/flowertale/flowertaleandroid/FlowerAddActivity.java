@@ -16,6 +16,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
+
+import com.flowertale.flowertaleandroid.DTO.PlantDTO;
+import com.flowertale.flowertaleandroid.DTO.form.PlantForm;
+import com.flowertale.flowertaleandroid.DTO.response.BaseResponse;
+import com.flowertale.flowertaleandroid.entity.FlowerInfoItem;
+import com.flowertale.flowertaleandroid.service.FlowerTaleApiService;
+
+import java.util.List;
+import java.util.Random;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class FlowerAddActivity extends AppCompatActivity {
 
@@ -26,6 +40,7 @@ public class FlowerAddActivity extends AppCompatActivity {
     private LinearLayout flowerTypeLayout;
     private LinearLayout flowerTitleLayout;
     private LinearLayout flowerMemberLayout;
+    private String flowerName;
 
     private Handler handler = new Handler(){
         public void handleMessage(Message msg){
@@ -104,8 +119,9 @@ public class FlowerAddActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             TextInputEditText textInputEditText = findViewById(R.id.flower_type);
-                            intent.putExtra("flowerType", textInputEditText.getText().toString());
-                            Log.d("FlowerAddActivity", textInputEditText.getText().toString());
+                            /*intent.putExtra("flowerType", textInputEditText.getText().toString());*/
+
+                            flowerName = textInputEditText.getText().toString();
                             Message message = new Message();
                             message.what = FLOWER_TITLE;
                             handler.sendMessage(message);
@@ -117,10 +133,15 @@ public class FlowerAddActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             TextInputEditText textInputEditText = findViewById(R.id.flower_title);
-                            intent.putExtra("flowerTitle", textInputEditText.getText().toString());
-                            Log.d("FlowerAddActivity", textInputEditText.getText().toString());
-                            setResult(RESULT_OK, intent);
-                            finish();
+                            /*intent.putExtra("flowerTitle", textInputEditText.getText().toString());*/
+
+                            PlantForm plantForm = new PlantForm();
+                            plantForm.setDescription(textInputEditText.getText().toString());
+                            plantForm.setName(flowerName);
+                            int teamId = getIntent().getIntExtra("teamId",-1);
+                            plantForm.setTeamId(teamId);
+
+                            doCreate(plantForm);
                             /*Message message = new Message();
                             message.what = FLOWER_MEMBER;
                             handler.sendMessage(message);*/
@@ -139,5 +160,30 @@ public class FlowerAddActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void doCreate(final PlantForm plantForm){
+        FlowerTaleApiService.getInstance().doCreatePlant(plantForm).enqueue(new Callback<BaseResponse>() {
+            @Override
+            public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    if (response.body().getStatus() == 0) {
+                        intent.putExtra("teamId", plantForm.getTeamId());
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    } else {
+                        Toast.makeText(FlowerAddActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                } else {
+                    Toast.makeText(FlowerAddActivity.this, "未知错误", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BaseResponse> call, Throwable t) {
+                Toast.makeText(FlowerAddActivity.this, "未知错误", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
 }

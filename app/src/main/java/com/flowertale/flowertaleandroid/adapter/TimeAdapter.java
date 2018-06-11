@@ -9,11 +9,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TimeAdapter extends RecyclerView.Adapter<TimeAdapter.ViewHolder>{
 
     private Context mContext;
-    private ArrayList<String> mTimeList;
+    private List<String> mTimeList;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -25,7 +26,7 @@ public class TimeAdapter extends RecyclerView.Adapter<TimeAdapter.ViewHolder>{
         }
     }
 
-    public TimeAdapter(ArrayList<String> timeList){
+    public TimeAdapter(List<String> timeList){
         mTimeList = timeList;
     }
 
