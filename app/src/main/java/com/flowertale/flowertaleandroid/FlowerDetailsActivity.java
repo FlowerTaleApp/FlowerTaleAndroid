@@ -2,11 +2,9 @@ package com.flowertale.flowertaleandroid;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -23,6 +21,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.flowertale.flowertaleandroid.adapter.TimeLineAdapter;
+import com.flowertale.flowertaleandroid.entity.FlowerRecord;
 import com.github.clans.fab.FloatingActionMenu;
 
 import java.text.SimpleDateFormat;

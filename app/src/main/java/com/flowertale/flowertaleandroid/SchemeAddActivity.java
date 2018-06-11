@@ -1,6 +1,5 @@
 package com.flowertale.flowertaleandroid;
 
-import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -10,14 +9,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import com.flowertale.flowertaleandroid.adapter.TimeAdapter;
 
 import org.angmarch.views.NiceSpinner;
 

@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.flowertale.flowertaleandroid.entity.FlowerInfoItem;
 
 import java.util.ArrayList;
 import java.util.List;

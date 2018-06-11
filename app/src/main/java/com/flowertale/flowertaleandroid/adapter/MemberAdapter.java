@@ -1,4 +1,4 @@
-package com.flowertale.flowertaleandroid;
+package com.flowertale.flowertaleandroid.adapter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,6 +12,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.flowertale.flowertaleandroid.MemberInviteActivity;
+import com.flowertale.flowertaleandroid.entity.MemberItem;
+import com.flowertale.flowertaleandroid.R;
 
 import java.util.List;
 

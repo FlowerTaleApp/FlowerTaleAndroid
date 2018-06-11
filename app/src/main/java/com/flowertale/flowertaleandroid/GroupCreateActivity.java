@@ -12,6 +12,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.flowertale.flowertaleandroid.adapter.MemberAdapter;
+import com.flowertale.flowertaleandroid.entity.MemberItem;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;

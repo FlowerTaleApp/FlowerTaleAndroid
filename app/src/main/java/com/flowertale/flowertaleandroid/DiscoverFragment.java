@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.flowertale.flowertaleandroid.adapter.PhotoAdapter;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;

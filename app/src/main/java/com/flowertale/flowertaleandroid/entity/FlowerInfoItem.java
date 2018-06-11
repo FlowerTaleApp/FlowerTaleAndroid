@@ -1,4 +1,4 @@
-package com.flowertale.flowertaleandroid;
+package com.flowertale.flowertaleandroid.entity;
 
 public class FlowerInfoItem {
     private String title;

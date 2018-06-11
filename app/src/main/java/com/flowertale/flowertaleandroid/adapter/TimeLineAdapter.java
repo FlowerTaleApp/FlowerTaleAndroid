@@ -1,4 +1,4 @@
-package com.flowertale.flowertaleandroid;
+package com.flowertale.flowertaleandroid.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -11,8 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.flowertale.flowertaleandroid.entity.FlowerRecord;
+import com.flowertale.flowertaleandroid.R;
 import com.flowertale.flowertaleandroid.util.VectorDrawableUtils;
-import com.github.chrisbanes.photoview.PhotoView;
 import com.github.vipulasri.timelineview.TimelineView;
 
 import java.util.List;
