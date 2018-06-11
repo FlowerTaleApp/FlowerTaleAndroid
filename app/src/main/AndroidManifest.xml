@@ -58,6 +58,7 @@
 
         <activity android:name=".RaisingSchemeActivity" />
         <activity android:name=".SchemeAddActivity" />
+        <activity android:name=".MemberInviteActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

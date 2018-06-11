@@ -1,7 +1,6 @@
 package com.flowertale.flowertaleandroid;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.flowertale.flowertaleandroid.DTO.Response.BaseResponse;
+import com.flowertale.flowertaleandroid.DTO.response.BaseResponse;
 import com.flowertale.flowertaleandroid.constant.TokenConstant;
 import com.flowertale.flowertaleandroid.service.FlowerTaleApiService;
 import com.flowertale.flowertaleandroid.util.ContextUtil;
@@ -62,6 +61,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.login_btn:
                 doSignIn(mUsername.getText().toString(), mPassword.getText().toString());
+                //TODO
+                doSignIn(null, null);
                 break;
             case R.id.register_btn:
                 Intent intent_reg = new Intent(LoginActivity.this, RegisterActivity.class);
@@ -74,7 +75,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      * 登录操作
      * @param username 用户名
      * @param password 密码
-     * 成功后直接跳转至MainActivity
+     *                 成功后直接跳转至MainActivity
      */
     private void doSignIn(String username, String password) {
         Call<BaseResponse<String>> call = FlowerTaleApiService.getInstance().doLogin(username, password);

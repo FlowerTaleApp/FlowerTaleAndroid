@@ -1,4 +1,4 @@
 package com.flowertale.flowertaleandroid.DTO;
 
-public class TodoItemDTO {
+public class TimeAdapter {
 }
