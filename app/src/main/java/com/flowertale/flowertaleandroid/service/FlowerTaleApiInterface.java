@@ -5,6 +5,7 @@ import com.flowertale.flowertaleandroid.DTO.InvitationDTO;
 import com.flowertale.flowertaleandroid.DTO.NurtureCompletionDTO;
 import com.flowertale.flowertaleandroid.DTO.PlantDTO;
 import com.flowertale.flowertaleandroid.DTO.SchemeDTO;
+import com.flowertale.flowertaleandroid.DTO.SimpleTeamDTO;
 import com.flowertale.flowertaleandroid.DTO.SimpleUserDTO;
 import com.flowertale.flowertaleandroid.DTO.UserDTO;
 import com.flowertale.flowertaleandroid.DTO.form.DiaryForm;
@@ -110,4 +111,10 @@ public interface FlowerTaleApiInterface {
 
     @GET("nurture/completion")
     Call<BaseResponse<List<NurtureCompletionDTO>>> doGetCurrentDayNurtureCompletion();
+
+    @GET("teams")
+    Call<BaseResponse<List<SimpleTeamDTO>>> doGetUserTeams();
+
+    @GET("users/actions/verify")
+    Call<BaseResponse> doVerifyToken();
 }
