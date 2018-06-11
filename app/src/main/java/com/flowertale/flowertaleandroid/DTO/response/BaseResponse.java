@@ -1,4 +1,4 @@
-package com.flowertale.flowertaleandroid.DTO.Response;
+package com.flowertale.flowertaleandroid.DTO.response;
 
 import lombok.Data;
 
@@ -8,5 +8,4 @@ public class BaseResponse<T> {
     private Integer status;
     private String message;
     private T object;
-
 }

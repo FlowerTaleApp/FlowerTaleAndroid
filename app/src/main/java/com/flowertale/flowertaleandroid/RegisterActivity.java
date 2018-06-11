@@ -10,7 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.flowertale.flowertaleandroid.DTO.Response.BaseResponse;
+import com.flowertale.flowertaleandroid.DTO.response.BaseResponse;
 import com.flowertale.flowertaleandroid.constant.TokenConstant;
 import com.flowertale.flowertaleandroid.service.FlowerTaleApiService;
 import com.flowertale.flowertaleandroid.util.ContextUtil;
@@ -79,10 +79,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     /**
      * 注册操作
+     *
      * @param username
      * @param password
-     * @param email
-     * 成功后直接跳转到MainActivity
+     * @param email    成功后直接跳转到MainActivity
      */
     private void doSignUp(String username, String password, String email) {
         Call<BaseResponse<String>> call = FlowerTaleApiService.getInstance().doRegister(username, password, email);

@@ -11,4 +11,10 @@ public class SchemeDTO {
     private String name;
     private String description;
     private List<ItemDTO> itemDTOList;
+
+    public SchemeDTO(Integer id, String name, String description) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+    }
 }
