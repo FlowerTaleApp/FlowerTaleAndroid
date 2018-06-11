@@ -1,6 +1,8 @@
 package com.flowertale.flowertaleandroid.entity;
 
-public class MemberItem {
+import java.io.Serializable;
+
+public class MemberItem implements Serializable{
 
     private int selfImage;
     private String name;

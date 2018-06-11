@@ -209,4 +209,6 @@ public class FlowerFragment extends Fragment {
         return super.onOptionsItemSelected(item);
 
     }
+
+    /*private void setInitialGroup()*/
 }

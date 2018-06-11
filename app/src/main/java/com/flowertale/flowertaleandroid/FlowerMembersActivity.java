@@ -10,6 +10,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.flowertale.flowertaleandroid.adapter.MemberAdapter;
 import com.flowertale.flowertaleandroid.entity.MemberItem;
@@ -23,10 +24,12 @@ import static com.flowertale.flowertaleandroid.GroupCreateActivity.INVITE;
 public class FlowerMembersActivity extends AppCompatActivity {
 
     private static final int SCHEME = 2;
-    private MemberItem[] memberItems = {new MemberItem(R.drawable.flower, "FlowerTale1"), new MemberItem(R.drawable.flower2, "FlowerTale2"),
-            new MemberItem(R.drawable.sunflower, "FlowerTale3")};
+    private int[] selfImages = {R.drawable.flower, R.drawable.flower2, R.drawable.sunflower};
+    /*private MemberItem[] memberItems = {new MemberItem(R.drawable.flower, "FlowerTale1"), new MemberItem(R.drawable.flower2, "FlowerTale2"),
+            new MemberItem(R.drawable.sunflower, "FlowerTale3")};*/
     private List<MemberItem> memberItemList = new ArrayList<>();
     private MemberAdapter memberAdapter;
+    private int mem_num = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +65,7 @@ public class FlowerMembersActivity extends AppCompatActivity {
             }
         });
 
-        initMem();
+        /*initMem();*/
         RecyclerView recyclerView = (RecyclerView)findViewById(R.id.members_view);
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
@@ -70,7 +73,7 @@ public class FlowerMembersActivity extends AppCompatActivity {
         recyclerView.setAdapter(memberAdapter);
     }
 
-    private void initMem(){
+    /*private void initMem(){
         memberItemList.clear();
         //MemberItem memberAdd = new MemberItem(R.drawable.member_add, getString(R.string.member_add));
         //memberItemList.add(0,memberAdd);
@@ -79,7 +82,7 @@ public class FlowerMembersActivity extends AppCompatActivity {
             int index = random.nextInt(memberItems.length);
             memberItemList.add(memberItems[index]);
         }
-    }
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -96,7 +99,14 @@ public class FlowerMembersActivity extends AppCompatActivity {
         switch (requestCode){
             case INVITE:
                 if (resultCode == RESULT_OK){
-                    //新增成员
+                    MemberItem memInvited = (MemberItem) data.getSerializableExtra("memInvited");   //接收邀请的人
+                    if (mem_num>=10){
+                        Toast.makeText(this, "人数已满", Toast.LENGTH_SHORT).show();
+                    }else{
+                        mem_num++;
+                        memberItemList.add(memInvited);
+                        memberAdapter.notifyDataSetChanged();
+                    }
                 }
                 break;
             case SCHEME:
