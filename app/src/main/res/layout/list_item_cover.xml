@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:backgroundTint="@color/PrimaryBlue"
+            android:backgroundTint="@color/mypink"
             android:text="Share"
             android:textColor="@android:color/white" />
 

@@ -1,6 +1,5 @@
 package com.flowertale.flowertaleandroid;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -103,10 +102,10 @@ public class RecognitionResultActivity extends AppCompatActivity {
                     plantInfoAsynTask.setOnRecogniseListener(new OnRecogniseListener<PlantInfoResult>() {
                         @Override
                         public void onSuccess(PlantInfoResult result) {
-                            Intent intent = new Intent(RecognitionResultActivity.this, PlantInfoActivity.class);
-                            intent.putExtra(PlantInfoActivity.PLANT_INFO, result);
-                            startActivity(intent);
-                            mProgressBar.setVisibility(View.INVISIBLE);
+//                            Intent intent = new Intent(RecognitionResultActivity.this, FlowerDetailsActivity.class);
+//                            intent.putExtra(FlowerDetailsActivity.PLANT_INFO, result);
+//                            startActivity(intent);
+//                            mProgressBar.setVisibility(View.INVISIBLE);
                         }
 
                         @Override

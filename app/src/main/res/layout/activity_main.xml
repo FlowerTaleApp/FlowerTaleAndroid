@@ -18,7 +18,7 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/google_green">
+                android:background="@color/mypink2">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -30,14 +30,14 @@
                         android:layout_height="30dp"
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
-                        android:src="@drawable/icon_user" />
+                        android:src="@drawable/me_info" />
 
                     <TextView
                         android:id="@+id/toolbar_title_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:textColor="@color/white"
+                        android:textColor="@color/mypink"
                         android:textSize="20sp" />
                 </RelativeLayout>
             </android.support.v7.widget.Toolbar>
@@ -53,16 +53,20 @@
             android:id="@+id/bottom_navigation_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom" />
+            android:layout_gravity="bottom"
+            app:bnbBackgroundColor="@color/mypink"
+            app:bnbInactiveColor="#8a8a8a"
+            />
 
     </LinearLayout>
 
     <android.support.design.widget.NavigationView
         android:id="@+id/navigation_view"
-        android:layout_width="300dp"
+        android:layout_width="340dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/navigation_header"
-        app:menu="@menu/navigation_menu" />
+        app:menu="@menu/navigation_menu"
+        />
 
 </android.support.v4.widget.DrawerLayout>

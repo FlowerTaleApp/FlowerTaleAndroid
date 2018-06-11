@@ -19,7 +19,9 @@
         android:theme="@style/AppTheme"
         tools:replace="android:icon"
         android:name=".application.MainApplication">
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity"
+            android:windowSoftInputMode="adjustPan"
+            ></activity>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -32,7 +34,6 @@
         </provider>
 
         <activity android:name=".RecognitionResultActivity" />
-        <activity android:name=".PlantInfoActivity"></activity>
         <activity
             android:name=".FlowerDetailsActivity"
             android:theme="@style/FlowerDetailsActivityTheme" />
@@ -42,10 +43,18 @@
             android:theme="@style/DialogActivityTheme" />
         <activity android:name=".FlowerMembersActivity" />
         <activity android:name=".GroupCreateActivity" />
+        <activity android:name=".FlowerListActivity" />
         <activity
             android:name=".GroupSwitchActivity"
             android:theme="@style/GroupSwitchActivityTheme" />
-        <activity android:name=".MemberInviteActivity"></activity>
+        <activity android:name=".MemberInviteActivity" />
+
+        <provider
+            android:name=".AssetProvider"
+            android:authorities="com.flowertale.flowertaleandroid"
+            android:exported="true"
+            android:grantUriPermissions="true" />
+
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
