@@ -76,7 +76,7 @@
                         android:layout_marginRight="15dp"
                         android:text="@string/member_invite_title"
                         android:textSize="18sp"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/darkcyan" />
 
                 </LinearLayout>
 

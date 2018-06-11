@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/darkcyan</item>
+        <item name="android:colorControlNormal">@color/mypink</item>
     </style>
 
     <style name="FlowerDetailsActivityTheme" parent="AppTheme"></style>
@@ -32,7 +33,7 @@
     </style>
 
     <style name="MyCheckBox" parent="@android:style/Widget.Material.CompoundButton.CheckBox">
-        <item name="android:colorControlActivated">@color/colorPrimary</item>
+        <item name="android:colorControlActivated">@color/darkcyan</item>
         <item name="android:colorControlNormal">#ff888888</item>
     </style>
 
@@ -41,12 +42,8 @@
     </style>
 
     <style name="AppTheme.Button" parent="Base.Widget.AppCompat.Button.Colored">
-        <item name="background">@color/lightseagreen</item>
-        <item name="android:colorAccent">@color/lightseagreen</item>
         <item name="android:colorButtonNormal">@color/lightseagreen</item>
         <item name="android:textColor">@color/white</item>
     </style>
-
-
 
 </resources>

@@ -1,6 +1,8 @@
 package com.flowertale.flowertaleandroid;
 
 import android.content.Intent;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -97,7 +99,7 @@ public class FlowerAddActivity extends AppCompatActivity {
                 return true;
             case R.id.next:
                 if (count==0){
-                    item.setIcon(R.drawable.ic_done);
+                    item.setIcon(R.drawable.ic_done_pink);
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
