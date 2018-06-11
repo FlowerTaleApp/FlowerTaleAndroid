@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -71,7 +73,14 @@ public class FlowerDetailsActivity extends AppCompatActivity {
         }
         collapsingToolbar.setTitle(infoTitle);
         Glide.with(this).load(infoImageId).into(flowerImageView);
-
+        AppBarLayout appBarLayout = findViewById(R.id.appBar);
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                //some other code here
+                ViewCompat.setElevation(appBarLayout, 8);
+            }
+        });
 
         initRecords();
         RecyclerView recyclerView = findViewById(R.id.raising_details_view);              //养护记录展示

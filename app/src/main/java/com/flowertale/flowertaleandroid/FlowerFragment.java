@@ -48,6 +48,7 @@ public class FlowerFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_flower, container, false);
         setHasOptionsMenu(true);
 
+
         FloatingActionButton addFab = view.findViewById(R.id.add_fab);        //添加养护信息按钮
         addFab.setOnClickListener(new View.OnClickListener() {
             @Override
