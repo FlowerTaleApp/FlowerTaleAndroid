@@ -41,8 +41,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         initView();
+        FlowerTaleApiService.getInstance().doVerifyToken().enqueue(new Callback<BaseResponse>() {
+            @Override
+            public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
+                if(response.isSuccessful()&&response.body()!=null){
+                    if (response.body().getStatus() == 0) {
+                        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                        startActivity(intent);
+                    } else if (response.body().getStatus() == 7) {
+                        Toast.makeText(getApplicationContext(),"身份已过期,请重新登录",Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<BaseResponse> call, Throwable t) {
+
+            }
+        });
     }
 
     private void initView() {
@@ -61,8 +77,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.login_btn:
                 doSignIn(mUsername.getText().toString(), mPassword.getText().toString());
-                //TODO
-                doSignIn(null, null);
                 break;
             case R.id.register_btn:
                 Intent intent_reg = new Intent(LoginActivity.this, RegisterActivity.class);

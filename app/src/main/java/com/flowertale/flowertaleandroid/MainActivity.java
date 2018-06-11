@@ -1,5 +1,6 @@
 package com.flowertale.flowertaleandroid;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -10,13 +11,11 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -81,8 +80,35 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
+                    default:
+                        break;
                     case R.id.logout:
                         finish();
+                        break;
+                    case R.id.nav_group:
+                        Intent intent = new Intent(MainActivity.this, InvitationRecordActivity.class);
+                        startActivity(intent);
+                        break;
+//                        final AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+//                        dialog.setTitle("您有新的群组邀请");
+//                        dialog.setMessage("是否立即前往查看？");
+//                        dialog.setPositiveButton("是", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialogInterface, int i) {
+//
+//                            }
+//                        });
+//                        dialog.setNegativeButton("否", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialogInterface, int i) {
+//
+//                            }
+//                        });
+//                        dialog.show();
+                    case R.id.nav_profile:
+                        Intent intent_profile = new Intent(MainActivity.this,UserInfoActivity.class);
+                        startActivity(intent_profile);
+                        break;
                 }
                 return true;
             }

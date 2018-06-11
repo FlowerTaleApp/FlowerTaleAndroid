@@ -53,6 +53,27 @@
         android:inputType="textPassword"
         android:textCursorDrawable="@color/PrimaryBlue" />
 
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:layout_marginLeft="38dp"-->
+        <!--&gt;-->
+        <!--<CheckBox-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textColor="@color/PrimaryBlue"-->
+            <!--/>-->
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" -->
+            <!--android:textSize="16sp"-->
+            <!--android:text="记住密码"-->
+            <!--android:textColor="@color/PrimaryBlue"-->
+            <!--/>-->
+    <!--</LinearLayout>-->
+
     <Button
         android:id="@+id/login_btn"
         android:layout_width="300dp"
