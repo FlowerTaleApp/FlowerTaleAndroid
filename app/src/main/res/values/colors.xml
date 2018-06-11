@@ -295,6 +295,7 @@
     <color name="google_yellow">#f4c20d</color>
     <color name="google_blue">#4885ed</color>
     <color name="google_red">#db3236</color>
-
     <color name="mypink">#FF6666</color>
+    <color name="mypink2">#FFCCCC</color>
+    <color name="PrimeGreen">#66CC99</color>
 </resources>

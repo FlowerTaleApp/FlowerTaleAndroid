@@ -21,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -46,8 +47,8 @@ public class RecogniseFragment extends Fragment {
     private static final int TAKE_PHOTO = 0;
     private static final int CHOOSE_PHOTO = 1;
     private ImageView mCameraImage;
-    private ImageView mPhotosImage;
-    private ImageView mHistoryImage;
+    private Button mPhotosImage;
+    //private ImageView mHistoryImage;
     private File mPhotoFile;
     private ProgressBar mProgressBar;
 
@@ -57,7 +58,7 @@ public class RecogniseFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_recognise, container, false);
         mCameraImage = view.findViewById(R.id.camera_image);
         mPhotosImage = view.findViewById(R.id.photos_image);
-        mHistoryImage = view.findViewById(R.id.history_image);
+        //mHistoryImage = view.findViewById(R.id.history_image);
         mProgressBar = view.findViewById(R.id.progress_bar);
         requestPermissions();
         final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);

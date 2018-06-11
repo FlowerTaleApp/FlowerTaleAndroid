@@ -1,6 +1,8 @@
 package com.flowertale.flowertaleandroid;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -10,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -52,12 +55,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         mBottomNavigationBar.setMode(BottomNavigationBar.MODE_FIXED);
         mBottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_RIPPLE);
         mBottomNavigationBar
-                .addItem(new BottomNavigationItem(R.drawable.icon_flower2, "Discover")
-                        .setActiveColorResource(R.color.google_blue))
-                .addItem(new BottomNavigationItem(R.drawable.icon_camera, "Recognise")
-                        .setActiveColorResource(R.color.google_red))
-                .addItem(new BottomNavigationItem(R.drawable.icon_flower, "Flower")
-                        .setActiveColorResource(R.color.google_yellow))
+                .addItem(new BottomNavigationItem(R.drawable.icon_1, "Discover")
+                        .setActiveColorResource(R.color.mypink2))
+                .addItem(new BottomNavigationItem(R.drawable.icon_2, "Recognise")
+                        .setActiveColorResource(R.color.mypink2))
+                .addItem(new BottomNavigationItem(R.drawable.icon_3, "Flower")
+                        .setActiveColorResource(R.color.mypink2))
                 .setFirstSelectedPosition(0)
                 .initialise();
         mBottomNavigationBar.setTabSelectedListener(this);
@@ -69,6 +72,17 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
             @Override
             public void onClick(View v) {
                 mDrawerLayout.openDrawer(GravityCompat.START);
+            }
+        });
+        NavigationView navView = findViewById(R.id.navigation_view);
+        navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.logout:
+                        finish();
+                }
+                return true;
             }
         });
     }

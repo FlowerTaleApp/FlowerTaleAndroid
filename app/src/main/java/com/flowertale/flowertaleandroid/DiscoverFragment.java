@@ -1,6 +1,7 @@
 package com.flowertale.flowertaleandroid;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -41,14 +42,14 @@ public class DiscoverFragment extends Fragment implements MaterialSearchBar.OnSe
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_discover, container, false);
         bannerImages = new ArrayList<>();
-        bannerImages.add(R.drawable.flower);
-        bannerImages.add(R.drawable.flower2);
-        bannerImages.add(R.drawable.flower);
+        bannerImages.add(R.drawable.white_rose);
+        bannerImages.add(R.drawable.hyacinth);
+        bannerImages.add(R.drawable.violet);
         //bannerImages.add(R.drawable.banner_fourth);
         bannerTitles = new ArrayList<>();
-        bannerTitles.add("liushaobin");
-        bannerTitles.add("liushaobin1");
-        bannerTitles.add("liushaobin2");
+        bannerTitles.add("白玫瑰-不为人知的美；纯洁的爱；甘心为你付出所有；高贵；智慧；尊敬；诚实");
+        bannerTitles.add("蓝色风信子-生命、高贵浓郁；恒心；贞操；彷佛见到你一样高兴");
+        bannerTitles.add("紫色紫罗兰-在美梦中爱上你、对我而言你永远那么美、小心翼翼守护的爱");
         mRecyclerView = view.findViewById(R.id.recycler_view);
         banner = (Banner) view.findViewById(R.id.banner);
         banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE);
@@ -107,8 +108,11 @@ public class DiscoverFragment extends Fragment implements MaterialSearchBar.OnSe
 
     @Override
     public void onSearchConfirmed(CharSequence text) {
-        Toast.makeText(getActivity(), "searchComfirm" + text, Toast.LENGTH_SHORT).show();
+        Toast.makeText(mainActivity, "searchComfirm" + text, Toast.LENGTH_SHORT).show();
 //        startSearch(text.toString(), true, null, true);
+        Intent intent = new Intent(mainActivity ,FlowerListActivity.class);
+        intent.putExtra("searchKey",text.toString());
+        mainActivity.startActivity(intent);
     }
 
     @Override
