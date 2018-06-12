@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:layout_marginTop="1dp"
+    android:padding="10dp"
+    >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="群组名:"
+                android:textColor="@color/PrimaryBlue"
+                android:textSize="18sp"
+                />
+            <TextView
+                android:id="@+id/group_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="幸福一家人"
+                android:textSize="18sp"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="邀请人:"
+                android:textColor="@color/PrimaryBlue"
+                android:textSize="18sp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TEST1"
+                android:id="@+id/group_inviter"
+                android:textSize="18sp"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/invitation_reject"
+        android:layout_width="60dp"
+        android:layout_height="24dp"
+        android:background="@color/google_red"
+        android:text="拒绝"
+        android:textColor="@color/white"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="24dp"
+        />
+
+    <Button
+        android:id="@+id/invitation_accept"
+        android:layout_width="60dp"
+        android:layout_height="24dp"
+        android:background="@color/google_green"
+        android:text="接受"
+        android:textColor="@color/white"
+        android:layout_toLeftOf="@+id/invitation_reject"
+        android:layout_marginRight="18dp"
+        android:layout_marginTop="24dp"
+        />
+
+    <TextView
+        android:id="@+id/invitation_info_reject"
+        android:layout_width="60dp"
+        android:layout_height="24dp"
+        android:text="已拒绝"
+        android:textColor="@color/google_red"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="28dp"
+        android:textSize="16sp"
+        android:visibility="gone"
+        />
+
+    <TextView
+        android:id="@+id/invitation_info_accept"
+        android:layout_width="60dp"
+        android:layout_height="24dp"
+        android:text="已接受"
+        android:layout_alignParentRight="true"
+        android:textColor="@color/google_green"
+        android:layout_marginTop="28dp"
+        android:textSize="16sp"
+        android:visibility="gone"
+        />
+
+</RelativeLayout>

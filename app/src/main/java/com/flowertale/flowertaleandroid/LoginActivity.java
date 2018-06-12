@@ -50,6 +50,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     if (response.body().getStatus() == 0) {
                         Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                         startActivity(intent);
+                        finish();
                     } else if (response.body().getStatus() == 7) {
                         Toast.makeText(getApplicationContext(),"身份已过期,请重新登录",Toast.LENGTH_LONG).show();
                     }
@@ -104,6 +105,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 .putString(TokenConstant.TOKEN, token).apply();
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
+                        finish();
                     } else {
                         Toast.makeText(getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                     }

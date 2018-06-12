@@ -18,6 +18,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 repositories {
@@ -26,7 +30,7 @@ repositories {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     implementation 'com.android.support:support-v4:27.1.1'
@@ -44,7 +48,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.4'
     implementation 'com.github.bumptech.glide:glide:4.7.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
-    compile group: 'org.apache.httpcomponents', name: 'httpclient-android', version: '4.3.5.1'
+    compile 'org.apache.httpcomponents:httpclient-android:4.3.5.1'
     implementation 'com.youth.banner:banner:1.4.10'
     implementation 'com.github.vipulasri:timelineview:1.0.6'
     implementation 'com.github.chrisbanes:PhotoView:2.0.0'

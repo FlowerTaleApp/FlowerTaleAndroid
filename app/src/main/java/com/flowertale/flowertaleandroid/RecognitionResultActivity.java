@@ -18,6 +18,8 @@ import com.flowertale.flowertaleandroid.bean.PlantInfoResult;
 import com.flowertale.flowertaleandroid.bean.RecognitionResult;
 import com.flowertale.flowertaleandroid.recognise.OnRecogniseListener;
 import com.flowertale.flowertaleandroid.recognise.PlantInfoAsynTask;
+import com.flowertale.flowertaleandroid.recognise.RecogniseAsynTask;
+import com.flowertale.flowertaleandroid.service.FlowerTaleApiService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +39,8 @@ public class RecognitionResultActivity extends AppCompatActivity {
         setContentView(R.layout.activity_recognition_result);
         fetchResults();
         initView();
+        FlowerTaleApiService.saveSimpleFlower(mItemList);
+        RecogniseAsynTask.getPlantInfoForEach(mItemList);
     }
 
     private void initView() {
@@ -54,8 +58,7 @@ public class RecognitionResultActivity extends AppCompatActivity {
     }
 
     private void fetchResults() {
-        mItemList = (List<RecognitionResult>) getIntent()
-                .getSerializableExtra(RecogniseFragment.API_RECOGNITION_RESULT);
+        mItemList = (List<RecognitionResult>) getIntent().getSerializableExtra(RecogniseFragment.API_RECOGNITION_RESULT);
     }
 
     private class ViewHolder extends RecyclerView.ViewHolder {

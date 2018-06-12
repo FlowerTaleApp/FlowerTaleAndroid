@@ -10,10 +10,10 @@ import com.flowertale.flowertaleandroid.DTO.SchemeDTO;
 import com.flowertale.flowertaleandroid.DTO.SimpleFlowerDTO;
 import com.flowertale.flowertaleandroid.DTO.SimpleTeamDTO;
 import com.flowertale.flowertaleandroid.DTO.SimpleUserDTO;
+import com.flowertale.flowertaleandroid.DTO.TeamDTO;
 import com.flowertale.flowertaleandroid.DTO.UserDTO;
 import com.flowertale.flowertaleandroid.DTO.form.DetailedFlowerForm;
 import com.flowertale.flowertaleandroid.DTO.form.DiaryForm;
-import com.flowertale.flowertaleandroid.DTO.form.ItemForm;
 import com.flowertale.flowertaleandroid.DTO.form.PlantForm;
 import com.flowertale.flowertaleandroid.DTO.form.SchemeForm;
 import com.flowertale.flowertaleandroid.DTO.form.SimpleFlowerForm;
@@ -70,8 +70,14 @@ public interface FlowerTaleApiInterface {
     @FormUrlEncoded
     Call<BaseResponse> doLeaveTeam(@Field("teamId") Integer teamId);
 
+    @GET("teams/{id}")
+    Call<BaseResponse<TeamDTO>> doGetDetailedTeam(@Path("id") Integer teamId);
+
     @GET("teams/invitations")
     Call<BaseResponse<List<InvitationDTO>>> doGetUnprocessedInvitations();
+
+    @GET("teams")
+    Call<BaseResponse<List<SimpleTeamDTO>>> doGetUserTeams();
 
     @GET("plants/teams/{id}")
     Call<BaseResponse<List<PlantDTO>>> doGetPlantsByTeamId(@Path("id") Integer teamId);
@@ -119,9 +125,6 @@ public interface FlowerTaleApiInterface {
     @GET("nurture/completion")
     Call<BaseResponse<List<NurtureCompletionDTO>>> doGetCurrentDayNurtureCompletion();
 
-    @GET("teams")
-    Call<BaseResponse<List<SimpleTeamDTO>>> doGetUserTeams();
-
     @GET("users/actions/verify")
     Call<BaseResponse> doVerifyToken();
 
@@ -141,4 +144,5 @@ public interface FlowerTaleApiInterface {
 
     @POST("flowers/details")
     Call<BaseResponse> doCreateFlowerDetails(@Body DetailedFlowerForm detailedFlowerForm);
+
 }
