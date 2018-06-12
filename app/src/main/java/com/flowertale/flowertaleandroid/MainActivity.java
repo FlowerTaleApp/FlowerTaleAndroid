@@ -2,6 +2,7 @@ package com.flowertale.flowertaleandroid;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -23,6 +24,8 @@ import android.widget.TextView;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+import com.flowertale.flowertaleandroid.service.FlowerTaleApiService;
+import com.flowertale.flowertaleandroid.util.ContextUtil;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -83,7 +86,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
                     default:
                         break;
                     case R.id.logout:
+                        FlowerTaleApiService.getInstance().doLogout();
+                        PreferenceManager.getDefaultSharedPreferences(ContextUtil.getContext()).edit().clear().apply();
                         finish();
+                        Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
+                        startActivity(loginIntent);
                         break;
                     case R.id.nav_group:
                         Intent intent = new Intent(MainActivity.this, InvitationRecordActivity.class);
@@ -108,6 +115,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
                     case R.id.nav_profile:
                         Intent intent_profile = new Intent(MainActivity.this,UserInfoActivity.class);
                         startActivity(intent_profile);
+                        break;
+                    case R.id.nav_settings:
+//                        NotificationManager manager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+//                        Notification notification = new Notification.Builder(MainActivity.this).setSmallIcon(R.drawable.ic_launcher)
+//                        .setContentTitle("每日推送")
+//                        .setContentText("每日推送内容")
+//                        .setWhen(System.currentTimeMillis()).build();
+//                        manager.notify(0, notification);
                         break;
                 }
                 return true;
@@ -224,7 +239,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         return (int) (dpValue * scale + 0.5f);
     }
 
-}
 
+//    private void getDailyPush(){
+////        FlowerTaleApiService.getInstance().doGetDailyPushFlowers();
+////    }
+
+}
 
 

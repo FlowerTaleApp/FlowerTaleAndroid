@@ -142,6 +142,6 @@ public interface FlowerTaleApiInterface {
     Call<BaseResponse> doCreateSimpleFlower(@Body List<SimpleFlowerForm> simpleFlowerFormList);
 
     @POST("flowers/details")
-    Call<BaseResponse> doCreateFlowerDetails(@Body DetailedFlowerForm detailedFlowerForm);
+    Call<BaseResponse> doCreateDetailedFlower(@Body DetailedFlowerForm detailedFlowerForm);
 
 }

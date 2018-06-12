@@ -8,15 +8,22 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.flowertale.flowertaleandroid.DTO.SimpleFlowerDTO;
+import com.flowertale.flowertaleandroid.DTO.response.BaseResponse;
 import com.flowertale.flowertaleandroid.adapter.FlowerListAdapter;
 import com.flowertale.flowertaleandroid.entity.FlowerListData;
+import com.flowertale.flowertaleandroid.service.FlowerTaleApiService;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class FlowerListActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private List<FlowerListData> flowerList = new ArrayList<>();
+    private List<FlowerListData> flowerList;
     private ImageView mPlantSearchBackImage;
     /**
      * 搜索结果
@@ -29,20 +36,30 @@ public class FlowerListActivity extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.activity_flower_list);
         initView();
         initFlower();
-        FlowerListAdapter adapter = new FlowerListAdapter(FlowerListActivity.this, R.layout.activity_flower_list_item, flowerList);
-        ListView listView = findViewById(R.id.flower_listView);
-        listView.setAdapter(adapter);
     }
 
     private void initFlower() {
-        for (int i = 0; i < 2; i++) {
-            FlowerListData flower = new FlowerListData("", "紫罗兰", "这个是描述");
-            flowerList.add(flower);
-        }
-        FlowerListData flower2 = new FlowerListData("", "紫罗兰2", "这个是描述2");
-        flowerList.add(flower2);
-        FlowerListData flower3 = new FlowerListData("", "紫罗兰3", "这个是描述3");
-        flowerList.add(flower3);
+        final String name = getIntent().getStringExtra("searchKey");
+        FlowerTaleApiService.getInstance().doSearchFlowersByName(name).enqueue(new Callback<BaseResponse<List<SimpleFlowerDTO>>>() {
+            @Override
+            public void onResponse(Call<BaseResponse<List<SimpleFlowerDTO>>> call, Response<BaseResponse<List<SimpleFlowerDTO>>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    if (response.body().getStatus() == 0) {
+                        List<SimpleFlowerDTO> simpleFlowerDTOList = response.body().getObject();
+                        flowerList = simpleFlowerDTOList.stream().map(e -> new FlowerListData(e.getImageUrl(),
+                                e.getNameCn(), e.getFamily() + " " + e.getGenus(), e.getCode())).collect(Collectors.toList());
+                        FlowerListAdapter adapter = new FlowerListAdapter(FlowerListActivity.this, R.layout.activity_flower_list_item, flowerList);
+                        ListView listView = findViewById(R.id.flower_listView);
+                        listView.setAdapter(adapter);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BaseResponse<List<SimpleFlowerDTO>>> call, Throwable t) {
+
+            }
+        });
     }
 
     private void initView() {

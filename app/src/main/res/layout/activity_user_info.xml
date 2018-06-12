@@ -51,6 +51,7 @@
             android:layout_height="wrap_content"
             android:text="@string/app_name"
             android:textSize="18sp"
+            android:id="@+id/user_name"
             />
     </LinearLayout>
     <LinearLayout
@@ -94,6 +95,7 @@
             android:layout_height="wrap_content"
             android:text="377955050@qq.com"
             android:textSize="18sp"
+            android:id="@+id/user_email"
             />
     </LinearLayout>
     <TextView

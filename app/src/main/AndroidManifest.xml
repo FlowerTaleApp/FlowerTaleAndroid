@@ -77,7 +77,8 @@
             android:name=".AccomplishmentActivity"
             android:theme="@style/DialogActivityTheme" />
         <activity android:name=".InvitationRecordActivity" />
-        <activity android:name=".UserInfoActivity"></activity>
+        <activity android:name=".UserInfoActivity" />
+        <activity android:name=".PlantInfoActivity"></activity>
     </application>
 
 </manifest>

@@ -1,5 +1,6 @@
 package com.flowertale.flowertaleandroid;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -11,15 +12,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.flowertale.flowertaleandroid.bean.PlantInfoResult;
 import com.flowertale.flowertaleandroid.bean.RecognitionResult;
-import com.flowertale.flowertaleandroid.recognise.OnRecogniseListener;
-import com.flowertale.flowertaleandroid.recognise.PlantInfoAsynTask;
-import com.flowertale.flowertaleandroid.recognise.RecogniseAsynTask;
-import com.flowertale.flowertaleandroid.service.FlowerTaleApiService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,8 +34,8 @@ public class RecognitionResultActivity extends AppCompatActivity {
         setContentView(R.layout.activity_recognition_result);
         fetchResults();
         initView();
-        FlowerTaleApiService.saveSimpleFlower(mItemList);
-        RecogniseAsynTask.getPlantInfoForEach(mItemList);
+        //FlowerTaleApiService.saveSimpleFlower(mItemList);
+        //RecogniseAsynTask.getPlantInfoForEach(mItemList);
     }
 
     private void initView() {
@@ -98,26 +93,30 @@ public class RecognitionResultActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 //                    Toast.makeText(v.getContext(), "Yes!", Toast.LENGTH_SHORT).show();
-                    mProgressBar.setVisibility(View.INVISIBLE);
+//                    mProgressBar.setVisibility(View.INVISIBLE);
                     int position = viewHolder.getAdapterPosition();
-                    String infoCode = itemList.get(position).getInfoCode();
-                    PlantInfoAsynTask plantInfoAsynTask = new PlantInfoAsynTask();
-                    plantInfoAsynTask.setOnRecogniseListener(new OnRecogniseListener<PlantInfoResult>() {
-                        @Override
-                        public void onSuccess(PlantInfoResult result) {
-//                            Intent intent = new Intent(RecognitionResultActivity.this, FlowerDetailsActivity.class);
-//                            intent.putExtra(FlowerDetailsActivity.PLANT_INFO, result);
+                    final String infoCode = itemList.get(position).getInfoCode();
+//                    PlantInfoAsynTask plantInfoAsynTask = new PlantInfoAsynTask();
+//                    plantInfoAsynTask.setOnRecogniseListener(new OnRecogniseListener<PlantInfoResult>() {
+//                        @Override
+//                        public void onSuccess(PlantInfoResult result) {
+//                            Intent intent = new Intent(RecognitionResultActivity.this, PlantInfoActivity.class);
+//                            intent.putExtra(PlantInfoActivity.PLANT_CODE, infoCode);
 //                            startActivity(intent);
 //                            mProgressBar.setVisibility(View.INVISIBLE);
-                        }
-
-                        @Override
-                        public void onFailure() {
-                            Toast.makeText(getApplicationContext(), "获取详情失败", Toast.LENGTH_SHORT).show();
-                            mProgressBar.setVisibility(View.INVISIBLE);
-                        }
-                    });
-                    plantInfoAsynTask.execute(infoCode);
+//                        }
+//
+//                        @Override
+//                        public void onFailure() {
+//                            Toast.makeText(getApplicationContext(), "获取详情失败", Toast.LENGTH_SHORT).show();
+//                            mProgressBar.setVisibility(View.INVISIBLE);
+//                        }
+//                    });
+//                    plantInfoAsynTask.execute(infoCode);
+                    Intent intent = new Intent(RecognitionResultActivity.this, PlantInfoActivity.class);
+                            intent.putExtra(PlantInfoActivity.PLANT_CODE, infoCode);
+                    intent.putExtra(PlantInfoActivity.SOURCE, PlantInfoActivity.FROM_RECOGNIZE);
+                            startActivity(intent);
                 }
             });
             return viewHolder;

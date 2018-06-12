@@ -16,7 +16,8 @@
 
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="200dp">
+    android:layout_height="200dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -29,6 +30,16 @@
             android:layout_height="match_parent"
             android:scaleType="centerCrop" />
 
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="6dp"
+            android:src="@drawable/icon_right_arrow"
+            android:id="@+id/detail_buttom"
+            android:backgroundTint="@color/mypink"
+            />
     </RelativeLayout>
 
 </android.support.v7.widget.CardView>
