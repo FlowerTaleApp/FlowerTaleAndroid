@@ -233,6 +233,7 @@ public class FlowerFragment extends Fragment {
     }
 
     private void setPlantInfo(int teamId) {                                          //设置展示植物信息
+        Log.d("FlowerFragment", Integer.toString(teamId));
         FlowerTaleApiService.getInstance().doGetPlantsByTeamId(teamId).enqueue(new Callback<BaseResponse<List<PlantDTO>>>() {
             @Override
             public void onResponse(Call<BaseResponse<List<PlantDTO>>> call, Response<BaseResponse<List<PlantDTO>>> response) {

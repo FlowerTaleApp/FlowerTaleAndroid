@@ -42,7 +42,7 @@ import retrofit2.Response;
 public class GroupCreateActivity extends AppCompatActivity {
 
     public static final int INVITE = 1;
-    private int[] selfImages = {R.drawable.flower, R.drawable.flower2, R.drawable.sunflower};
+    private int[] selfImages = {R.drawable.sunflower};
     /*private MemberItem[] memberItems = {new MemberItem(R.drawable.flower, "FlowerTale1"), new MemberItem(R.drawable.flower2, "FlowerTale2"),
                                         new MemberItem(R.drawable.sunflower, "FlowerTale3")};*/
     private List<MemberItem> memberItemList = new ArrayList<>();

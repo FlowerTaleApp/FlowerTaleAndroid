@@ -175,6 +175,7 @@ public class FlowerDetailsActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     if (response.body().getStatus() == 0) {
                         List<DiaryDTO> diaryDTOS = response.body().getObject();
+                        recordList.clear();
                         for (int i=0;i<diaryDTOS.size();i++){
                             Random random = new Random();
                             int index = random.nextInt(flowerImages.length);
@@ -206,18 +207,24 @@ public class FlowerDetailsActivity extends AppCompatActivity {
             public void onResponse(Call<BaseResponse<List<SchemeDTO>>> call, Response<BaseResponse<List<SchemeDTO>>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     if (response.body().getStatus() == 0) {
-                        Intent publishIntent = new Intent(FlowerDetailsActivity.this, RecordAddActivity.class);
-                        publishIntent.putExtra("plantId", plantId);
-                        startActivityForResult(publishIntent, ADD);
+                        List<SchemeDTO> schemeDTOS = response.body().getObject();
+                        if (schemeDTOS.size()==0){
+                            new MaterialDialog.Builder(FlowerDetailsActivity.this)
+                                    .content("为植物创建专属的养护计划后再来进行操作吧")
+                                    .positiveText("确认")
+                                    .show();
+                        }else{
+                            Intent publishIntent = new Intent(FlowerDetailsActivity.this, RecordAddActivity.class);
+                            publishIntent.putExtra("plantId", plantId);
+                            startActivityForResult(publishIntent, ADD);
+                        }
                     } else {
                         Toast.makeText(FlowerDetailsActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                         finish();
                     }
                 } else {
-                    new MaterialDialog.Builder(FlowerDetailsActivity.this)
-                            .content("为植物创建专属的养护计划后再来进行操作吧")
-                            .positiveText("确认")
-                            .show();
+                    Toast.makeText(FlowerDetailsActivity.this, "未知错误", Toast.LENGTH_SHORT).show();
+                    finish();
                 }
             }
 
@@ -235,18 +242,23 @@ public class FlowerDetailsActivity extends AppCompatActivity {
             public void onResponse(Call<BaseResponse<List<SchemeDTO>>> call, Response<BaseResponse<List<SchemeDTO>>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     if (response.body().getStatus() == 0) {
-                        Intent viewIntent = new Intent(FlowerDetailsActivity.this, AccomplishmentActivity.class);
-                        viewIntent.putExtra("plantId", plantId);
-                        startActivity(viewIntent);
+                        List<SchemeDTO> schemeDTOS = response.body().getObject();
+                        if (schemeDTOS.size()==0){
+                            new MaterialDialog.Builder(FlowerDetailsActivity.this)
+                                    .content("为植物创建专属的养护计划后再来进行操作吧")
+                                    .positiveText("确认")
+                                    .show();
+                        }else{
+                            Intent viewIntent = new Intent(FlowerDetailsActivity.this, AccomplishmentActivity.class);
+                            viewIntent.putExtra("plantId", plantId);
+                            startActivity(viewIntent);
+                        }
                     } else {
                         Toast.makeText(FlowerDetailsActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                         finish();
                     }
                 } else {
-                    new MaterialDialog.Builder(FlowerDetailsActivity.this)
-                            .content("为植物创建专属的养护计划后再来进行操作吧")
-                            .positiveText("确认")
-                            .show();
+                    Toast.makeText(FlowerDetailsActivity.this, "未知错误", Toast.LENGTH_SHORT).show();
                 }
             }
 

@@ -51,6 +51,10 @@ public class RaisingSchemeActivity extends AppCompatActivity {
     private TimeAdapter pruneAdapter;
     private TimeAdapter sunshineAdapter;
     private NiceSpinner schemeSpinner;
+    private RecyclerView waterDetail;
+    private RecyclerView fertilizeDetail;
+    private RecyclerView pruneDetail;
+    private RecyclerView sunshineDetail;
     private List<String> description = new ArrayList<>();
 
     @Override
@@ -59,9 +63,9 @@ public class RaisingSchemeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_raising_scheme);
 
         Intent intent = getIntent();
-        schemeId = intent.getIntExtra("schemeId", schemeId);
-        plantId = intent.getIntExtra("plantId", plantId);
-        teamId = intent.getIntExtra("teamId", teamId);
+        schemeId = intent.getIntExtra("schemeId", -1);
+        plantId = intent.getIntExtra("plantId", -1);
+        teamId = intent.getIntExtra("teamId", -1);
 
         initView();
     }
@@ -157,84 +161,6 @@ public class RaisingSchemeActivity extends AppCompatActivity {
                             }
                         });
 
-
-
-                        final CardView waterScheme = findViewById(R.id.water_scheme);
-                        final RecyclerView waterDetail = findViewById(R.id.water_scheme_detail);
-                        LinearLayoutManager waterLayoutManager = new LinearLayoutManager(RaisingSchemeActivity.this);
-                        waterDetail.setLayoutManager(waterLayoutManager);
-                        waterAdapter = new TimeAdapter(waterList);
-                        waterDetail.setAdapter(waterAdapter);
-                        ImageView waterMore = findViewById(R.id.water_more);
-                        waterMore.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                TransitionManager.beginDelayedTransition(waterScheme);
-                                if (waterDetail.getVisibility() == View.GONE){
-                                    waterDetail.setVisibility(View.VISIBLE);
-                                }else{
-                                    waterDetail.setVisibility(View.GONE);
-                                }
-                            }
-                        });
-
-                        final CardView fertilizeScheme = findViewById(R.id.fertilize_scheme);
-                        final RecyclerView fertilizeDetail = findViewById(R.id.fertilize_scheme_detail);
-                        LinearLayoutManager fertilizeLayoutManager = new LinearLayoutManager(RaisingSchemeActivity.this);
-                        fertilizeDetail.setLayoutManager(fertilizeLayoutManager);
-                        fertilizeAdapter = new TimeAdapter(fertilizeList);
-                        fertilizeDetail.setAdapter(fertilizeAdapter);
-                        ImageView fertilizeMore = findViewById(R.id.fertilize_more);
-                        fertilizeMore.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                TransitionManager.beginDelayedTransition(fertilizeScheme);
-                                if (fertilizeDetail.getVisibility() == View.GONE){
-                                    fertilizeDetail.setVisibility(View.VISIBLE);
-                                }else{
-                                    fertilizeDetail.setVisibility(View.GONE);
-                                }
-                            }
-                        });
-
-                        final CardView pruneScheme = findViewById(R.id.prune_scheme);
-                        final RecyclerView pruneDetail = findViewById(R.id.prune_scheme_detail);
-                        LinearLayoutManager pruneLayoutManager = new LinearLayoutManager(RaisingSchemeActivity.this);
-                        pruneDetail.setLayoutManager(pruneLayoutManager);
-                        pruneAdapter = new TimeAdapter(pruneList);
-                        pruneDetail.setAdapter(pruneAdapter);
-                        ImageView pruneMore = findViewById(R.id.prune_more);
-                        pruneMore.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                TransitionManager.beginDelayedTransition(pruneScheme);
-                                if (pruneDetail.getVisibility() == View.GONE){
-                                    pruneDetail.setVisibility(View.VISIBLE);
-                                }else{
-                                    pruneDetail.setVisibility(View.GONE);
-                                }
-                            }
-                        });
-
-                        final CardView sunshineScheme = findViewById(R.id.sunshine_scheme);
-                        final RecyclerView sunshineDetail = findViewById(R.id.sunshine_scheme_detail);
-                        LinearLayoutManager sunshineLayoutManager = new LinearLayoutManager(RaisingSchemeActivity.this);
-                        sunshineDetail.setLayoutManager(sunshineLayoutManager);
-                        sunshineAdapter = new TimeAdapter(sunshineList);
-                        sunshineDetail.setAdapter(sunshineAdapter);
-                        ImageView sunshineMore = findViewById(R.id.sunshine_more);
-                        sunshineMore.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                TransitionManager.beginDelayedTransition(sunshineScheme);
-                                if (sunshineDetail.getVisibility() == View.GONE){
-                                    sunshineDetail.setVisibility(View.VISIBLE);
-                                }else{
-                                    sunshineDetail.setVisibility(View.GONE);
-                                }
-                            }
-                        });
-
                         setItemTodoList(plantId, schemeId);
 
                     } else {
@@ -268,21 +194,102 @@ public class RaisingSchemeActivity extends AppCompatActivity {
                                 for (int j=0;j<itemDTOS.size();j++){
                                     switch (itemDTOS.get(j).getType()){
                                         case 0:
-                                            waterList.add(itemDTOS.get(j).getTime().toString());
+                                            waterList.add(itemDTOS.get(j).getTime());
                                         case 1:
-                                            fertilizeList.add(itemDTOS.get(j).getTime().toString());
+                                            fertilizeList.add(itemDTOS.get(j).getTime());
                                         case 2:
-                                            pruneList.add(itemDTOS.get(j).getTime().toString());
+                                            pruneList.add(itemDTOS.get(j).getTime());
                                         case 3:
-                                            sunshineList.add(itemDTOS.get(j).getTime().toString());
+                                            sunshineList.add(itemDTOS.get(j).getTime());
                                     }
                                 }
                             }
                         }
-                        waterAdapter.notifyDataSetChanged();
-                        fertilizeAdapter.notifyDataSetChanged();
-                        pruneAdapter.notifyDataSetChanged();
-                        sunshineAdapter.notifyDataSetChanged();
+
+                        TextView waterFrequency = findViewById(R.id.water_frequency);
+                        waterFrequency.setText("每日"+waterList.size()+"次");
+                        final CardView waterScheme = findViewById(R.id.water_scheme);
+                        waterDetail = findViewById(R.id.water_scheme_detail);
+                        LinearLayoutManager waterLayoutManager = new LinearLayoutManager(RaisingSchemeActivity.this);
+                        waterDetail.setLayoutManager(waterLayoutManager);
+                        waterAdapter = new TimeAdapter(waterList);
+                        waterDetail.setAdapter(waterAdapter);
+                        ImageView waterMore = findViewById(R.id.water_more);
+                        waterMore.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                TransitionManager.beginDelayedTransition(waterScheme);
+                                if (waterDetail.getVisibility() == View.GONE){
+                                    waterDetail.setVisibility(View.VISIBLE);
+                                }else{
+                                    waterDetail.setVisibility(View.GONE);
+                                }
+                            }
+                        });
+
+                        TextView fertilizeFrequency = findViewById(R.id.fertilize_frequency);
+                        fertilizeFrequency.setText("每日"+fertilizeList.size()+"次");
+                        final CardView fertilizeScheme = findViewById(R.id.fertilize_scheme);
+                        fertilizeDetail = findViewById(R.id.fertilize_scheme_detail);
+                        LinearLayoutManager fertilizeLayoutManager = new LinearLayoutManager(RaisingSchemeActivity.this);
+                        fertilizeDetail.setLayoutManager(fertilizeLayoutManager);
+                        fertilizeAdapter = new TimeAdapter(fertilizeList);
+                        fertilizeDetail.setAdapter(fertilizeAdapter);
+                        ImageView fertilizeMore = findViewById(R.id.fertilize_more);
+                        fertilizeMore.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                TransitionManager.beginDelayedTransition(fertilizeScheme);
+                                if (fertilizeDetail.getVisibility() == View.GONE){
+                                    fertilizeDetail.setVisibility(View.VISIBLE);
+                                }else{
+                                    fertilizeDetail.setVisibility(View.GONE);
+                                }
+                            }
+                        });
+
+                        TextView pruneFrequency = findViewById(R.id.prune_frequency);
+                        pruneFrequency.setText("每日"+pruneList.size()+"次");
+                        final CardView pruneScheme = findViewById(R.id.prune_scheme);
+                        pruneDetail = findViewById(R.id.prune_scheme_detail);
+                        LinearLayoutManager pruneLayoutManager = new LinearLayoutManager(RaisingSchemeActivity.this);
+                        pruneDetail.setLayoutManager(pruneLayoutManager);
+                        pruneAdapter = new TimeAdapter(pruneList);
+                        pruneDetail.setAdapter(pruneAdapter);
+                        ImageView pruneMore = findViewById(R.id.prune_more);
+                        pruneMore.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                TransitionManager.beginDelayedTransition(pruneScheme);
+                                if (pruneDetail.getVisibility() == View.GONE){
+                                    pruneDetail.setVisibility(View.VISIBLE);
+                                }else{
+                                    pruneDetail.setVisibility(View.GONE);
+                                }
+                            }
+                        });
+
+                        TextView sunshineFrequency = findViewById(R.id.sunshine_frequency);
+                        sunshineFrequency.setText("每日"+"次");
+                        final CardView sunshineScheme = findViewById(R.id.sunshine_scheme);
+                        sunshineDetail = findViewById(R.id.sunshine_scheme_detail);
+                        LinearLayoutManager sunshineLayoutManager = new LinearLayoutManager(RaisingSchemeActivity.this);
+                        sunshineDetail.setLayoutManager(sunshineLayoutManager);
+                        sunshineAdapter = new TimeAdapter(sunshineList);
+                        sunshineDetail.setAdapter(sunshineAdapter);
+                        ImageView sunshineMore = findViewById(R.id.sunshine_more);
+                        sunshineMore.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                TransitionManager.beginDelayedTransition(sunshineScheme);
+                                if (sunshineDetail.getVisibility() == View.GONE){
+                                    sunshineDetail.setVisibility(View.VISIBLE);
+                                }else{
+                                    sunshineDetail.setVisibility(View.GONE);
+                                }
+                            }
+                        });
+
                     } else {
                         Toast.makeText(RaisingSchemeActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                         finish();

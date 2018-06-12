@@ -39,7 +39,7 @@ import static com.flowertale.flowertaleandroid.GroupCreateActivity.INVITE;
 public class FlowerMembersActivity extends AppCompatActivity {
 
     private static final int SCHEME = 2;
-    private int[] selfImages = {R.drawable.flower, R.drawable.flower2, R.drawable.sunflower};
+    private int[] selfImages = {R.drawable.sunflower};
     /*private MemberItem[] memberItems = {new MemberItem(R.drawable.flower, "FlowerTale1"), new MemberItem(R.drawable.flower2, "FlowerTale2"),
             new MemberItem(R.drawable.sunflower, "FlowerTale3")};*/
     private List<MemberItem> memberItemList = new ArrayList<>();
@@ -127,9 +127,6 @@ public class FlowerMembersActivity extends AppCompatActivity {
                     MemberItem memInvited = (MemberItem) data.getSerializableExtra("memInvited");   //接收邀请的人
                     if (memberItemList.size()>=10){
                         Toast.makeText(this, "人数已满", Toast.LENGTH_SHORT).show();
-                    }else{
-                        memberItemList.add(memInvited);
-                        memberAdapter.notifyDataSetChanged();
                     }
                 }
                 break;
@@ -155,9 +152,9 @@ public class FlowerMembersActivity extends AppCompatActivity {
                         for (int i=0;i<plantDTOS.size();i++){
                             if (plantDTOS.get(i).getId()==plantId){
                                 raisingTitle = plantDTOS.get(i).getDescription();
+                                TextView raisingName = findViewById(R.id.raising_title);
+                                raisingName.setText(raisingTitle);
                             }
-                            TextView raisingName = findViewById(R.id.raising_title);
-                            raisingName.setText(raisingTitle);
                         }
 
                         setCurrentScheme(teamId, plantId);
@@ -166,15 +163,15 @@ public class FlowerMembersActivity extends AppCompatActivity {
                         finish();
                     }
                 } else {
-                    Toast.makeText(FlowerMembersActivity.this, "未知错误", Toast.LENGTH_SHORT).show();
-                    finish();
+                    Toast.makeText(FlowerMembersActivity.this, "getPlantName未知错误", Toast.LENGTH_SHORT).show();
+                    /*finish();*/
                 }
             }
 
             @Override
             public void onFailure(Call<BaseResponse<List<PlantDTO>>> call, Throwable t) {
-                Toast.makeText(FlowerMembersActivity.this, "未知错误", Toast.LENGTH_SHORT).show();
-                finish();
+                Toast.makeText(FlowerMembersActivity.this, "getPlantFail", Toast.LENGTH_SHORT).show();
+                /*finish();*/
             }
         });
     }
@@ -186,21 +183,21 @@ public class FlowerMembersActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     if (response.body().getStatus() == 0) {
                         Toast.makeText(FlowerMembersActivity.this, "您已成功从群组中退出", Toast.LENGTH_SHORT).show();
-                        finish();
+                        /*finish();*/
                     } else {
                         Toast.makeText(FlowerMembersActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                        finish();
+                        /*finish();*/
                     }
                 } else {
                     Toast.makeText(FlowerMembersActivity.this, "未知错误", Toast.LENGTH_SHORT).show();
-                    finish();
+                    /*finish();*/
                 }
             }
 
             @Override
             public void onFailure(Call<BaseResponse> call, Throwable t) {
                 Toast.makeText(FlowerMembersActivity.this, "未知错误", Toast.LENGTH_SHORT).show();
-                finish();
+                /*finish();*/
             }
         });
     }
@@ -232,15 +229,15 @@ public class FlowerMembersActivity extends AppCompatActivity {
                         finish();
                     }
                 } else {
-                    Toast.makeText(FlowerMembersActivity.this, "未知错误", Toast.LENGTH_SHORT).show();
-                    finish();
+                    Toast.makeText(FlowerMembersActivity.this, "setMembers未知错误", Toast.LENGTH_SHORT).show();
+                    /*finish();*/
                 }
             }
 
             @Override
             public void onFailure(Call<BaseResponse<TeamDTO>> call, Throwable t) {
-                Toast.makeText(FlowerMembersActivity.this, "未知错误", Toast.LENGTH_SHORT).show();
-                finish();
+                Toast.makeText(FlowerMembersActivity.this, "setMembersFail", Toast.LENGTH_SHORT).show();
+                /*finish();*/
             }
         });
 
@@ -284,14 +281,14 @@ public class FlowerMembersActivity extends AppCompatActivity {
                         finish();
                     }
                 } else {
-                    Toast.makeText(FlowerMembersActivity.this, "未知错误", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(FlowerMembersActivity.this, "setCurrentScheme未知错误", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<BaseResponse<List<PlantDTO>>> call, Throwable t) {
-                Toast.makeText(FlowerMembersActivity.this, "未知错误", Toast.LENGTH_SHORT).show();
-                finish();
+                Toast.makeText(FlowerMembersActivity.this, "setCurrentSchemeFail", Toast.LENGTH_SHORT).show();
+                /*finish();*/
             }
         });
     }
@@ -303,26 +300,35 @@ public class FlowerMembersActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     if (response.body().getStatus() == 0) {
                         List<SchemeDTO> schemeDTOS = response.body().getObject();
-                        for (int i=0;i<schemeDTOS.size();i++){
+                        int i = 0;
+                        for (;i<schemeDTOS.size();i++){
                             if (schemeDTOS.get(i).getId()==currentSchemeId){
                                 TextView schemeTitle = findViewById(R.id.raising_scheme_title);
-                                schemeTitle.setText(schemeDTOS.get(i).getName());
+                                if (schemeDTOS.get(i).getName()!=null){
+                                    schemeTitle.setText(schemeDTOS.get(i).getName());
+                                }else{
+                                    schemeTitle.setText("详情");
+                                }
                             }
+                        }
+                        if (i==schemeDTOS.size()){
+                            TextView schemeTitle = findViewById(R.id.raising_scheme_title);
+                            schemeTitle.setText("详情");
                         }
                     } else {
                         Toast.makeText(FlowerMembersActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                         finish();
                     }
                 } else {
-                    Toast.makeText(FlowerMembersActivity.this, "未知错误", Toast.LENGTH_SHORT).show();
-                    finish();
+                    Toast.makeText(FlowerMembersActivity.this, "setSchemeName未知错误", Toast.LENGTH_SHORT).show();
+                    /*finish();*/
                 }
             }
 
             @Override
             public void onFailure(Call<BaseResponse<List<SchemeDTO>>> call, Throwable t) {
-                Toast.makeText(FlowerMembersActivity.this, "未知错误", Toast.LENGTH_SHORT).show();
-                finish();
+                Toast.makeText(FlowerMembersActivity.this, "setSchemeNameFail", Toast.LENGTH_SHORT).show();
+                /*finish();*/
             }
         });
     }

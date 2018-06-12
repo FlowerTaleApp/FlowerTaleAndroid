@@ -99,8 +99,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="right|center_vertical"
                             android:textSize="15sp"
-                            android:layout_marginRight="20dp"
-                            android:text="每日2次"/>
+                            android:layout_marginRight="20dp" />
 
                         <ImageView
                             android:id="@+id/water_more"
@@ -168,8 +167,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="right|center_vertical"
                             android:textSize="15sp"
-                            android:layout_marginRight="20dp"
-                            android:text="每日2次"/>
+                            android:layout_marginRight="20dp" />
 
                         <ImageView
                             android:id="@+id/fertilize_more"
@@ -237,8 +235,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="right|center_vertical"
                             android:textSize="15sp"
-                            android:layout_marginRight="20dp"
-                            android:text="每日2次"/>
+                            android:layout_marginRight="20dp" />
 
                         <ImageView
                             android:id="@+id/prune_more"
@@ -306,8 +303,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="right|center_vertical"
                             android:textSize="15sp"
-                            android:layout_marginRight="20dp"
-                            android:text="每日2次"/>
+                            android:layout_marginRight="20dp" />
 
                         <ImageView
                             android:id="@+id/sunshine_more"

@@ -43,7 +43,7 @@ public class MemberInviteActivity extends AppCompatActivity {
 
     private MaterialSearchBar searchBar;
     private List<MemberItem> memberItemList = new ArrayList<>();
-    private int[] selfImages = {R.drawable.flower, R.drawable.flower2, R.drawable.sunflower};
+    private int[] selfImages = {R.drawable.sunflower};
     private MemberSearchAdapter memberAdapter;
     private ProgressBar mProgressBar;
 

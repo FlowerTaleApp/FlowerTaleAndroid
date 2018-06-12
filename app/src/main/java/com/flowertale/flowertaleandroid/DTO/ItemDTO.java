@@ -9,9 +9,9 @@ public class ItemDTO {
 
     private Integer type;
 
-    private Time time;
+    private String time;
 
-    public ItemDTO(Integer type, Time time) {
+    public ItemDTO(Integer type, String time) {
         this.type = type;
         this.time = time;
     }
