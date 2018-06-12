@@ -270,7 +270,7 @@ public class RaisingSchemeActivity extends AppCompatActivity {
                         });
 
                         TextView sunshineFrequency = findViewById(R.id.sunshine_frequency);
-                        sunshineFrequency.setText("每日"+"次");
+                        sunshineFrequency.setText("每日"+sunshineList.size()+"次");
                         final CardView sunshineScheme = findViewById(R.id.sunshine_scheme);
                         sunshineDetail = findViewById(R.id.sunshine_scheme_detail);
                         LinearLayoutManager sunshineLayoutManager = new LinearLayoutManager(RaisingSchemeActivity.this);
