@@ -14,7 +14,7 @@ import okhttp3.Response;
 public class HblPlantApiService {
 
     private static final String BASE_URL = "http://plantgw.nongbangzhu.cn/";
-    private static final String APP_CODE = "";
+    private static final String APP_CODE = "aa063ec41a8e4498b068415495f85043";
     private static OkHttpClient client = new OkHttpClient();
 
     public static ResponseData recognise(String imageBase64) {
