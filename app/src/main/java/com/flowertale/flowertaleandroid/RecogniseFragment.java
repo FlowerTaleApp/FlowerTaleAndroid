@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.DocumentsContract;
@@ -181,8 +180,8 @@ public class RecogniseFragment extends Fragment {
     }
 
     public void doRecognise() {
-        //Bitmap bitmap = BitmapUtil.compress(mPhotoFile);
-        Bitmap bitmap = BitmapFactory.decodeFile(mPhotoFile.getPath());
+        Bitmap bitmap = BitmapUtil.compress(mPhotoFile);
+//        Bitmap bitmap = BitmapFactory.decodeFile(mPhotoFile.getPath());
         String imageBase64 = FileUtil.convertToBase64(bitmap);
         RecogniseAsynTask recogniseAsynTask = new RecogniseAsynTask();
         recogniseAsynTask.setOnRecogniseListener(new OnRecogniseListener<List<RecognitionResult>>() {

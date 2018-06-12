@@ -46,7 +46,6 @@ public class DiscoverFragment extends Fragment implements MaterialSearchBar.OnSe
         bannerImages.add(R.drawable.white_rose);
         bannerImages.add(R.drawable.hyacinth);
         bannerImages.add(R.drawable.violet);
-        //bannerImages.add(R.drawable.banner_fourth);
         bannerTitles = new ArrayList<>();
         bannerTitles.add("白玫瑰-不为人知的美；纯洁的爱；甘心为你付出所有；高贵；智慧；尊敬；诚实");
         bannerTitles.add("蓝色风信子-生命、高贵浓郁；恒心；贞操；彷佛见到你一样高兴");
@@ -139,6 +138,29 @@ public class DiscoverFragment extends Fragment implements MaterialSearchBar.OnSe
         }
     }
 
+    private void initData(){
+//        FlowerTaleApiService.getInstance().doGetDailyPushFlowers().enqueue(new Callback<BaseResponse<List<DailyPushFlowerDTO>>>() {
+//            @Override
+//            public void onResponse(Call<BaseResponse<List<DailyPushFlowerDTO>>> call, Response<BaseResponse<List<DailyPushFlowerDTO>>> response) {
+//                if(response.body()!=null&&response.isSuccessful()){
+//                    if(response.body().getStatus()==0){
+//                        List<DailyPushFlowerDTO> dailyPushFlowerDTOList=response.body().getObject();
+//                        bannerTitles.clear();
+//                        bannerImages.clear();
+//                        for (DailyPushFlowerDTO dailyPushFlowerDTO : dailyPushFlowerDTOList) {
+//                            bannerTitles.add(dailyPushFlowerDTO.getMeaning());
+//                            bannerImages.add(dailyPushFlowerDTO.getImageUrl());
+//                        }
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<BaseResponse<List<DailyPushFlowerDTO>>> call, Throwable t) {
+//
+//            }
+//        });
+    }
 }
 
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.flowertale.flowertaleandroid.PlantInfoActivity;
 import com.flowertale.flowertaleandroid.R;
 import com.squareup.picasso.Picasso;
 
@@ -72,6 +74,14 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
                 Uri uri = Uri.parse(path);
                 shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
                 mContext.startActivity(Intent.createChooser(shareIntent, "Share image using"));
+            }
+        });
+
+        holder.mButtonDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, PlantInfoActivity.class);
+                mContext.startActivity(intent);
             }
         });
 
@@ -138,6 +148,9 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
 
         @Bind(R.id.share_button)
         protected Button mButtonShare;
+
+        @Bind(R.id.detail_buttom)
+        protected FloatingActionButton mButtonDetail;
 
         public PhotoViewHolder(FoldableLayout foldableLayout) {
             super(foldableLayout);

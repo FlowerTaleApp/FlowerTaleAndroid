@@ -1,28 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     tools:context=".FlowerListActivity"
     android:background="@color/white"
+    android:padding="10dp"
     >
 
     <ImageView
         android:id="@+id/flower_list_head_img"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:src="@drawable/login_logo"
-        />
+        android:scaleType="fitXY"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/flower_list_head_img"
-        android:textSize="26sp"
+        android:textSize="30sp"
         android:text="花名"
         android:layout_alignTop="@id/flower_list_head_img"
+        android:layout_marginTop="5dp"
         android:textColor="@color/mypink"
         android:id="@+id/flower_list_name"
+        android:layout_marginStart="10dp"
         />
     <TextView
         android:layout_width="wrap_content"
@@ -30,8 +32,10 @@
         android:layout_toEndOf="@id/flower_list_head_img"
         android:layout_alignBottom="@id/flower_list_head_img"
         android:text="描述"
-        android:textSize="20sp"
+        android:textSize="25sp"
         android:textColor="@color/gainsboro"
         android:id="@+id/flower_list_description"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="10dp"
         />
 </RelativeLayout>
