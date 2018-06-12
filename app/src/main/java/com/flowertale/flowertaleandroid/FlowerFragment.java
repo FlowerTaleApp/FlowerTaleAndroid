@@ -59,7 +59,7 @@ public class FlowerFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_flower, container, false);
+        final View view = inflater.inflate(R.layout.fragment_flower, container, false);
         setHasOptionsMenu(true);
 
 
@@ -75,58 +75,30 @@ public class FlowerFragment extends Fragment {
 
         setInitialGroup(view);
 
-
-
-        /*swipeRefresh = view.findViewById(R.id.fragment_flower_refresh);         //刷新养护信息
+        swipeRefresh = view.findViewById(R.id.fragment_flower_refresh);         //刷新养护信息
         swipeRefresh.setColorSchemeResources(R.color.mistyrose);
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                refresh();
+                setInitialGroup(view);
             }
-        });*/
+        });
 
         return view;
     }
 
-    private void refresh() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        /*initInfoItems();*/
-                        adapter.notifyDataSetChanged();
-                        swipeRefresh.setRefreshing(false);
-                    }
-                });
-            }
-        }).start();
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case ADD:                                                                                  //新增养护信息结果
                 if (resultCode == RESULT_OK) {
-                    /*String flowerType = data.getStringExtra("flowerType");
-                    String flowerTitle = data.getStringExtra("flowerTitle");
-                    String flowerMember = data.getStringExtra("flowerMember");
-                    Log.d("FlowerFragment", flowerType+" "+flowerTitle+" "+flowerMember);*/
                     int teamId = data.getIntExtra("teamId", -1);
                     setPlantInfo(teamId);
                 }
                 break;
             case SWITCH:                                                                                //切换群组
                 if (resultCode == RESULT_OK) {
-                    /*String groupName = data.getStringExtra("groupName");
-                    Toast.makeText(getActivity(), groupName, Toast.LENGTH_SHORT).show();*/
                     int teamId = data.getIntExtra("teamId", -1);
                     setPlantInfo(teamId);
                 }
@@ -135,14 +107,6 @@ public class FlowerFragment extends Fragment {
         }
     }
 
-    /*private void initInfoItems(){                                                                       //初始化养护信息
-        infoItemList.clear();
-        for (int i = 0; i<15;i++){
-            Random random = new Random();
-            int index = random.nextInt(infoItems.length);
-            infoItemList.add(infoItems[index]);
-        }
-    }*/
 
     private class ViewHolder extends RecyclerView.ViewHolder {
         CardView cardView;

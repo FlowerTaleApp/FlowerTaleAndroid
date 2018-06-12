@@ -141,12 +141,13 @@ public class FlowerDetailsActivity extends AppCompatActivity {
         switch (requestCode){
             case ADD:
                 if (resultCode == RESULT_OK){
-                    Boolean water = data.getBooleanExtra("water", false);
+                    /*Boolean water = data.getBooleanExtra("water", false);
                     Boolean fertilize = data.getBooleanExtra("fertilize",false);
                     Boolean prune = data.getBooleanExtra("prune", false);
                     Boolean sunshine = data.getBooleanExtra("sunshine", false);
                     String description = data.getStringExtra("description");
-                    Log.d("FlowerDetailActivity", water+" "+fertilize+" "+prune+" "+sunshine+" "+description);
+                    Log.d("FlowerDetailActivity", water+" "+fertilize+" "+prune+" "+sunshine+" "+description);*/
+                    plantId = data.getIntExtra("plantId", -1);
                 }
                 break;
             default:

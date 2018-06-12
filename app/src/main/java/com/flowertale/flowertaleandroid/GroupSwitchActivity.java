@@ -50,21 +50,10 @@ public class GroupSwitchActivity extends AppCompatActivity {
 
     private void initView(){
 
-        /*initGroup();*/
         getGroups();
-
 
     }
 
-
-    /*private void initGroup(){
-        groupItemList.clear();
-        for (int i=0;i<5;i++){
-            Random random = new Random();
-            int index = random.nextInt(groupItems.length);
-            groupItemList.add(groupItems[index]);
-        }
-    }*/
 
     private class ViewHolder extends RecyclerView.ViewHolder{
 
