@@ -23,9 +23,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.flowertale.flowertaleandroid.DTO.DiaryDTO;
 import com.flowertale.flowertaleandroid.DTO.PlantDTO;
+import com.flowertale.flowertaleandroid.DTO.SchemeDTO;
 import com.flowertale.flowertaleandroid.DTO.response.BaseResponse;
 import com.flowertale.flowertaleandroid.Enum.NurtureType;
 import com.flowertale.flowertaleandroid.adapter.TimeLineAdapter;
@@ -107,9 +109,7 @@ public class FlowerDetailsActivity extends AppCompatActivity {
         publishRecord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent publishIntent = new Intent(FlowerDetailsActivity.this, RecordAddActivity.class);
-                publishIntent.putExtra("plantId", plantId);
-                startActivityForResult(publishIntent, ADD);
+                publishCheckScheme(plantId);
             }
         });
 
@@ -117,13 +117,11 @@ public class FlowerDetailsActivity extends AppCompatActivity {
         viewAccomplishment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent viewIntent = new Intent(FlowerDetailsActivity.this, AccomplishmentActivity.class);
-                viewIntent.putExtra("plantId", plantId);
-                startActivity(viewIntent);
+                viewCheckScheme(plantId);
             }
         });
 
-        /*initRecords();*/
+
         RecyclerView recyclerView = findViewById(R.id.raising_details_view);              //养护记录展示
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -132,8 +130,6 @@ public class FlowerDetailsActivity extends AppCompatActivity {
         recyclerView.setAdapter(recordAdapter);
         doGetDiaries(plantId);
 
-
-
     }
 
     @Override
@@ -141,13 +137,8 @@ public class FlowerDetailsActivity extends AppCompatActivity {
         switch (requestCode){
             case ADD:
                 if (resultCode == RESULT_OK){
-                    /*Boolean water = data.getBooleanExtra("water", false);
-                    Boolean fertilize = data.getBooleanExtra("fertilize",false);
-                    Boolean prune = data.getBooleanExtra("prune", false);
-                    Boolean sunshine = data.getBooleanExtra("sunshine", false);
-                    String description = data.getStringExtra("description");
-                    Log.d("FlowerDetailActivity", water+" "+fertilize+" "+prune+" "+sunshine+" "+description);*/
                     plantId = data.getIntExtra("plantId", -1);
+                    doGetDiaries(plantId);
                 }
                 break;
             default:
@@ -177,15 +168,6 @@ public class FlowerDetailsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /*private void initRecords(){
-        recordList.clear();
-        for (int i = 0; i<15;i++){
-            Random random = new Random();
-            int index = random.nextInt(timeLineRecords.length);
-            recordList.add(timeLineRecords[index]);
-        }
-    }*/
-
     private void doGetDiaries(int plantId){                                                 //获取当前植物动态
         FlowerTaleApiService.getInstance().doGetDiariesByPlantId(plantId).enqueue(new Callback<BaseResponse<List<DiaryDTO>>>() {
             @Override
@@ -212,6 +194,64 @@ public class FlowerDetailsActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<BaseResponse<List<DiaryDTO>>> call, Throwable t) {
+                Toast.makeText(FlowerDetailsActivity.this, "未知错误", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
+    }
+
+    private void publishCheckScheme(int plantId){
+        FlowerTaleApiService.getInstance().doGetSchemeByPlantId(plantId).enqueue(new Callback<BaseResponse<List<SchemeDTO>>>() {
+            @Override
+            public void onResponse(Call<BaseResponse<List<SchemeDTO>>> call, Response<BaseResponse<List<SchemeDTO>>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    if (response.body().getStatus() == 0) {
+                        Intent publishIntent = new Intent(FlowerDetailsActivity.this, RecordAddActivity.class);
+                        publishIntent.putExtra("plantId", plantId);
+                        startActivityForResult(publishIntent, ADD);
+                    } else {
+                        Toast.makeText(FlowerDetailsActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                } else {
+                    new MaterialDialog.Builder(FlowerDetailsActivity.this)
+                            .content("为植物创建专属的养护计划后再来进行操作吧")
+                            .positiveText("确认")
+                            .show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BaseResponse<List<SchemeDTO>>> call, Throwable t) {
+                Toast.makeText(FlowerDetailsActivity.this, "未知错误", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
+    }
+
+    private void viewCheckScheme(int plantId){
+        FlowerTaleApiService.getInstance().doGetSchemeByPlantId(plantId).enqueue(new Callback<BaseResponse<List<SchemeDTO>>>() {
+            @Override
+            public void onResponse(Call<BaseResponse<List<SchemeDTO>>> call, Response<BaseResponse<List<SchemeDTO>>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    if (response.body().getStatus() == 0) {
+                        Intent viewIntent = new Intent(FlowerDetailsActivity.this, AccomplishmentActivity.class);
+                        viewIntent.putExtra("plantId", plantId);
+                        startActivity(viewIntent);
+                    } else {
+                        Toast.makeText(FlowerDetailsActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                } else {
+                    new MaterialDialog.Builder(FlowerDetailsActivity.this)
+                            .content("为植物创建专属的养护计划后再来进行操作吧")
+                            .positiveText("确认")
+                            .show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BaseResponse<List<SchemeDTO>>> call, Throwable t) {
                 Toast.makeText(FlowerDetailsActivity.this, "未知错误", Toast.LENGTH_SHORT).show();
                 finish();
             }

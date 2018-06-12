@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.flowertale.flowertaleandroid.DTO.PlantDTO;
 import com.flowertale.flowertaleandroid.DTO.SimpleTeamDTO;
@@ -100,7 +101,7 @@ public class FlowerFragment extends Fragment {
             case SWITCH:                                                                                //切换群组
                 if (resultCode == RESULT_OK) {
                     int teamId = data.getIntExtra("teamId", -1);
-                    setPlantInfo(teamId);
+                    groupChanged(teamId);
                 }
                 break;
             default:
@@ -205,7 +206,7 @@ public class FlowerFragment extends Fragment {
                         List<SimpleTeamDTO> teams = response.body().getObject();
                         currentTeam = teams.get(0);
                         teamId = currentTeam.getId();
-                        /*initInfoItems();*/
+
                         RecyclerView recyclerView = view.findViewById(R.id.raising_info_view);        //各养护信息展示
                         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
                         recyclerView.setLayoutManager(layoutManager);
@@ -213,15 +214,12 @@ public class FlowerFragment extends Fragment {
                         recyclerView.setAdapter(adapter);
 
                         setPlantInfo(teamId);
-
                     } else {
                         Toast.makeText(getActivity(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                         getActivity().finish();
                     }
                 } else {
-                    Toast.makeText(getActivity(), "not successful or null" +
-                            "", Toast.LENGTH_SHORT).show();
-                    /*getActivity().finish();*/
+                    Toast.makeText(getActivity(), "未知错误", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -244,26 +242,66 @@ public class FlowerFragment extends Fragment {
                         for (int i = 0; i < plantDTOS.size(); i++) {
                             Random random = new Random();
                             int index = random.nextInt(flowerImages.length);
-                            infoItemList.add(new FlowerInfoItem(plantDTOS.get(0).getDescription(), flowerImages[index], plantDTOS.get(0).getName()));
-                            plantIdList.add(plantDTOS.get(i).getId());
+                            infoItemList.add(i,new FlowerInfoItem(plantDTOS.get(0).getDescription(), flowerImages[index], plantDTOS.get(0).getName()));
+                            plantIdList.add(i,plantDTOS.get(i).getId());
+                        }
+                        infoItemList.subList(plantDTOS.size(), infoItemList.size()).clear();
+                        plantIdList.subList(plantDTOS.size(), plantIdList.size()).clear();
+                        if (plantDTOS.size()==0) {
+                            new MaterialDialog.Builder(getActivity())
+                                    .content("这个群组还没有植物，快加入你所心爱的植物吧")
+                                    .positiveText("确认")
+                                    .show();
                         }
                         adapter.notifyDataSetChanged();
+
+                    } else {
+                        Toast.makeText(getActivity(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        getActivity().finish();
+                    }
+                } else {
+                    Toast.makeText(getActivity(), "setPlantInfo未知错误", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BaseResponse<List<PlantDTO>>> call, Throwable t) {
+                Toast.makeText(getActivity(), "setPlantInfoFailed", Toast.LENGTH_SHORT).show();
+               /* getActivity().finish();*/
+            }
+        });
+
+    }
+
+    private void groupChanged(int teamId){
+        FlowerTaleApiService.getInstance().doGetUserTeams().enqueue(new Callback<BaseResponse<List<SimpleTeamDTO>>>() {
+            @Override
+            public void onResponse(Call<BaseResponse<List<SimpleTeamDTO>>> call, Response<BaseResponse<List<SimpleTeamDTO>>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    if (response.body().getStatus() == 0) {
+                        List<SimpleTeamDTO> simpleTeamDTOS = response.body().getObject();
+                        for (int i=0;i<simpleTeamDTOS.size();i++){
+                            if (simpleTeamDTOS.get(i).getId()==teamId){
+                                currentTeam.setId(teamId);
+                                currentTeam.setName(simpleTeamDTOS.get(i).getName());
+                            }
+                        }
+                        setPlantInfo(teamId);
+
                     } else {
                         Toast.makeText(getActivity(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                         getActivity().finish();
                     }
                 } else {
                     Toast.makeText(getActivity(), "未知错误", Toast.LENGTH_SHORT).show();
-                    getActivity().finish();
                 }
             }
 
             @Override
-            public void onFailure(Call<BaseResponse<List<PlantDTO>>> call, Throwable t) {
+            public void onFailure(Call<BaseResponse<List<SimpleTeamDTO>>> call, Throwable t) {
                 Toast.makeText(getActivity(), "未知错误", Toast.LENGTH_SHORT).show();
                 getActivity().finish();
             }
         });
-
     }
 }

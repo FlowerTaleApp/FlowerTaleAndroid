@@ -42,7 +42,7 @@ import retrofit2.Response;
 public class SchemeAddActivity extends AppCompatActivity {
 
     //private List<String> frequencySet = new LinkedList<>(Arrays.asList("日", "月"));
-    private SimpleDateFormat minSdf = new SimpleDateFormat("hh:mm");
+    private SimpleDateFormat minSdf = new SimpleDateFormat("HH:mm:ss");
     private List<Integer> rateSet = new LinkedList<>(Arrays.asList(0,1,2,3,4,5));
     private int plantId;
     private List<ItemForm> itemFormList = new ArrayList<>();
@@ -74,9 +74,6 @@ public class SchemeAddActivity extends AppCompatActivity {
         if (actionBar!=null){
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-
-        EditText scheme_name = findViewById(R.id.scheme_name);
-        schemeName = scheme_name.getText().toString();
 
         RecyclerView waterTimeView = findViewById(R.id.water_time_view);
         LinearLayoutManager waterLayoutManager = new LinearLayoutManager(this);
@@ -126,8 +123,8 @@ public class SchemeAddActivity extends AppCompatActivity {
                                     calendar.set(Calendar.MINUTE, minute);
                                     ItemForm itemForm = new ItemForm();
                                     itemForm.setType(0);
-                                    itemForm.setTime(minSdf.format(calendar));
-
+                                    itemForm.setTime(minSdf.format(calendar.getTime()));
+                                    itemFormList.add(itemForm);
                                 }
                             },
                             now.get(Calendar.HOUR_OF_DAY),
@@ -188,7 +185,8 @@ public class SchemeAddActivity extends AppCompatActivity {
                                     calendar.set(Calendar.MINUTE, minute);
                                     ItemForm itemForm = new ItemForm();
                                     itemForm.setType(1);
-                                    itemForm.setTime(minSdf.format(calendar));
+                                    itemForm.setTime(minSdf.format(calendar.getTime()));
+                                    itemFormList.add(itemForm);
                                 }
                             },
                             now.get(Calendar.HOUR_OF_DAY),
@@ -249,7 +247,8 @@ public class SchemeAddActivity extends AppCompatActivity {
                                     calendar.set(Calendar.MINUTE, minute);
                                     ItemForm itemForm = new ItemForm();
                                     itemForm.setType(2);
-                                    itemForm.setTime(minSdf.format(calendar));
+                                    itemForm.setTime(minSdf.format(calendar.getTime()));
+                                    itemFormList.add(itemForm);
                                 }
                             },
                             now.get(Calendar.HOUR_OF_DAY),
@@ -310,7 +309,8 @@ public class SchemeAddActivity extends AppCompatActivity {
                                     calendar.set(Calendar.MINUTE, minute);
                                     ItemForm itemForm = new ItemForm();
                                     itemForm.setType(3);
-                                    itemForm.setTime(minSdf.format(calendar));
+                                    itemForm.setTime(minSdf.format(calendar.getTime()));
+                                    itemFormList.add(itemForm);
                                 }
                             },
                             now.get(Calendar.HOUR_OF_DAY),
@@ -344,7 +344,14 @@ public class SchemeAddActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.create_finish:
-                //新建完成
+                SchemeForm schemeForm = new SchemeForm();
+                schemeForm.setDescription("1");
+                EditText scheme_name = findViewById(R.id.scheme_name);
+                schemeName = scheme_name.getText().toString();
+                schemeForm.setName(schemeName);
+                schemeForm.setItemFormList(itemFormList);
+                schemeForm.setPlantId(plantId);
+                addScheme(schemeForm);
                 break;
             default:
         }

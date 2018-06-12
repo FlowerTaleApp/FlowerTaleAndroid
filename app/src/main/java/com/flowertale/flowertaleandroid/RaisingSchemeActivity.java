@@ -77,7 +77,6 @@ public class RaisingSchemeActivity extends AppCompatActivity {
 
         final CardView waterFrequency = findViewById(R.id.water_scheme);
         schemeSpinner = findViewById(R.id.scheme_spinner);
-        schemeSpinner.attachDataSource(dataset);
         schemeSpinner.addOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -89,8 +88,6 @@ public class RaisingSchemeActivity extends AppCompatActivity {
 
         getAllScheme(plantId, schemeId);
         /*final List<String> dataset = new LinkedList<>(Arrays.asList("方案一", "方案二", "方案三", "方案四", "方案五"));*/
-
-
         FloatingActionButton addScheme = findViewById(R.id.add_scheme);
         addScheme.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,7 +139,9 @@ public class RaisingSchemeActivity extends AppCompatActivity {
                             }
                         }
 
-
+                        if (dataset.size()!=0){
+                            schemeSpinner.attachDataSource(dataset);
+                        }
 
                         Button switchScheme = findViewById(R.id.switch_scheme);
                         switchScheme.setOnClickListener(new View.OnClickListener() {

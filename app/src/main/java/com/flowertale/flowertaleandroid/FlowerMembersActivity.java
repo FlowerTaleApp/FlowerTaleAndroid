@@ -7,14 +7,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.flowertale.flowertaleandroid.DTO.DiaryDTO;
 import com.flowertale.flowertaleandroid.DTO.PlantDTO;
+import com.flowertale.flowertaleandroid.DTO.SchemeDTO;
+import com.flowertale.flowertaleandroid.DTO.SimpleUserDTO;
+import com.flowertale.flowertaleandroid.DTO.TeamDTO;
 import com.flowertale.flowertaleandroid.DTO.response.BaseResponse;
 import com.flowertale.flowertaleandroid.adapter.MemberAdapter;
 import com.flowertale.flowertaleandroid.entity.FlowerRecord;
@@ -39,7 +44,6 @@ public class FlowerMembersActivity extends AppCompatActivity {
             new MemberItem(R.drawable.sunflower, "FlowerTale3")};*/
     private List<MemberItem> memberItemList = new ArrayList<>();
     private MemberAdapter memberAdapter;
-    private int mem_num = 0;
     private int plantId;
     private int teamId;
     private int currentSchemeId;
@@ -66,9 +70,7 @@ public class FlowerMembersActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        getPlantName(teamId, plantId);                                                  //设置养护计划名称
-        TextView raisingName = findViewById(R.id.raising_title);
-        raisingName.setText(raisingTitle);
+        setMembers(teamId);
 
         final Button quit = findViewById(R.id.delete_and_exit);                               //退出
         quit.setOnClickListener(new View.OnClickListener() {
@@ -78,7 +80,9 @@ public class FlowerMembersActivity extends AppCompatActivity {
             }
         });
 
-        setCurrentScheme(plantId);
+
+
+
         CardView raisingScheme = findViewById(R.id.raising_scheme);
         raisingScheme.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,24 +104,10 @@ public class FlowerMembersActivity extends AppCompatActivity {
             }
         });
 
-        /*initMem();*/
-        RecyclerView recyclerView = (RecyclerView)findViewById(R.id.members_view);
-        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(layoutManager);
-        memberAdapter = new MemberAdapter(memberItemList);
-        recyclerView.setAdapter(memberAdapter);
+
+
     }
 
-    /*private void initMem(){
-        memberItemList.clear();
-        //MemberItem memberAdd = new MemberItem(R.drawable.member_add, getString(R.string.member_add));
-        //memberItemList.add(0,memberAdd);
-        for (int i=0;i<5;i++){
-            Random random = new Random();
-            int index = random.nextInt(memberItems.length);
-            memberItemList.add(memberItems[index]);
-        }
-    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -135,10 +125,9 @@ public class FlowerMembersActivity extends AppCompatActivity {
             case INVITE:
                 if (resultCode == RESULT_OK){
                     MemberItem memInvited = (MemberItem) data.getSerializableExtra("memInvited");   //接收邀请的人
-                    if (mem_num>=10){
+                    if (memberItemList.size()>=10){
                         Toast.makeText(this, "人数已满", Toast.LENGTH_SHORT).show();
                     }else{
-                        mem_num++;
                         memberItemList.add(memInvited);
                         memberAdapter.notifyDataSetChanged();
                     }
@@ -167,7 +156,11 @@ public class FlowerMembersActivity extends AppCompatActivity {
                             if (plantDTOS.get(i).getId()==plantId){
                                 raisingTitle = plantDTOS.get(i).getDescription();
                             }
+                            TextView raisingName = findViewById(R.id.raising_title);
+                            raisingName.setText(raisingTitle);
                         }
+
+                        setCurrentScheme(teamId, plantId);
                     } else {
                         Toast.makeText(FlowerMembersActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                         finish();
@@ -212,7 +205,125 @@ public class FlowerMembersActivity extends AppCompatActivity {
         });
     }
 
-    private void setCurrentScheme(int plantId){
+    private void setMembers(int teamId){
+        FlowerTaleApiService.getInstance().doGetDetailedTeam(teamId).enqueue(new Callback<BaseResponse<TeamDTO>>() {
+            @Override
+            public void onResponse(Call<BaseResponse<TeamDTO>> call, Response<BaseResponse<TeamDTO>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    if (response.body().getStatus() == 0) {
+                        TeamDTO teamDTO = response.body().getObject();
+                        List<SimpleUserDTO> simpleUserDTOList = teamDTO.getMemberList();
+                        for (int i=0;i<simpleUserDTOList.size();i++){
+                            Random random = new Random();
+                            int index = random.nextInt(selfImages.length);
+                            memberItemList.add(new MemberItem(selfImages[index], simpleUserDTOList.get(i).getUsername()));
+                        }
 
+                        RecyclerView recyclerView = (RecyclerView)findViewById(R.id.members_view);
+                        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL);
+                        recyclerView.setLayoutManager(layoutManager);
+                        memberAdapter = new MemberAdapter(memberItemList);
+                        recyclerView.setAdapter(memberAdapter);
+
+                        getPlantName(teamId, plantId);                                                  //设置养护计划名称
+
+                    } else {
+                        Toast.makeText(FlowerMembersActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                } else {
+                    Toast.makeText(FlowerMembersActivity.this, "未知错误", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BaseResponse<TeamDTO>> call, Throwable t) {
+                Toast.makeText(FlowerMembersActivity.this, "未知错误", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
+
+    }
+
+    private void setCurrentScheme(int teamId, int plantId){
+        FlowerTaleApiService.getInstance().doGetPlantsByTeamId(teamId).enqueue(new Callback<BaseResponse<List<PlantDTO>>>() {
+            @Override
+            public void onResponse(Call<BaseResponse<List<PlantDTO>>> call, Response<BaseResponse<List<PlantDTO>>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    if (response.body().getStatus() == 0) {
+                        List<PlantDTO> plantDTOS = response.body().getObject();
+                        if (plantDTOS.size()!=0){
+                            for (int i=0; i<plantDTOS.size();i++){
+                                if (plantDTOS.get(i).getId().intValue() == plantId){
+                                    if (plantDTOS.get(i).getSchemeId()==null){
+                                        new MaterialDialog.Builder(FlowerMembersActivity.this)
+                                                .content("这个植物还没有养护方案，快来创建吧")
+                                                .positiveText("确认")
+                                                .show();
+                                        TextView schemeTitle = findViewById(R.id.raising_scheme_title);
+                                        schemeTitle.setText("详情");
+                                    }
+                                    else{
+                                        currentSchemeId = plantDTOS.get(i).getSchemeId().intValue();
+                                    }
+                                }
+                            }
+                            setSchemeName(plantId, currentSchemeId);
+                        }else{
+                            new MaterialDialog.Builder(FlowerMembersActivity.this)
+                                    .content("这个植物还没有养护方案，快来创建吧")
+                                    .positiveText("确认")
+                                    .show();
+                            TextView schemeTitle = findViewById(R.id.raising_scheme_title);
+                            schemeTitle.setText("详情");
+                        }
+
+                    } else {
+                        Toast.makeText(FlowerMembersActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                } else {
+                    Toast.makeText(FlowerMembersActivity.this, "未知错误", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BaseResponse<List<PlantDTO>>> call, Throwable t) {
+                Toast.makeText(FlowerMembersActivity.this, "未知错误", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
+    }
+
+    private void setSchemeName(int plantId, int currentSchemeId){
+        FlowerTaleApiService.getInstance().doGetSchemeByPlantId(plantId).enqueue(new Callback<BaseResponse<List<SchemeDTO>>>() {
+            @Override
+            public void onResponse(Call<BaseResponse<List<SchemeDTO>>> call, Response<BaseResponse<List<SchemeDTO>>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    if (response.body().getStatus() == 0) {
+                        List<SchemeDTO> schemeDTOS = response.body().getObject();
+                        for (int i=0;i<schemeDTOS.size();i++){
+                            if (schemeDTOS.get(i).getId()==currentSchemeId){
+                                TextView schemeTitle = findViewById(R.id.raising_scheme_title);
+                                schemeTitle.setText(schemeDTOS.get(i).getName());
+                            }
+                        }
+                    } else {
+                        Toast.makeText(FlowerMembersActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                } else {
+                    Toast.makeText(FlowerMembersActivity.this, "未知错误", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BaseResponse<List<SchemeDTO>>> call, Throwable t) {
+                Toast.makeText(FlowerMembersActivity.this, "未知错误", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
     }
 }
