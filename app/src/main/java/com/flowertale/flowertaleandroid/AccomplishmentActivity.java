@@ -56,7 +56,7 @@ public class AccomplishmentActivity extends AppCompatActivity {
                                     int numFinished = completionItemDTOS.get(j).getNumFinished();
                                     int numTotal = completionItemDTOS.get(j).getNumTotal();
                                     int percent =0 ;
-                                    if (numFinished != numTotal){
+                                    if (numFinished < numTotal){
                                         percent = (int)(((float)numFinished/(float)numTotal)*100);
                                     }else{
                                         percent = 100;
